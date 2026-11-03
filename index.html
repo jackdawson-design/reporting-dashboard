@@ -222,7 +222,7 @@
             <h3 class="text-sm font-bold text-white flex items-center gap-2">
               Gemini AI Executive Briefing
               <span id="aiModelBadge" class="text-[10px] px-2 py-0.5 rounded bg-accent/10 text-accent font-semibold border border-accent/30 font-mono">
-                auto-failover
+                auto-resolving...
               </span>
             </h3>
             <p class="text-xs text-slate-400">
@@ -718,7 +718,7 @@
       });
     }
 
-    // Gemini AI Executive Briefing Integration with Automatic Fallback Waterfall
+    // Gemini AI Dynamic Model Discovery & Execution
     async function generateAIBriefing() {
       const client = getActiveClient();
       const outputContainer = document.getElementById('aiOutputContainer');
@@ -739,7 +739,7 @@
       outputContainer.innerHTML = `
         <div class="flex items-center gap-3 py-2">
           <div class="loader-ring"></div>
-          <span class="text-xs text-slate-400 font-medium">Performance Marketing Director is analysing campaign data with Gemini...</span>
+          <span class="text-xs text-slate-400 font-medium">Resolving active Gemini model and generating briefing...</span>
         </div>
       `;
 
@@ -758,17 +758,39 @@ Provide an executive, commercial 3-bullet-point briefing using British English s
 Keep the tone sharp, commercial, concise, and direct.
       `;
 
-      // Candidate models for automated failover
-      const candidateModels = [
-        'gemini-2.5-flash',
-        'gemini-2.0-flash',
-        'gemini-1.5-flash'
-      ];
+      // 1. Discover available models directly from Google for this specific API key
+      let candidateModels = [];
+      try {
+        const listRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${client.geminiKey}`);
+        const listData = await listRes.json();
+        
+        if (listData.models && Array.isArray(listData.models)) {
+          candidateModels = listData.models
+            .filter(m => m.supportedGenerationMethods && m.supportedGenerationMethods.includes('generateContent'))
+            .map(m => m.name.replace(/^models\//, ''))
+            .sort((a, b) => {
+              // Prioritise flash models first, then latest names
+              const aIsFlash = a.includes('flash');
+              const bIsFlash = b.includes('flash');
+              if (aIsFlash && !bIsFlash) return -1;
+              if (!aIsFlash && bIsFlash) return 1;
+              return b.localeCompare(a);
+            });
+        }
+      } catch (e) {
+        console.warn('Could not auto-list models, falling back to static roster:', e);
+      }
+
+      // Default fallback roster if ListModels is unavailable
+      if (candidateModels.length === 0) {
+        candidateModels = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash-latest', 'gemini-pro'];
+      }
 
       let generatedText = null;
       let successfulModel = null;
       let lastErrorMessage = '';
 
+      // 2. Iterate through available models until one succeeds
       for (const model of candidateModels) {
         try {
           const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${client.geminiKey}`;
@@ -782,7 +804,7 @@ Keep the tone sharp, commercial, concise, and direct.
               }],
               generationConfig: {
                 temperature: 0.2,
-                maxOutputTokens: 500
+                maxOutputTokens: 600
               }
             })
           });
@@ -791,19 +813,19 @@ Keep the tone sharp, commercial, concise, and direct.
 
           if (data.error) {
             lastErrorMessage = data.error.message;
-            console.warn(`Model ${model} unavailable: ${data.error.message}. Trying next candidate...`);
-            continue; // Failover to the next candidate model
+            console.warn(`Model ${model} returned error: ${data.error.message}. Trying next candidate...`);
+            continue;
           }
 
           const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
           if (text) {
             generatedText = text;
             successfulModel = model;
-            break; // Success!
+            break;
           }
         } catch (e) {
           lastErrorMessage = e.message;
-          console.warn(`Request failed for ${model}: ${e.message}. Trying next candidate...`);
+          console.warn(`Fetch error for ${model}: ${e.message}. Trying next candidate...`);
         }
       }
 
@@ -814,8 +836,8 @@ Keep the tone sharp, commercial, concise, and direct.
       } else {
         outputContainer.innerHTML = `
           <div class="space-y-1">
-            <p class="text-red-400 text-xs font-semibold">⚠️ AI Analysis Error: All Gemini model endpoints are currently at maximum capacity (${lastErrorMessage || 'Service Busy'}).</p>
-            <p class="text-slate-500 text-xs">Please retry in a moment by clicking "Regenerate Briefing".</p>
+            <p class="text-red-400 text-xs font-semibold">⚠️ AI Analysis Error: ${lastErrorMessage || 'Service Busy'}</p>
+            <p class="text-slate-500 text-xs">Verify your Gemini API key in settings or retry in a few moments.</p>
           </div>
         `;
       }
