@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="no-referrer" />
   <title>Performance Hub — Meta Marketing Intelligence Suite</title>
 
   <!-- Tailwind CSS CDN -->
@@ -1101,6 +1102,7 @@
 
         if (activeCampaigns.length > 0 || activeAds.length > 0) {
           renderMetrics(activeCampaigns);
+          renderFunnelProgression(activeCampaigns);
           updateAllCharts(activeCampaigns);
           renderTable(activeCampaigns);
           await renderCreativeGallery(activeAds, client.metaToken);
@@ -1165,6 +1167,7 @@
       ];
 
       renderMetrics(activeCampaigns);
+      renderFunnelProgression(activeCampaigns);
       updateAllCharts(activeCampaigns);
       renderTable(activeCampaigns);
       renderCreativeGallery(activeAds, null);
@@ -1236,6 +1239,43 @@
       document.getElementById('kpiResults').textContent = totalResults.toLocaleString();
       document.getElementById('kpiResultLabel').textContent = resultLabel;
       document.getElementById('kpiCostResult').textContent = totalResults > 0 ? `£${weightedCostPerResult.toFixed(2)}` : '£0.00';
+    }
+
+    // Render Visual Funnel Drop-off Progression
+    function renderFunnelProgression(data) {
+      let totalImpr = 0;
+      let totalReach = 0;
+      let totalClicks = 0;
+      let totalResults = 0;
+      let resultLabel = 'Results';
+
+      data.forEach(item => {
+        totalImpr += parseInt(item.impressions) || 0;
+        totalReach += parseInt(item.reach) || Math.round(totalImpr * 0.9);
+        totalClicks += parseInt(item.clicks) || 0;
+        totalResults += parseInt(item.results) || 0;
+        if (item.result_label) resultLabel = item.result_label;
+      });
+
+      const reachPercent = totalImpr > 0 ? ((totalReach / totalImpr) * 100).toFixed(1) : '100';
+      const ctrPercent = totalImpr > 0 ? ((totalClicks / totalImpr) * 100).toFixed(2) : '0.00';
+      const conversionRate = totalClicks > 0 ? ((totalResults / totalClicks) * 100).toFixed(1) : '0.0';
+      const overallRate = totalImpr > 0 ? ((totalResults / totalImpr) * 100).toFixed(2) : '0.00';
+
+      document.getElementById('funnelImpr').textContent = totalImpr.toLocaleString();
+      document.getElementById('funnelReach').textContent = totalReach.toLocaleString();
+      document.getElementById('funnelClicks').textContent = totalClicks.toLocaleString();
+      document.getElementById('funnelResults').textContent = totalResults.toLocaleString();
+
+      document.getElementById('funnelReachPercent').textContent = `${reachPercent}% Reach`;
+      document.getElementById('funnelClickPercent').textContent = `${ctrPercent}% CTR`;
+      document.getElementById('funnelResultPercent').textContent = `${conversionRate}% CR`;
+      document.getElementById('funnelResultSub').textContent = `Qualified ${resultLabel}`;
+      document.getElementById('funnelConversionRate').textContent = `${overallRate}% Overall Conversion`;
+
+      // Set width bars dynamically
+      document.getElementById('funnelClickBar').style.width = `${Math.min(100, Math.max(10, parseFloat(ctrPercent) * 20))}%`;
+      document.getElementById('funnelResultBar').style.width = `${Math.min(100, Math.max(10, parseFloat(conversionRate)))}%`;
     }
 
     function renderTable(data) {
@@ -1335,7 +1375,7 @@
 
         card.innerHTML = `
           <div>
-            <!-- High-Res Media Frame with No-Referrer Policy & Robust Fallback -->
+            <!-- High-Res Media Frame with No-Referrer Policy -->
             <div class="relative w-full aspect-square bg-apple-bg overflow-hidden cursor-pointer flex items-center justify-center border-b border-apple-border" onclick="openMediaLightbox(${i})">
               ${assetInfo.url ? `
                 <img src="${assetInfo.url}" referrerpolicy="no-referrer" alt="${title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\\'p-8 text-center text-apple-textSecondary flex flex-col items-center justify-center h-full\\'><i data-lucide=\\'image\\' class=\\'h-8 w-8 mb-2 text-apple-textTertiary\\'></i><span class=\\'text-xs font-semibold\\'>Meta Live Asset</span><span class=\\'text-[10px] text-apple-textTertiary mt-1\\'>Click to view on Meta</span></div>'; lucide.createIcons();" />
@@ -1435,4 +1475,165 @@
         `;
       } else if (imageUrl) {
         container.innerHTML = `
-          <img src="${imageUrl}" referrerpolicy="no-referrer" alt="${title}" class="max-h-[58vh] w-auto
+          <img src="${imageUrl}" referrerpolicy="no-referrer" alt="${title}" class="max-h-[58vh] w-auto max-w-full object-contain rounded-2xl shadow-lg border border-apple-border" />
+        `;
+      } else {
+        container.innerHTML = `
+          <div class="text-center py-16 text-apple-textSecondary">
+            <i data-lucide="image" class="h-8 w-8 mx-auto text-apple-border mb-2"></i>
+            <p class="text-xs">Visual preview generated from active creative spec.</p>
+          </div>
+        `;
+      }
+
+      document.getElementById('mediaLightboxModal').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function closeMediaLightbox() {
+      const container = document.getElementById('lightboxVisualContainer');
+      container.innerHTML = '';
+      document.getElementById('mediaLightboxModal').classList.add('hidden');
+    }
+
+    // Pure Bullet-Point Executive AI Summary
+    async function generateAIBriefing() {
+      const client = getActiveClient();
+      const outputContainer = document.getElementById('aiOutputContainer');
+      const badge = document.getElementById('aiModelBadge');
+      const btn = document.getElementById('btnGenerateAI');
+
+      if (!client.geminiKey) {
+        outputContainer.innerHTML = `
+          <p class="text-apple-orange text-xs font-medium">Gemini API Key not configured. Click Settings (top right) to enter your key.</p>
+        `;
+        return;
+      }
+
+      btn.disabled = true;
+      outputContainer.innerHTML = `
+        <div class="flex items-center gap-2.5 py-3">
+          <div class="apple-spinner"></div>
+          <span class="text-xs text-apple-textSecondary font-medium">Synthesising pure executive bullet points with Gemini...</span>
+        </div>
+      `;
+
+      const auditPayload = {
+        client_name: client.name,
+        account_id: client.accountId,
+        reporting_window: currentReportingPreset,
+        active_campaigns: activeCampaigns,
+        active_ads_and_copy: activeAds.map(a => ({
+          name: a.name,
+          campaign: a.campaign?.name,
+          headline: a.creative?.title || a.name,
+          copy: a.creative?.body || 'N/A',
+          cta: a.creative?.call_to_action_type || 'N/A',
+          metrics: a.insights?.data?.[0] || {}
+        }))
+      };
+
+      const systemPrompt = `
+You are a senior Meta performance marketing director reviewing performance metrics for "${client.name}".
+
+AUDIT THE 4 KEY DIMENSIONS:
+1. Learning Phase & Delivery Starvation: Evaluate if spend (<£10/day) is starving the pixel from reaching 50 conversions/week.
+2. Objective vs Goal Mismatch: Check if the campaign objective/optimization goal matches the call to action in the ad copy.
+3. Frequency & Audience Saturation: Review frequency against CPM/CTR to flag creative fatigue.
+4. Down-Funnel Conversion Economics: Evaluate true Results (Leads/Messages/Purchases) vs Link Clicks.
+
+STRICT FORMAT REQUIREMENT:
+- Provide an EXECUTIVE BRIEF composed of PURE BULLET POINTS.
+- DO NOT write any paragraphs, introductions, or conversational filler.
+- Use British English spelling (e.g. optimisation, analysing, prioritising, behaviour, programme).
+- Use strictly the 3 sections below, with exactly 2 to 3 punchy, data-backed bullet points per section:
+
+### • Delivery & Algorithmic Health
+- [Bullet on current spend velocity, whether trapped in learning starvation (<£10/day), frequency, and CPM]
+- [Bullet on primary qualified results, weighted CPA, and audience response]
+
+### • Budget & Structure Recommendations
+- [Bullet with exact numerical daily budget adjustment recommendation in £]
+- [Bullet on objective setup / ABO vs Advantage+ Campaign Budget structure]
+
+### • Creative & Tactical Directives
+- [Bullet on copywriting tweak or angle pivot based on current active ad copy]
+- [Bullet on immediate operational change to execute in Meta Ads Manager today]
+
+Active Telemetry:
+${JSON.stringify(auditPayload, null, 2)}
+      `;
+
+      let candidateModels = [];
+      try {
+        const listRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${client.geminiKey}`);
+        const listData = await listRes.json();
+        
+        if (listData.models && Array.isArray(listData.models)) {
+          candidateModels = listData.models
+            .filter(m => m.supportedGenerationMethods?.includes('generateContent'))
+            .map(m => m.name.replace(/^models\//, ''))
+            .sort((a, b) => {
+              const aIsFlash = a.includes('flash');
+              const bIsFlash = b.includes('flash');
+              if (aIsFlash && !bIsFlash) return -1;
+              if (!aIsFlash && bIsFlash) return 1;
+              return b.localeCompare(a);
+            });
+        }
+      } catch (e) {}
+
+      if (candidateModels.length === 0) {
+        candidateModels = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash-latest', 'gemini-pro'];
+      }
+
+      let generatedText = null;
+      let successfulModel = null;
+      let lastErrorMessage = '';
+
+      for (const model of candidateModels) {
+        try {
+          const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${client.geminiKey}`;
+          
+          const response = await fetch(endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              contents: [{ parts: [{ text: systemPrompt }] }],
+              generationConfig: { temperature: 0.2, maxOutputTokens: 600 }
+            })
+          });
+
+          const data = await response.json();
+          if (data.error) {
+            lastErrorMessage = data.error.message;
+            continue;
+          }
+
+          const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+          if (text) {
+            generatedText = text;
+            successfulModel = model;
+            break;
+          }
+        } catch (e) {
+          lastErrorMessage = e.message;
+        }
+      }
+
+      if (generatedText) {
+        badge.textContent = successfulModel;
+        const htmlContent = marked.parse(generatedText);
+        outputContainer.innerHTML = `<div class="space-y-2 text-apple-textPrimary text-xs sm:text-sm leading-relaxed">${htmlContent}</div>`;
+      } else {
+        outputContainer.innerHTML = `
+          <p class="text-apple-orange text-xs">Error generating summary (${lastErrorMessage || 'Service busy'}). Please try again.</p>
+        `;
+      }
+
+      btn.disabled = false;
+      lucide.createIcons();
+    }
+  </script>
+</body>
+</html>
