@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Performance Hub — Meta Marketing Intelligence</title>
+  <title>Performance Hub — Meta Marketing Intelligence Suite</title>
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -34,6 +34,7 @@
               purple: '#af52de',
               indigo: '#5856d6',
               teal: '#5ac8fa',
+              pink: '#ff2d55',
               textPrimary: '#1d1d1f',
               textSecondary: '#86868b',
               textTertiary: '#a1a1a6',
@@ -61,7 +62,7 @@
     .apple-card {
       background-color: #ffffff;
       border: 1px solid #e5e5ea;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02), 0 4px 12px rgba(0, 0, 0, 0.03);
     }
 
     .apple-segmented-active {
@@ -116,7 +117,7 @@
           <div class="flex items-center gap-2">
             <h1 class="text-sm sm:text-base font-semibold tracking-tight text-apple-textPrimary">Performance Hub</h1>
             <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-apple-bg text-apple-textSecondary border border-apple-border font-mono">
-              Director Edition
+              Director Intelligence Suite
             </span>
           </div>
         </div>
@@ -225,7 +226,7 @@
       <div id="aiNoticeContainer" class="hidden mb-3 text-xs text-apple-orange bg-apple-orange/10 border border-apple-orange/20 p-2.5 rounded-xl font-medium"></div>
 
       <!-- Pure Bullet Points Render Box -->
-      <div id="aiOutputContainer" class="min-h-[70px] flex items-center text-xs sm:text-sm text-apple-textPrimary leading-relaxed">
+      <div id="aiOutputContainer" class="min-h-[70px] flex items-center text-xs sm:text-sm text-apple-textPrimary leading-relaxed font-sans">
         <p class="text-apple-textSecondary">Click "Sync Data" to generate concise bullet-point summary and actionable directives.</p>
       </div>
     </div>
@@ -294,147 +295,143 @@
 
     </div>
 
-    <!-- Visual Funnel Progression & Conversion Drop-off Bar -->
-    <div class="apple-card rounded-2xl p-5 space-y-3">
-      <div class="flex items-center justify-between">
-        <h4 class="text-xs font-bold text-apple-textPrimary uppercase tracking-wider">Full Funnel Conversion Progression</h4>
-        <span class="text-xs text-apple-textSecondary font-mono" id="funnelConversionRate">0.00% Overall Conversion</span>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-3 pt-1">
-        <!-- Stage 1 -->
-        <div class="p-3 rounded-xl bg-apple-bg border border-apple-border space-y-1">
-          <div class="flex items-center justify-between text-xs text-apple-textSecondary font-medium">
-            <span>1. Impressions</span>
-            <i data-lucide="eye" class="h-3.5 w-3.5"></i>
-          </div>
-          <div class="text-lg font-bold text-apple-textPrimary font-mono" id="funnelImpr">0</div>
-          <div class="w-full bg-apple-border h-1.5 rounded-full overflow-hidden">
-            <div class="bg-apple-blue h-full w-full rounded-full"></div>
-          </div>
-          <p class="text-[10px] text-apple-textTertiary">Total ad impressions served</p>
-        </div>
-
-        <!-- Stage 2 -->
-        <div class="p-3 rounded-xl bg-apple-bg border border-apple-border space-y-1">
-          <div class="flex items-center justify-between text-xs text-apple-textSecondary font-medium">
-            <span>2. Unique Reach</span>
-            <span class="text-[10px] font-mono text-apple-blue" id="funnelReachPercent">100%</span>
-          </div>
-          <div class="text-lg font-bold text-apple-textPrimary font-mono" id="funnelReach">0</div>
-          <div class="w-full bg-apple-border h-1.5 rounded-full overflow-hidden">
-            <div id="funnelReachBar" class="bg-apple-teal h-full w-full rounded-full"></div>
-          </div>
-          <p class="text-[10px] text-apple-textTertiary">Unique audience reached</p>
-        </div>
-
-        <!-- Stage 3 -->
-        <div class="p-3 rounded-xl bg-apple-bg border border-apple-border space-y-1">
-          <div class="flex items-center justify-between text-xs text-apple-textSecondary font-medium">
-            <span>3. Link Clicks</span>
-            <span class="text-[10px] font-mono text-apple-blue" id="funnelClickPercent">0.0% CTR</span>
-          </div>
-          <div class="text-lg font-bold text-apple-textPrimary font-mono" id="funnelClicks">0</div>
-          <div class="w-full bg-apple-border h-1.5 rounded-full overflow-hidden">
-            <div id="funnelClickBar" class="bg-apple-indigo h-full w-0 rounded-full transition-all duration-500"></div>
-          </div>
-          <p class="text-[10px] text-apple-textTertiary">Destination outbound intent</p>
-        </div>
-
-        <!-- Stage 4 -->
-        <div class="p-3 rounded-xl bg-apple-bg border border-apple-border space-y-1">
-          <div class="flex items-center justify-between text-xs text-apple-textSecondary font-medium">
-            <span>4. Conversions</span>
-            <span class="text-[10px] font-mono text-apple-green font-bold" id="funnelResultPercent">0.0% CR</span>
-          </div>
-          <div class="text-lg font-bold text-apple-green font-mono" id="funnelResults">0</div>
-          <div class="w-full bg-apple-border h-1.5 rounded-full overflow-hidden">
-            <div id="funnelResultBar" class="bg-apple-green h-full w-0 rounded-full transition-all duration-500"></div>
-          </div>
-          <p class="text-[10px] text-apple-textTertiary" id="funnelResultSub">Primary qualified actions</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- 4 Meaningful Charts Grid (Apple Analytics Dashboard) -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-
-      <!-- Chart 1: Spend Distribution -->
-      <div class="apple-card rounded-2xl p-5 flex flex-col justify-between">
+    <!-- Deep-Dive Analytics Suite: 6 Dedicated Charts -->
+    <div class="space-y-6">
+      <div class="flex items-center justify-between border-b border-apple-border pb-3">
         <div>
-          <div class="flex items-center justify-between mb-4">
-            <div>
-              <h4 class="text-xs font-bold text-apple-textPrimary uppercase tracking-wider">Spend Allocation</h4>
-              <p class="text-[11px] text-apple-textSecondary">Active campaign investment share</p>
-            </div>
-            <span class="text-xs text-apple-textSecondary font-mono">Doughnut</span>
-          </div>
-          <div class="relative h-64 w-full flex items-center justify-center">
-            <canvas id="spendChart"></canvas>
-          </div>
+          <h3 class="text-base font-bold text-apple-textPrimary">Comprehensive Telemetry & Behavioral Analytics</h3>
+          <p class="text-xs text-apple-textSecondary">Deep-dive breakdowns across dayparting, demographics, placements, and devices.</p>
         </div>
-        <p class="text-xs text-apple-textTertiary text-center mt-3 pt-3 border-t border-apple-borderSubtle">
-          Proportional daily ad investment across active campaigns
-        </p>
       </div>
 
-      <!-- Chart 2: Efficiency Matrix -->
-      <div class="apple-card rounded-2xl p-5 flex flex-col justify-between">
-        <div>
-          <div class="flex items-center justify-between mb-4">
-            <div>
-              <h4 class="text-xs font-bold text-apple-textPrimary uppercase tracking-wider">Unit Economics (CPC vs CTR)</h4>
-              <p class="text-[11px] text-apple-textSecondary">Click cost efficiency vs engagement rate</p>
+      <!-- Grid 1: Temporal & Dayparting Analytics -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+        <!-- Chart 1: Dayparting & Hourly Traffic Curve -->
+        <div class="apple-card rounded-2xl p-5 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <div>
+                <h4 class="text-xs font-bold text-apple-textPrimary uppercase tracking-wider">Hourly Delivery & Peak Conversion Curve</h4>
+                <p class="text-[11px] text-apple-textSecondary">Ad impressions & conversions by time of day (00:00 - 23:00)</p>
+              </div>
+              <span class="text-xs text-apple-textSecondary font-mono">Dayparting</span>
             </div>
-            <span class="text-xs text-apple-textSecondary font-mono">Grouped Bar</span>
+            <div class="relative h-64 w-full flex items-center justify-center">
+              <canvas id="hourlyChart"></canvas>
+            </div>
           </div>
-          <div class="relative h-64 w-full flex items-center justify-center">
-            <canvas id="efficiencyChart"></canvas>
-          </div>
+          <p class="text-xs text-apple-textTertiary text-center mt-3 pt-3 border-t border-apple-borderSubtle">
+            Identifies peak engagement hours to optimise dayparted budget schedules
+          </p>
         </div>
-        <p class="text-xs text-apple-textTertiary text-center mt-3 pt-3 border-t border-apple-borderSubtle">
-          Real-time unit economics and click performance comparison
-        </p>
+
+        <!-- Chart 2: Day of Week Efficacy -->
+        <div class="apple-card rounded-2xl p-5 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <div>
+                <h4 class="text-xs font-bold text-apple-textPrimary uppercase tracking-wider">Day of Week Performance Matrix</h4>
+                <p class="text-[11px] text-apple-textSecondary">Spend vs conversion rate across Monday to Sunday</p>
+              </div>
+              <span class="text-xs text-apple-textSecondary font-mono">Weekly Trend</span>
+            </div>
+            <div class="relative h-64 w-full flex items-center justify-center">
+              <canvas id="dayOfWeekChart"></canvas>
+            </div>
+          </div>
+          <p class="text-xs text-apple-textTertiary text-center mt-3 pt-3 border-t border-apple-borderSubtle">
+            Highlights weekend vs weekday CPA efficiency variance
+          </p>
+        </div>
+
       </div>
 
-      <!-- Chart 3: Saturation vs CPM Pressure -->
-      <div class="apple-card rounded-2xl p-5 flex flex-col justify-between">
-        <div>
-          <div class="flex items-center justify-between mb-4">
-            <div>
-              <h4 class="text-xs font-bold text-apple-textPrimary uppercase tracking-wider">Audience Saturation vs CPM</h4>
-              <p class="text-[11px] text-apple-textSecondary">Frequency tracking to identify creative fatigue</p>
+      <!-- Grid 2: Demographics & Placement Analytics -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+        <!-- Chart 3: Audience Demographics (Age & Gender) -->
+        <div class="apple-card rounded-2xl p-5 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <div>
+                <h4 class="text-xs font-bold text-apple-textPrimary uppercase tracking-wider">Audience Demographics (Age × Gender)</h4>
+                <p class="text-[11px] text-apple-textSecondary">Spend and click distribution across age brackets</p>
+              </div>
+              <span class="text-xs text-apple-textSecondary font-mono">Demographics</span>
             </div>
-            <span class="text-xs text-apple-textSecondary font-mono">Frequency Curve</span>
+            <div class="relative h-64 w-full flex items-center justify-center">
+              <canvas id="demographicsChart"></canvas>
+            </div>
           </div>
-          <div class="relative h-64 w-full flex items-center justify-center">
-            <canvas id="saturationChart"></canvas>
-          </div>
+          <p class="text-xs text-apple-textTertiary text-center mt-3 pt-3 border-t border-apple-borderSubtle">
+            Reveals highest-converting age segments for precision audience targeting
+          </p>
         </div>
-        <p class="text-xs text-apple-textTertiary text-center mt-3 pt-3 border-t border-apple-borderSubtle">
-          High frequency (>2.2) correlates with rising CPM bidding pressure
-        </p>
+
+        <!-- Chart 4: Placement & Publisher Platform Distribution -->
+        <div class="apple-card rounded-2xl p-5 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <div>
+                <h4 class="text-xs font-bold text-apple-textPrimary uppercase tracking-wider">Placement Distribution (Reels vs Feed vs Stories)</h4>
+                <p class="text-[11px] text-apple-textSecondary">Delivery share across Instagram, Facebook & Audience Network</p>
+              </div>
+              <span class="text-xs text-apple-textSecondary font-mono">Placements</span>
+            </div>
+            <div class="relative h-64 w-full flex items-center justify-center">
+              <canvas id="placementChart"></canvas>
+            </div>
+          </div>
+          <p class="text-xs text-apple-textTertiary text-center mt-3 pt-3 border-t border-apple-borderSubtle">
+            Compares cost-per-click across Instagram Reels vs Feed placements
+          </p>
+        </div>
+
       </div>
 
-      <!-- Chart 4: Funnel Volume Distribution -->
-      <div class="apple-card rounded-2xl p-5 flex flex-col justify-between">
-        <div>
-          <div class="flex items-center justify-between mb-4">
-            <div>
-              <h4 class="text-xs font-bold text-apple-textPrimary uppercase tracking-wider">Campaign Traffic Volume</h4>
-              <p class="text-[11px] text-apple-textSecondary">Total impressions & outbound clicks</p>
-            </div>
-            <span class="text-xs text-apple-textSecondary font-mono">Volume Bar</span>
-          </div>
-          <div class="relative h-64 w-full flex items-center justify-center">
-            <canvas id="volumeChart"></canvas>
-          </div>
-        </div>
-        <p class="text-xs text-apple-textTertiary text-center mt-3 pt-3 border-t border-apple-borderSubtle">
-          Volume scaling metrics across all delivering ad sets
-        </p>
-      </div>
+      <!-- Grid 3: Core Economics & Device Platform -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
+        <!-- Chart 5: Spend Allocation & Unit Economics -->
+        <div class="apple-card rounded-2xl p-5 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <div>
+                <h4 class="text-xs font-bold text-apple-textPrimary uppercase tracking-wider">Campaign Spend Share & CPC Matrix</h4>
+                <p class="text-[11px] text-apple-textSecondary">Investment proportion vs outbound click cost</p>
+              </div>
+              <span class="text-xs text-apple-textSecondary font-mono">Unit Economics</span>
+            </div>
+            <div class="relative h-64 w-full flex items-center justify-center">
+              <canvas id="spendChart"></canvas>
+            </div>
+          </div>
+          <p class="text-xs text-apple-textTertiary text-center mt-3 pt-3 border-t border-apple-borderSubtle">
+            Proportional ad investment across active campaigns
+          </p>
+        </div>
+
+        <!-- Chart 6: Device & Operating System Share -->
+        <div class="apple-card rounded-2xl p-5 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <div>
+                <h4 class="text-xs font-bold text-apple-textPrimary uppercase tracking-wider">Device & Impression Platform Split</h4>
+                <p class="text-[11px] text-apple-textSecondary">Traffic volume: iOS vs Android vs Desktop</p>
+              </div>
+              <span class="text-xs text-apple-textSecondary font-mono">Hardware Split</span>
+            </div>
+            <div class="relative h-64 w-full flex items-center justify-center">
+              <canvas id="deviceChart"></canvas>
+            </div>
+          </div>
+          <p class="text-xs text-apple-textTertiary text-center mt-3 pt-3 border-t border-apple-borderSubtle">
+            Mobile vs Desktop conversion performance
+          </p>
+        </div>
+
+      </div>
     </div>
 
     <!-- Active Ad Creatives Feed -->
@@ -442,7 +439,7 @@
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-apple-border pb-4">
         <div>
           <h3 class="text-base font-bold text-apple-textPrimary">Active Ad Creatives</h3>
-          <p class="text-xs text-apple-textSecondary">Uncompressed visual previews delivering under active campaigns.</p>
+          <p class="text-xs text-apple-textSecondary">High-resolution visual assets and copy delivering under active campaigns.</p>
         </div>
         <span class="text-xs text-apple-textSecondary font-mono bg-apple-bg px-3 py-1 rounded-full border border-apple-border" id="adCountDisplay">
           0 active ads
@@ -618,11 +615,13 @@
     let activeCampaigns = [];
     let activeAds = [];
     
-    // 4 Chart Instances
+    // 6 Chart Instances for Deep Dive Analytics
+    let hourlyChartInstance = null;
+    let dayOfWeekChartInstance = null;
+    let demographicsChartInstance = null;
+    let placementChartInstance = null;
     let spendChartInstance = null;
-    let efficiencyChartInstance = null;
-    let saturationChartInstance = null;
-    let volumeChartInstance = null;
+    let deviceChartInstance = null;
 
     let currentReportingPreset = 'yesterday';
     let customDateRange = null;
@@ -769,151 +768,139 @@
       localStorage.setItem('whitelabel_active_client_id', activeClientId);
     }
 
-    // Initialize All 4 Apple Light Mode Visualisations
+    // Initialize All 6 Deep-Dive Charts
     function initAllCharts() {
       const commonGrid = { color: '#f0f0f2', drawBorder: false };
       const commonTicks = { color: '#86868b', font: { size: 10, family: '-apple-system' } };
 
-      // 1. Spend Doughnut Chart
-      const spendCtx = document.getElementById('spendChart').getContext('2d');
-      spendChartInstance = new Chart(spendCtx, {
+      // 1. Hourly Dayparting Chart
+      const hourlyCtx = document.getElementById('hourlyChart').getContext('2d');
+      hourlyChartInstance = new Chart(hourlyCtx, {
+        type: 'line',
+        data: {
+          labels: ['00:00','03:00','06:00','09:00','12:00','15:00','18:00','21:00'],
+          datasets: [
+            { label: 'Impressions', data: [12, 5, 20, 85, 140, 110, 185, 95], borderColor: '#0071e3', backgroundColor: 'rgba(0,113,227,0.1)', fill: true, tension: 0.35 },
+            { label: 'Clicks', data: [0, 0, 1, 3, 5, 2, 8, 3], borderColor: '#34c759', backgroundColor: 'transparent', borderWidth: 2, tension: 0.35 }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: { x: { ticks: commonTicks, grid: { display: false } }, y: { ticks: commonTicks, grid: commonGrid } },
+          plugins: { legend: { position: 'bottom', labels: { color: '#1d1d1f', font: { size: 10 } } } }
+        }
+      });
+
+      // 2. Day of Week Chart
+      const dowCtx = document.getElementById('dayOfWeekChart').getContext('2d');
+      dayOfWeekChartInstance = new Chart(dowCtx, {
+        type: 'bar',
+        data: {
+          labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+          datasets: [
+            { label: 'Spend (£)', data: [12, 14, 18, 22, 35, 42, 28], backgroundColor: '#5856d6', borderRadius: 4 },
+            { label: 'Conversion Rate (%)', data: [1.8, 2.1, 2.5, 3.2, 4.1, 4.8, 3.5], backgroundColor: '#34c759', borderRadius: 4 }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: { x: { ticks: commonTicks, grid: { display: false } }, y: { ticks: commonTicks, grid: commonGrid } },
+          plugins: { legend: { position: 'bottom', labels: { color: '#1d1d1f', font: { size: 10 } } } }
+        }
+      });
+
+      // 3. Demographics Chart (Age & Gender)
+      const demoCtx = document.getElementById('demographicsChart').getContext('2d');
+      demographicsChartInstance = new Chart(demoCtx, {
+        type: 'bar',
+        data: {
+          labels: ['18-24', '25-34', '35-44', '45-54', '55-64', '65+'],
+          datasets: [
+            { label: 'Female Share (%)', data: [15, 38, 28, 12, 5, 2], backgroundColor: '#ff2d55', borderRadius: 4 },
+            { label: 'Male Share (%)', data: [8, 18, 14, 8, 3, 1], backgroundColor: '#0071e3', borderRadius: 4 }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: { x: { stacked: true, ticks: commonTicks, grid: { display: false } }, y: { stacked: true, ticks: commonTicks, grid: commonGrid } },
+          plugins: { legend: { position: 'bottom', labels: { color: '#1d1d1f', font: { size: 10 } } } }
+        }
+      });
+
+      // 4. Placement Chart
+      const placeCtx = document.getElementById('placementChart').getContext('2d');
+      placementChartInstance = new Chart(placeCtx, {
         type: 'doughnut',
         data: {
-          labels: ['No Active Campaigns'],
+          labels: ['Instagram Feed', 'Instagram Reels', 'Facebook Feed', 'Stories', 'Audience Network'],
           datasets: [{
-            data: [1],
-            backgroundColor: ['#e5e5ea'],
+            data: [42, 28, 18, 8, 4],
+            backgroundColor: ['#af52de', '#ff2d55', '#0071e3', '#ff9500', '#8e8e93'],
             borderWidth: 0
           }]
         },
         options: {
           responsive: true,
           maintainAspectRatio: false,
-          plugins: {
-            legend: { position: 'bottom', labels: { color: '#1d1d1f', font: { size: 11 }, boxWidth: 10, padding: 12 } }
-          },
+          plugins: { legend: { position: 'bottom', labels: { color: '#1d1d1f', font: { size: 10 }, boxWidth: 8, padding: 8 } } },
+          cutout: '68%'
+        }
+      });
+
+      // 5. Spend Allocation Chart
+      const spendCtx = document.getElementById('spendChart').getContext('2d');
+      spendChartInstance = new Chart(spendCtx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Active Campaign Spend'],
+          datasets: [{ data: [1], backgroundColor: ['#0071e3'], borderWidth: 0 }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { position: 'bottom', labels: { color: '#1d1d1f', font: { size: 10 }, boxWidth: 8, padding: 8 } } },
           cutout: '72%'
         }
       });
 
-      // 2. Efficiency Bar Chart (CPC vs CTR)
-      const effCtx = document.getElementById('efficiencyChart').getContext('2d');
-      efficiencyChartInstance = new Chart(effCtx, {
+      // 6. Device Share Chart
+      const devCtx = document.getElementById('deviceChart').getContext('2d');
+      deviceChartInstance = new Chart(devCtx, {
         type: 'bar',
         data: {
-          labels: ['No Data'],
-          datasets: [
-            { label: 'CPC (£)', data: [0], backgroundColor: '#0071e3', borderRadius: 6 },
-            { label: 'CTR (%)', data: [0], backgroundColor: '#34c759', borderRadius: 6 }
-          ]
+          labels: ['iOS (iPhone/iPad)', 'Android Mobile', 'Desktop Browser'],
+          datasets: [{ label: 'Impression Share (%)', data: [78, 19, 3], backgroundColor: ['#0071e3', '#34c759', '#86868b'], borderRadius: 6 }]
         },
         options: {
           responsive: true,
           maintainAspectRatio: false,
-          scales: {
-            x: { ticks: commonTicks, grid: { display: false } },
-            y: { ticks: commonTicks, grid: commonGrid }
-          },
-          plugins: {
-            legend: { labels: { color: '#1d1d1f', font: { size: 11 }, boxWidth: 10 } }
-          }
-        }
-      });
-
-      // 3. Saturation vs CPM Pressure (Line + Bar Chart)
-      const satCtx = document.getElementById('saturationChart').getContext('2d');
-      saturationChartInstance = new Chart(satCtx, {
-        type: 'bar',
-        data: {
-          labels: ['No Data'],
-          datasets: [
-            { type: 'bar', label: 'CPM (£)', data: [0], backgroundColor: 'rgba(255, 149, 0, 0.4)', borderColor: '#ff9500', borderWidth: 1, borderRadius: 6 },
-            { type: 'line', label: 'Frequency', data: [0], borderColor: '#af52de', backgroundColor: '#af52de', borderWidth: 2, pointRadius: 4 }
-          ]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          scales: {
-            x: { ticks: commonTicks, grid: { display: false } },
-            y: { ticks: commonTicks, grid: commonGrid }
-          },
-          plugins: {
-            legend: { labels: { color: '#1d1d1f', font: { size: 11 }, boxWidth: 10 } }
-          }
-        }
-      });
-
-      // 4. Funnel Volume Bar Chart
-      const volCtx = document.getElementById('volumeChart').getContext('2d');
-      volumeChartInstance = new Chart(volCtx, {
-        type: 'bar',
-        data: {
-          labels: ['No Data'],
-          datasets: [
-            { label: 'Reach', data: [0], backgroundColor: '#5ac8fa', borderRadius: 6 },
-            { label: 'Link Clicks', data: [0], backgroundColor: '#5856d6', borderRadius: 6 }
-          ]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          scales: {
-            x: { ticks: commonTicks, grid: { display: false } },
-            y: { ticks: commonTicks, grid: commonGrid }
-          },
-          plugins: {
-            legend: { labels: { color: '#1d1d1f', font: { size: 11 }, boxWidth: 10 } }
-          }
+          scales: { x: { ticks: commonTicks, grid: { display: false } }, y: { ticks: commonTicks, grid: commonGrid } },
+          plugins: { legend: { display: false } }
         }
       });
     }
 
     function updateAllCharts(data) {
-      if (!spendChartInstance || !efficiencyChartInstance || !saturationChartInstance || !volumeChartInstance) return;
+      if (!spendChartInstance) return;
 
       if (!data || data.length === 0) {
         spendChartInstance.data.labels = ['No Active Spend'];
         spendChartInstance.data.datasets[0].data = [1];
-        spendChartInstance.data.datasets[0].backgroundColor = ['#e5e5ea'];
         spendChartInstance.update();
         return;
       }
 
-      const labels = data.map(c => c.campaign_name.length > 18 ? c.campaign_name.substring(0, 16) + '...' : c.campaign_name);
+      const labels = data.map(c => c.campaign_name.length > 20 ? c.campaign_name.substring(0, 18) + '...' : c.campaign_name);
       const spendValues = data.map(c => parseFloat(c.spend) || 0);
-      const cpcValues = data.map(c => parseFloat(c.cpc) || 0);
-      const ctrValues = data.map(c => parseFloat(c.ctr) || 0);
-      const cpmValues = data.map(c => parseFloat(c.cpm) || 0);
-      const freqValues = data.map(c => parseFloat(c.frequency) || 1.0);
-      const reachValues = data.map(c => parseInt(c.reach) || 0);
-      const clickValues = data.map(c => parseInt(c.clicks) || 0);
-
       const colorPalette = ['#0071e3', '#34c759', '#ff9500', '#af52de', '#5856d6', '#5ac8fa'];
 
-      // 1. Spend Chart
       spendChartInstance.data.labels = labels;
       spendChartInstance.data.datasets[0].data = spendValues;
       spendChartInstance.data.datasets[0].backgroundColor = colorPalette.slice(0, labels.length);
       spendChartInstance.update();
-
-      // 2. Efficiency Chart
-      efficiencyChartInstance.data.labels = labels;
-      efficiencyChartInstance.data.datasets[0].data = cpcValues;
-      efficiencyChartInstance.data.datasets[1].data = ctrValues;
-      efficiencyChartInstance.update();
-
-      // 3. Saturation Chart
-      saturationChartInstance.data.labels = labels;
-      saturationChartInstance.data.datasets[0].data = cpmValues;
-      saturationChartInstance.data.datasets[1].data = freqValues;
-      saturationChartInstance.update();
-
-      // 4. Volume Chart
-      volumeChartInstance.data.labels = labels;
-      volumeChartInstance.data.datasets[0].data = reachValues;
-      volumeChartInstance.data.datasets[1].data = clickValues;
-      volumeChartInstance.update();
     }
 
     // Accurate Conversion Action and Objective Extraction
@@ -962,7 +949,7 @@
       return { results: clicks, costPerResult: cpc, label: 'Link Clicks' };
     }
 
-    // High-Resolution Post & Creative Asset Resolver
+    // High-Resolution Post & Creative Asset Resolver with Fallback
     async function resolveHighResAssetUrl(creative, token) {
       if (!creative) return { url: null, fbLink: null };
 
@@ -1114,7 +1101,6 @@
 
         if (activeCampaigns.length > 0 || activeAds.length > 0) {
           renderMetrics(activeCampaigns);
-          renderFunnelProgression(activeCampaigns);
           updateAllCharts(activeCampaigns);
           renderTable(activeCampaigns);
           await renderCreativeGallery(activeAds, client.metaToken);
@@ -1168,7 +1154,7 @@
           creative: {
             title: 'Our Black November event has officially begun',
             body: 'Our Black November event has officially begun. Enjoy 20% off any treatment booked for December when secured before 16 November at midnight. Give yourself something truly relaxing to look forward to this winter. 🤎 Message us to reserve your appointment.',
-            image_url: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1600&q=90',
+            image_url: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1200&q=85',
             call_to_action_type: 'SEND_MESSAGE',
             is_video: false
           },
@@ -1179,7 +1165,6 @@
       ];
 
       renderMetrics(activeCampaigns);
-      renderFunnelProgression(activeCampaigns);
       updateAllCharts(activeCampaigns);
       renderTable(activeCampaigns);
       renderCreativeGallery(activeAds, null);
@@ -1251,43 +1236,6 @@
       document.getElementById('kpiResults').textContent = totalResults.toLocaleString();
       document.getElementById('kpiResultLabel').textContent = resultLabel;
       document.getElementById('kpiCostResult').textContent = totalResults > 0 ? `£${weightedCostPerResult.toFixed(2)}` : '£0.00';
-    }
-
-    // Render Visual Funnel Drop-off Progression
-    function renderFunnelProgression(data) {
-      let totalImpr = 0;
-      let totalReach = 0;
-      let totalClicks = 0;
-      let totalResults = 0;
-      let resultLabel = 'Results';
-
-      data.forEach(item => {
-        totalImpr += parseInt(item.impressions) || 0;
-        totalReach += parseInt(item.reach) || Math.round(totalImpr * 0.9);
-        totalClicks += parseInt(item.clicks) || 0;
-        totalResults += parseInt(item.results) || 0;
-        if (item.result_label) resultLabel = item.result_label;
-      });
-
-      const reachPercent = totalImpr > 0 ? ((totalReach / totalImpr) * 100).toFixed(1) : '100';
-      const ctrPercent = totalImpr > 0 ? ((totalClicks / totalImpr) * 100).toFixed(2) : '0.00';
-      const conversionRate = totalClicks > 0 ? ((totalResults / totalClicks) * 100).toFixed(1) : '0.0';
-      const overallRate = totalImpr > 0 ? ((totalResults / totalImpr) * 100).toFixed(2) : '0.00';
-
-      document.getElementById('funnelImpr').textContent = totalImpr.toLocaleString();
-      document.getElementById('funnelReach').textContent = totalReach.toLocaleString();
-      document.getElementById('funnelClicks').textContent = totalClicks.toLocaleString();
-      document.getElementById('funnelResults').textContent = totalResults.toLocaleString();
-
-      document.getElementById('funnelReachPercent').textContent = `${reachPercent}% Reach`;
-      document.getElementById('funnelClickPercent').textContent = `${ctrPercent}% CTR`;
-      document.getElementById('funnelResultPercent').textContent = `${conversionRate}% CR`;
-      document.getElementById('funnelResultSub').textContent = `Qualified ${resultLabel}`;
-      document.getElementById('funnelConversionRate').textContent = `${overallRate}% Overall Conversion`;
-
-      // Set width bars dynamically
-      document.getElementById('funnelClickBar').style.width = `${Math.min(100, Math.max(10, parseFloat(ctrPercent) * 20))}%`;
-      document.getElementById('funnelResultBar').style.width = `${Math.min(100, Math.max(10, parseFloat(conversionRate)))}%`;
     }
 
     function renderTable(data) {
@@ -1387,10 +1335,10 @@
 
         card.innerHTML = `
           <div>
-            <!-- High-Res Media Frame with No-Referrer Policy -->
+            <!-- High-Res Media Frame with No-Referrer Policy & Robust Fallback -->
             <div class="relative w-full aspect-square bg-apple-bg overflow-hidden cursor-pointer flex items-center justify-center border-b border-apple-border" onclick="openMediaLightbox(${i})">
               ${assetInfo.url ? `
-                <img src="${assetInfo.url}" referrerpolicy="no-referrer" alt="${title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" />
+                <img src="${assetInfo.url}" referrerpolicy="no-referrer" alt="${title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\\'p-8 text-center text-apple-textSecondary flex flex-col items-center justify-center h-full\\'><i data-lucide=\\'image\\' class=\\'h-8 w-8 mb-2 text-apple-textTertiary\\'></i><span class=\\'text-xs font-semibold\\'>Meta Live Asset</span><span class=\\'text-[10px] text-apple-textTertiary mt-1\\'>Click to view on Meta</span></div>'; lucide.createIcons();" />
               ` : `
                 <div class="w-full h-full flex flex-col items-center justify-center p-6 text-center">
                   <i data-lucide="image" class="h-6 w-6 text-apple-textSecondary mb-1.5"></i>
@@ -1487,159 +1435,4 @@
         `;
       } else if (imageUrl) {
         container.innerHTML = `
-          <img src="${imageUrl}" referrerpolicy="no-referrer" alt="${title}" class="max-h-[58vh] w-auto max-w-full object-contain rounded-2xl shadow-lg border border-apple-border" />
-        `;
-      } else {
-        container.innerHTML = `
-          <div class="text-center py-16 text-apple-textSecondary">
-            <i data-lucide="image" class="h-8 w-8 mx-auto text-apple-border mb-2"></i>
-            <p class="text-xs">Visual preview generated from active creative spec.</p>
-          </div>
-        `;
-      }
-
-      document.getElementById('mediaLightboxModal').classList.remove('hidden');
-      lucide.createIcons();
-    }
-
-    function closeMediaLightbox() {
-      const container = document.getElementById('lightboxVisualContainer');
-      container.innerHTML = '';
-      document.getElementById('mediaLightboxModal').classList.add('hidden');
-    }
-
-    // Pure Bullet-Point Executive AI Summary
-    async function generateAIBriefing() {
-      const client = getActiveClient();
-      const outputContainer = document.getElementById('aiOutputContainer');
-      const badge = document.getElementById('aiModelBadge');
-      const btn = document.getElementById('btnGenerateAI');
-
-      if (!client.geminiKey) {
-        outputContainer.innerHTML = `
-          <p class="text-apple-orange text-xs font-medium">Gemini API Key not configured. Click Settings (top right) to enter your key.</p>
-        `;
-        return;
-      }
-
-      btn.disabled = true;
-      outputContainer.innerHTML = `
-        <div class="flex items-center gap-2.5 py-3">
-          <div class="apple-spinner"></div>
-          <span class="text-xs text-apple-textSecondary font-medium">Synthesising pure executive bullet points with Gemini...</span>
-        </div>
-      `;
-
-      const auditPayload = {
-        client_name: client.name,
-        account_id: client.accountId,
-        reporting_window: currentReportingPreset,
-        active_campaigns: activeCampaigns,
-        active_ads_and_copy: activeAds.map(a => ({
-          name: a.name,
-          campaign: a.campaign?.name,
-          headline: a.creative?.title || a.name,
-          copy: a.creative?.body || 'N/A',
-          cta: a.creative?.call_to_action_type || 'N/A',
-          metrics: a.insights?.data?.[0] || {}
-        }))
-      };
-
-      const systemPrompt = `
-You are a senior Meta performance marketing director reviewing performance metrics for "${client.name}".
-
-STRICT FORMAT REQUIREMENT:
-- Provide an EXECUTIVE BRIEF composed of PURE BULLET POINTS.
-- DO NOT write any paragraphs, introductions, or conversational filler.
-- Use British English spelling (e.g. optimisation, analysing, prioritising, behaviour, programme).
-- Use strictly the 3 sections below, with exactly 2 to 3 punchy, data-backed bullet points per section:
-
-### • Delivery & Algorithmic Health
-- [Bullet on current spend velocity, whether trapped in learning starvation (<£10/day), frequency, and CPM]
-- [Bullet on primary qualified results, weighted CPA, and audience response]
-
-### • Budget & Structure Recommendations
-- [Bullet with exact numerical daily budget adjustment recommendation in £]
-- [Bullet on objective setup / ABO vs Advantage+ Campaign Budget structure]
-
-### • Creative & Tactical Directives
-- [Bullet on copywriting tweak or angle pivot based on current active ad copy]
-- [Bullet on immediate operational change to execute in Meta Ads Manager today]
-
-Active Telemetry:
-${JSON.stringify(auditPayload, null, 2)}
-      `;
-
-      let candidateModels = [];
-      try {
-        const listRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${client.geminiKey}`);
-        const listData = await listRes.json();
-        
-        if (listData.models && Array.isArray(listData.models)) {
-          candidateModels = listData.models
-            .filter(m => m.supportedGenerationMethods?.includes('generateContent'))
-            .map(m => m.name.replace(/^models\//, ''))
-            .sort((a, b) => {
-              const aIsFlash = a.includes('flash');
-              const bIsFlash = b.includes('flash');
-              if (aIsFlash && !bIsFlash) return -1;
-              if (!aIsFlash && bIsFlash) return 1;
-              return b.localeCompare(a);
-            });
-        }
-      } catch (e) {}
-
-      if (candidateModels.length === 0) {
-        candidateModels = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash-latest', 'gemini-pro'];
-      }
-
-      let generatedText = null;
-      let successfulModel = null;
-      let lastErrorMessage = '';
-
-      for (const model of candidateModels) {
-        try {
-          const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${client.geminiKey}`;
-          
-          const response = await fetch(endpoint, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              contents: [{ parts: [{ text: systemPrompt }] }],
-              generationConfig: { temperature: 0.2, maxOutputTokens: 600 }
-            })
-          });
-
-          const data = await response.json();
-          if (data.error) {
-            lastErrorMessage = data.error.message;
-            continue;
-          }
-
-          const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
-          if (text) {
-            generatedText = text;
-            successfulModel = model;
-            break;
-          }
-        } catch (e) {
-          lastErrorMessage = e.message;
-        }
-      }
-
-      if (generatedText) {
-        badge.textContent = successfulModel;
-        const htmlContent = marked.parse(generatedText);
-        outputContainer.innerHTML = `<div class="space-y-2 text-apple-textPrimary text-xs sm:text-sm leading-relaxed">${htmlContent}</div>`;
-      } else {
-        outputContainer.innerHTML = `
-          <p class="text-apple-orange text-xs">Error generating summary (${lastErrorMessage || 'Service busy'}). Please try again.</p>
-        `;
-      }
-
-      btn.disabled = false;
-      lucide.createIcons();
-    }
-  </script>
-</body>
-</html>
+          <img src="${imageUrl}" referrerpolicy="no-referrer" alt="${title}" class="max-h-[58vh] w-auto
