@@ -118,7 +118,7 @@
           <div class="flex items-center gap-2">
             <h1 class="text-sm sm:text-base font-semibold tracking-tight text-apple-textPrimary">Performance Hub</h1>
             <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-apple-bg text-apple-textSecondary border border-apple-border font-mono">
-              Director Intelligence Suite
+              Director Suite
             </span>
           </div>
         </div>
@@ -294,6 +294,68 @@
         <span class="text-[10px] text-apple-textTertiary">Per 1k Views</span>
       </div>
 
+    </div>
+
+    <!-- Visual Funnel Progression & Conversion Drop-off Bar -->
+    <div class="apple-card rounded-2xl p-5 space-y-3">
+      <div class="flex items-center justify-between">
+        <h4 class="text-xs font-bold text-apple-textPrimary uppercase tracking-wider">Full Funnel Conversion Progression</h4>
+        <span class="text-xs text-apple-textSecondary font-mono" id="funnelConversionRate">0.00% Overall Conversion</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-3 pt-1">
+        <!-- Stage 1 -->
+        <div class="p-3 rounded-xl bg-apple-bg border border-apple-border space-y-1">
+          <div class="flex items-center justify-between text-xs text-apple-textSecondary font-medium">
+            <span>1. Impressions</span>
+            <i data-lucide="eye" class="h-3.5 w-3.5"></i>
+          </div>
+          <div class="text-lg font-bold text-apple-textPrimary font-mono" id="funnelImpr">0</div>
+          <div class="w-full bg-apple-border h-1.5 rounded-full overflow-hidden">
+            <div class="bg-apple-blue h-full w-full rounded-full"></div>
+          </div>
+          <p class="text-[10px] text-apple-textTertiary">Total ad impressions served</p>
+        </div>
+
+        <!-- Stage 2 -->
+        <div class="p-3 rounded-xl bg-apple-bg border border-apple-border space-y-1">
+          <div class="flex items-center justify-between text-xs text-apple-textSecondary font-medium">
+            <span>2. Unique Reach</span>
+            <span class="text-[10px] font-mono text-apple-blue" id="funnelReachPercent">100%</span>
+          </div>
+          <div class="text-lg font-bold text-apple-textPrimary font-mono" id="funnelReach">0</div>
+          <div class="w-full bg-apple-border h-1.5 rounded-full overflow-hidden">
+            <div id="funnelReachBar" class="bg-apple-teal h-full w-full rounded-full"></div>
+          </div>
+          <p class="text-[10px] text-apple-textTertiary">Unique audience reached</p>
+        </div>
+
+        <!-- Stage 3 -->
+        <div class="p-3 rounded-xl bg-apple-bg border border-apple-border space-y-1">
+          <div class="flex items-center justify-between text-xs text-apple-textSecondary font-medium">
+            <span>3. Link Clicks</span>
+            <span class="text-[10px] font-mono text-apple-blue" id="funnelClickPercent">0.0% CTR</span>
+          </div>
+          <div class="text-lg font-bold text-apple-textPrimary font-mono" id="funnelClicks">0</div>
+          <div class="w-full bg-apple-border h-1.5 rounded-full overflow-hidden">
+            <div id="funnelClickBar" class="bg-apple-indigo h-full w-0 rounded-full transition-all duration-500"></div>
+          </div>
+          <p class="text-[10px] text-apple-textTertiary">Destination outbound intent</p>
+        </div>
+
+        <!-- Stage 4 -->
+        <div class="p-3 rounded-xl bg-apple-bg border border-apple-border space-y-1">
+          <div class="flex items-center justify-between text-xs text-apple-textSecondary font-medium">
+            <span>4. Conversions</span>
+            <span class="text-[10px] font-mono text-apple-green font-bold" id="funnelResultPercent">0.0% CR</span>
+          </div>
+          <div class="text-lg font-bold text-apple-green font-mono" id="funnelResults">0</div>
+          <div class="w-full bg-apple-border h-1.5 rounded-full overflow-hidden">
+            <div id="funnelResultBar" class="bg-apple-green h-full w-0 rounded-full transition-all duration-500"></div>
+          </div>
+          <p class="text-[10px] text-apple-textTertiary" id="funnelResultSub">Primary qualified actions</p>
+        </div>
+      </div>
     </div>
 
     <!-- Deep-Dive Analytics Suite: 6 Dedicated Charts -->
@@ -1028,29 +1090,34 @@
         cleanAccountId = 'act_' + cleanAccountId;
       }
 
-      let insightsField = `insights.date_preset(${currentReportingPreset}){spend,impressions,reach,frequency,clicks,ctr,cpc,cpm,actions,cost_per_action_type}`;
+      let dateParam = `date_preset=${currentReportingPreset}`;
       if (currentReportingPreset === 'custom' && customDateRange) {
-        insightsField = `insights.time_range({'since':'${customDateRange.since}','until':'${customDateRange.until}'}){spend,impressions,reach,frequency,clicks,ctr,cpc,cpm,actions,cost_per_action_type}`;
+        dateParam = `time_range=${encodeURIComponent(JSON.stringify({ since: customDateRange.since, until: customDateRange.until }))}`;
       }
 
-      const campaignsEndpoint = `https://graph.facebook.com/v21.0/${cleanAccountId}/campaigns?fields=id,name,status,effective_status,objective,adsets{optimization_goal,bid_strategy,daily_budget},${insightsField}&effective_status=['ACTIVE']&access_token=${client.metaToken}`;
-      const adsEndpoint = `https://graph.facebook.com/v21.0/${cleanAccountId}/ads?fields=id,name,status,effective_status,campaign{id,name,status,effective_status,objective},creative{id,name,title,body,image_url,thumbnail_url,video_id,call_to_action_type,effective_object_story_id,object_story_spec{link_data,video_data,photo_data}},${insightsField}&effective_status=['ACTIVE']&limit=35&access_token=${client.metaToken}`;
+      // 1. Direct Campaign Insights Query
+      const campaignInsightsUrl = `https://graph.facebook.com/v21.0/${cleanAccountId}/insights?level=campaign&${dateParam}&fields=campaign_id,campaign_name,objective,spend,impressions,reach,frequency,clicks,ctr,cpc,cpm,actions,cost_per_action_type&access_token=${client.metaToken}`;
+      
+      // 2. Direct Ad Insights Query
+      const adInsightsUrl = `https://graph.facebook.com/v21.0/${cleanAccountId}/insights?level=ad&${dateParam}&fields=ad_id,ad_name,campaign_id,spend,impressions,reach,clicks,ctr,cpc,cpm,actions,cost_per_action_type&access_token=${client.metaToken}`;
+      
+      // 3. Active Ads with Creatives
+      const adsUrl = `https://graph.facebook.com/v21.0/${cleanAccountId}/ads?fields=id,name,status,effective_status,campaign_id,campaign{id,name,status,effective_status,objective},creative{id,name,title,body,image_url,thumbnail_url,video_id,call_to_action_type,effective_object_story_id,object_story_spec,asset_feed_spec}&effective_status=['ACTIVE']&limit=35&access_token=${client.metaToken}`;
 
       try {
-        const [campRes, adsRes] = await Promise.all([
-          fetch(campaignsEndpoint).then(r => r.json()),
-          fetch(adsEndpoint).then(r => r.json())
+        const [campRes, adInsRes, adsRes] = await Promise.all([
+          fetch(campaignInsightsUrl).then(r => r.json()),
+          fetch(adInsightsUrl).then(r => r.json()).catch(() => ({ data: [] })),
+          fetch(adsUrl).then(r => r.json())
         ]);
 
         if (campRes.error) {
-          throw new Error(campRes.error.message || 'Meta Campaigns API returned an error.');
+          throw new Error(campRes.error.message || 'Meta API returned an error.');
         }
 
         if (campRes.data && campRes.data.length > 0) {
-          activeCampaigns = campRes.data.map(c => {
-            const ins = c.insights?.data?.[0] || {};
-            const resData = parseObjectiveResults(ins, c.objective);
-            const optGoal = c.adsets?.data?.[0]?.optimization_goal || 'LINK_CLICKS';
+          activeCampaigns = campRes.data.map(ins => {
+            const resData = parseObjectiveResults(ins, ins.objective);
             const spend = parseFloat(ins.spend) || 0;
             const results = resData.results;
 
@@ -1065,12 +1132,12 @@
             }
 
             return {
-              campaign_id: c.id,
-              campaign_name: c.name,
-              objective: c.objective || 'OUTCOME_TRAFFIC',
-              optimization_goal: optGoal,
-              status: c.status,
-              effective_status: c.effective_status,
+              campaign_id: ins.campaign_id,
+              campaign_name: ins.campaign_name,
+              objective: ins.objective || 'OUTCOME_TRAFFIC',
+              optimization_goal: resData.label,
+              status: 'ACTIVE',
+              effective_status: 'ACTIVE',
               spend: ins.spend || '0.00',
               impressions: ins.impressions || '0',
               reach: ins.reach || '0',
@@ -1090,11 +1157,19 @@
           activeCampaigns = [];
         }
 
+        // Map live ad insights onto creative objects
+        const adInsightsMap = {};
+        if (adInsRes.data) {
+          adInsRes.data.forEach(item => { adInsightsMap[item.ad_id] = item; });
+        }
+
         if (adsRes.data && adsRes.data.length > 0) {
-          activeAds = adsRes.data.filter(ad => {
-            const isAdActive = (ad.effective_status === 'ACTIVE' || ad.status === 'ACTIVE');
-            const isCampActive = (ad.campaign?.effective_status === 'ACTIVE' || ad.campaign?.status === 'ACTIVE');
-            return isAdActive && isCampActive;
+          activeAds = adsRes.data.filter(ad => (ad.effective_status === 'ACTIVE' || ad.status === 'ACTIVE')).map(ad => {
+            const ins = adInsightsMap[ad.id] || {};
+            return {
+              ...ad,
+              insights: { data: [ins] }
+            };
           });
         } else {
           activeAds = [];
@@ -1108,7 +1183,7 @@
           await renderCreativeGallery(activeAds, client.metaToken);
           generateAIBriefing();
         } else {
-          handleFallbackData(`No active campaign spend recorded for selected timeframe. Showing active baseline simulation.`);
+          handleFallbackData(`No active campaign spend recorded for selected timeframe (${currentReportingPreset}). Showing baseline preview.`);
         }
 
       } catch (err) {
@@ -1375,7 +1450,7 @@
 
         card.innerHTML = `
           <div>
-            <!-- High-Res Media Frame with No-Referrer Policy -->
+            <!-- High-Res Media Frame with No-Referrer Policy & Robust Fallback -->
             <div class="relative w-full aspect-square bg-apple-bg overflow-hidden cursor-pointer flex items-center justify-center border-b border-apple-border" onclick="openMediaLightbox(${i})">
               ${assetInfo.url ? `
                 <img src="${assetInfo.url}" referrerpolicy="no-referrer" alt="${title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\\'p-8 text-center text-apple-textSecondary flex flex-col items-center justify-center h-full\\'><i data-lucide=\\'image\\' class=\\'h-8 w-8 mb-2 text-apple-textTertiary\\'></i><span class=\\'text-xs font-semibold\\'>Meta Live Asset</span><span class=\\'text-[10px] text-apple-textTertiary mt-1\\'>Click to view on Meta</span></div>'; lucide.createIcons();" />
@@ -1475,7 +1550,7 @@
         `;
       } else if (imageUrl) {
         container.innerHTML = `
-          <img src="${imageUrl}" referrerpolicy="no-referrer" alt="${title}" class="max-h-[58vh] w-auto max-w-full object-contain rounded-2xl shadow-lg border border-apple-border" />
+          <img src="${imageUrl}" referrerpolicy="no-referrer" alt="${title}" class="max-h-[58vh] w-auto max-w-full object-contain rounded-2xl shadow-lg border border-apple-border" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\\'p-12 text-center text-apple-textSecondary\\'><p class=\\'text-sm font-semibold\\'>Visual Asset Protected by Meta Permissions</p><p class=\\'text-xs text-apple-textTertiary mt-1\\'>Use the \\'View on Meta\\' button below to inspect the live ad.</p></div>';" />
         `;
       } else {
         container.innerHTML = `
