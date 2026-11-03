@@ -1,8 +1,3 @@
-Here is the updated, complete `index.html` file. The model endpoint and UI references have been updated from `gemini-2.0-flash` to **`gemini-3.8-flash`** to resolve the deprecation error.
-
-You can replace the contents of your `index.html` file in GitHub with this code:
-
-html
 <!DOCTYPE html>
 <html lang="en-GB" class="dark">
 <head>
@@ -114,7 +109,7 @@ html
             onchange="switchClient(this.value)"
             class="bg-anthracite-850 border border-anthracite-700 text-slate-200 text-xs sm:text-sm rounded-lg pl-9 pr-8 py-2 focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent font-medium cursor-pointer transition appearance-none"
           >
-            <!-- Injected via JavaScript -->
+            <!-- Injected dynamically via JS -->
           </select>
           <i data-lucide="chevron-down" class="absolute right-2.5 h-3.5 w-3.5 text-slate-400 pointer-events-none"></i>
         </div>
@@ -226,8 +221,8 @@ html
           <div>
             <h3 class="text-sm font-bold text-white flex items-center gap-2">
               Gemini AI Executive Briefing
-              <span class="text-[10px] px-2 py-0.5 rounded bg-accent/10 text-accent font-semibold border border-accent/30">
-                gemini-3.8-flash
+              <span id="aiModelBadge" class="text-[10px] px-2 py-0.5 rounded bg-accent/10 text-accent font-semibold border border-accent/30 font-mono">
+                auto-failover
               </span>
             </h3>
             <p class="text-xs text-slate-400">
@@ -723,10 +718,11 @@ html
       });
     }
 
-    // Gemini AI Executive Briefing Integration (Updated to gemini-3.8-flash)
+    // Gemini AI Executive Briefing Integration with Automatic Fallback Waterfall
     async function generateAIBriefing() {
       const client = getActiveClient();
       const outputContainer = document.getElementById('aiOutputContainer');
+      const badge = document.getElementById('aiModelBadge');
       const btn = document.getElementById('btnGenerateAI');
 
       if (!client.geminiKey) {
@@ -743,7 +739,7 @@ html
       outputContainer.innerHTML = `
         <div class="flex items-center gap-3 py-2">
           <div class="loader-ring"></div>
-          <span class="text-xs text-slate-400 font-medium">Performance Marketing Director is analysing campaign data with Gemini 3.8 Flash...</span>
+          <span class="text-xs text-slate-400 font-medium">Performance Marketing Director is analysing campaign data with Gemini...</span>
         </div>
       `;
 
@@ -762,49 +758,70 @@ Provide an executive, commercial 3-bullet-point briefing using British English s
 Keep the tone sharp, commercial, concise, and direct.
       `;
 
-      const geminiEndpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${client.geminiKey}`;
+      // Candidate models for automated failover
+      const candidateModels = [
+        'gemini-2.5-flash',
+        'gemini-2.0-flash',
+        'gemini-1.5-flash'
+      ];
 
-      try {
-        const response = await fetch(geminiEndpoint, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            contents: [{
-              parts: [{ text: prompt }]
-            }],
-            generationConfig: {
-              temperature: 0.2,
-              maxOutputTokens: 500
-            }
-          })
-        });
+      let generatedText = null;
+      let successfulModel = null;
+      let lastErrorMessage = '';
 
-        const data = await response.json();
+      for (const model of candidateModels) {
+        try {
+          const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${client.geminiKey}`;
+          
+          const response = await fetch(endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              contents: [{
+                parts: [{ text: prompt }]
+              }],
+              generationConfig: {
+                temperature: 0.2,
+                maxOutputTokens: 500
+              }
+            })
+          });
 
-        if (data.error) {
-          throw new Error(data.error.message || 'Gemini API Error');
+          const data = await response.json();
+
+          if (data.error) {
+            lastErrorMessage = data.error.message;
+            console.warn(`Model ${model} unavailable: ${data.error.message}. Trying next candidate...`);
+            continue; // Failover to the next candidate model
+          }
+
+          const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+          if (text) {
+            generatedText = text;
+            successfulModel = model;
+            break; // Success!
+          }
+        } catch (e) {
+          lastErrorMessage = e.message;
+          console.warn(`Request failed for ${model}: ${e.message}. Trying next candidate...`);
         }
+      }
 
-        const generatedText = data.candidates?.[0]?.content?.parts?.[0]?.text;
-
-        if (generatedText) {
-          const htmlContent = marked.parse(generatedText);
-          outputContainer.innerHTML = `<div class="space-y-2 text-slate-200">${htmlContent}</div>`;
-        } else {
-          throw new Error('No content returned from Gemini model.');
-        }
-
-      } catch (err) {
+      if (generatedText) {
+        badge.textContent = successfulModel;
+        const htmlContent = marked.parse(generatedText);
+        outputContainer.innerHTML = `<div class="space-y-2 text-slate-200">${htmlContent}</div>`;
+      } else {
         outputContainer.innerHTML = `
           <div class="space-y-1">
-            <p class="text-red-400 text-xs font-semibold">⚠️ AI Analysis Error: ${err.message}</p>
-            <p class="text-slate-500 text-xs">Verify your Gemini API key in settings or check network connection.</p>
+            <p class="text-red-400 text-xs font-semibold">⚠️ AI Analysis Error: All Gemini model endpoints are currently at maximum capacity (${lastErrorMessage || 'Service Busy'}).</p>
+            <p class="text-slate-500 text-xs">Please retry in a moment by clicking "Regenerate Briefing".</p>
           </div>
         `;
-      } finally {
-        btn.disabled = false;
-        lucide.createIcons();
       }
+
+      btn.disabled = false;
+      lucide.createIcons();
     }
   </script>
 </body>
