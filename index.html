@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en-GB" class="dark">
+<html lang="en-GB">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -14,32 +14,35 @@
   <!-- Marked.js CDN -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
-  <!-- Apple Design System Theme Config -->
+  <!-- Apple Light Theme Config -->
   <script>
     tailwind.config = {
-      darkMode: 'class',
       theme: {
         extend: {
           colors: {
             apple: {
-              bg: '#000000',
-              card: '#161618',
-              cardHover: '#1c1c1e',
-              surface: '#242426',
-              border: '#2c2c2e',
+              bg: '#f5f5f7',
+              card: '#ffffff',
+              cardHover: '#fafafc',
+              border: '#e5e5ea',
+              borderSubtle: '#f0f0f2',
               blue: '#0071e3',
               blueHover: '#0077ed',
-              green: '#30d158',
-              orange: '#ff9f0a',
-              red: '#ff453a',
-              purple: '#bf5af2',
-              secondaryText: '#86868b',
-              tertiaryText: '#6e6e73',
+              green: '#34c759',
+              orange: '#ff9500',
+              red: '#ff3b30',
+              purple: '#af52de',
+              indigo: '#5856d6',
+              teal: '#5ac8fa',
+              textPrimary: '#1d1d1f',
+              textSecondary: '#86868b',
+              textTertiary: '#a1a1a6',
+              segmentedBg: '#e5e5ea',
             }
           },
           fontFamily: {
-            sans: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Display"', '"SF Pro Text"', '"Helvetica Neue"', 'sans-serif'],
-            mono: ['"SF Mono"', 'Menlo', 'Monaco', 'monospace'],
+            sans: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Text"', '"SF Pro Display"', '"Helvetica Neue"', 'Helvetica', 'Arial', 'sans-serif'],
+            mono: ['"SF Mono"', 'Menlo', 'Monaco', 'Courier New', 'monospace'],
           },
         },
       },
@@ -48,21 +51,24 @@
 
   <style>
     body {
-      background-color: #000000;
-      color: #f5f5f7;
+      background-color: #f5f5f7;
+      color: #1d1d1f;
       font-feature-settings: "cv02", "cv03", "cv04", "cv11";
       -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
     .apple-card {
-      background-color: #161618;
-      border: 1px solid #2c2c2e;
+      background-color: #ffffff;
+      border: 1px solid #e5e5ea;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
     }
 
     .apple-segmented-active {
-      background-color: #323236;
-      color: #ffffff;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+      background-color: #ffffff;
+      color: #1d1d1f;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 1px rgba(0, 0, 0, 0.04);
+      font-weight: 600;
     }
 
     ::-webkit-scrollbar {
@@ -73,15 +79,15 @@
       background: transparent;
     }
     ::-webkit-scrollbar-thumb {
-      background: #38383a;
+      background: #c7c7cc;
       border-radius: 9999px;
     }
     ::-webkit-scrollbar-thumb:hover {
-      background: #48484a;
+      background: #8e8e93;
     }
 
     .apple-spinner {
-      border: 2px solid rgba(255, 255, 255, 0.15);
+      border: 2px solid rgba(0, 113, 227, 0.2);
       border-top: 2px solid #0071e3;
       border-radius: 50%;
       width: 14px;
@@ -95,82 +101,89 @@
   </style>
 </head>
 
-<body class="min-h-screen selection:bg-apple-blue selection:text-white pb-20">
+<body class="min-h-screen selection:bg-apple-blue selection:text-white pb-24">
 
-  <!-- Apple Global Navigation Bar -->
-  <nav class="sticky top-0 z-40 bg-[#000000]/80 backdrop-blur-xl border-b border-apple-border">
+  <!-- Apple Global Navigation Header -->
+  <header class="sticky top-0 z-40 bg-[#ffffff]/85 backdrop-blur-xl border-b border-apple-border">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
       
       <!-- Brand & Hub Identity -->
       <div class="flex items-center gap-3">
-        <div class="h-7 w-7 rounded-lg bg-apple-surface border border-apple-border flex items-center justify-center text-white">
-          <i data-lucide="bar-chart-2" class="h-4 w-4 text-white"></i>
+        <div class="h-8 w-8 rounded-xl bg-apple-blue flex items-center justify-center text-white shadow-sm">
+          <i data-lucide="bar-chart-2" class="h-4 w-4 stroke-[2.2]"></i>
         </div>
         <div>
-          <span class="text-sm font-semibold tracking-tight text-[#f5f5f7]">Performance Hub</span>
-          <span class="text-xs text-apple-secondaryText font-normal ml-2">Director Intelligence</span>
+          <div class="flex items-center gap-2">
+            <h1 class="text-sm sm:text-base font-semibold tracking-tight text-apple-textPrimary">Performance Hub</h1>
+            <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-apple-bg text-apple-textSecondary border border-apple-border font-mono">
+              Director Edition
+            </span>
+          </div>
         </div>
       </div>
 
       <!-- Action Items -->
       <div class="flex items-center gap-2.5">
+        <!-- Client Dropdown -->
         <div class="relative flex items-center">
           <select
             id="clientSelector"
             onchange="switchClient(this.value)"
-            class="bg-apple-card border border-apple-border text-slate-200 text-xs rounded-lg pl-3 pr-8 py-1.5 focus:outline-none focus:border-apple-blue font-medium cursor-pointer transition appearance-none hover:bg-apple-cardHover"
+            class="bg-apple-bg border border-apple-border text-apple-textPrimary text-xs rounded-lg pl-3 pr-8 py-1.5 focus:outline-none focus:border-apple-blue font-medium cursor-pointer transition appearance-none hover:bg-apple-borderSubtle"
           >
             <!-- Injected via JavaScript -->
           </select>
-          <i data-lucide="chevron-down" class="absolute right-2.5 h-3.5 w-3.5 text-apple-secondaryText pointer-events-none"></i>
+          <i data-lucide="chevron-down" class="absolute right-2.5 h-3.5 w-3.5 text-apple-textSecondary pointer-events-none"></i>
         </div>
 
+        <!-- Sync Button -->
         <button
           onclick="fetchAllData()"
           id="refreshBtn"
-          class="flex items-center gap-1.5 bg-apple-blue hover:bg-apple-blueHover text-white text-xs font-medium px-3.5 py-1.5 rounded-lg transition active:scale-[0.98]"
+          class="flex items-center gap-1.5 bg-apple-blue hover:bg-apple-blueHover text-white text-xs font-semibold px-3.5 py-1.5 rounded-lg transition shadow-sm active:scale-[0.98]"
         >
           <i data-lucide="refresh-cw" id="refreshIcon" class="h-3.5 w-3.5"></i>
           <span id="refreshText" class="hidden sm:inline">Sync Data</span>
         </button>
 
+        <!-- Settings Button -->
         <button
           onclick="openSettingsModal()"
           title="Account Settings"
-          class="p-1.5 rounded-lg bg-apple-card border border-apple-border hover:bg-apple-cardHover text-apple-secondaryText hover:text-white transition active:scale-[0.98]"
+          class="p-1.5 rounded-lg bg-apple-bg border border-apple-border hover:bg-apple-borderSubtle text-apple-textSecondary hover:text-apple-textPrimary transition active:scale-[0.98]"
         >
           <i data-lucide="settings" class="h-4 w-4"></i>
         </button>
       </div>
 
     </div>
-  </nav>
+  </header>
 
   <!-- Main Viewport -->
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
 
-    <!-- Header Surface, Delivery Health Banner & Dynamic Date Range Controller -->
+    <!-- Active Workspace & Date Range Controller -->
     <div class="apple-card rounded-2xl p-5 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
       <div>
         <div class="flex items-center gap-2.5">
-          <span id="accountHealthIndicator" class="w-2.5 h-2.5 rounded-full bg-apple-green animate-pulse"></span>
-          <h2 class="text-base font-semibold text-white tracking-tight" id="clientDisplayName">Calm Drift Sanctuary</h2>
-          <span id="accountHealthBadge" class="text-[10px] font-semibold px-2 py-0.5 rounded-md bg-apple-green/10 text-apple-green border border-apple-green/20">
+          <span id="accountHealthIndicator" class="w-2.5 h-2.5 rounded-full bg-apple-green"></span>
+          <h2 class="text-lg font-bold text-apple-textPrimary tracking-tight" id="clientDisplayName">Calm Drift Sanctuary</h2>
+          <span id="accountHealthBadge" class="text-[10px] font-semibold px-2.5 py-0.5 rounded-full bg-apple-green/10 text-apple-green border border-apple-green/20">
             Healthy Delivery
           </span>
         </div>
-        <p class="text-xs text-apple-secondaryText font-mono mt-1" id="adAccountDisplay">Account ID: act_259916616</p>
+        <p class="text-xs text-apple-textSecondary font-mono mt-1" id="adAccountDisplay">Account ID: act_259916616</p>
       </div>
 
       <!-- Segmented Date Controller -->
       <div class="flex flex-col sm:flex-row items-start sm:items-center gap-2.5">
-        <div class="bg-[#242426] border border-apple-border p-0.5 rounded-lg flex items-center text-xs font-medium text-apple-secondaryText">
-          <button onclick="setDatePreset('yesterday')" id="pill-yesterday" class="px-2.5 py-1 rounded-md transition apple-segmented-active">Yesterday</button>
-          <button onclick="setDatePreset('last_7d')" id="pill-last_7d" class="px-2.5 py-1 rounded-md transition hover:text-white">7D</button>
-          <button onclick="setDatePreset('last_14d')" id="pill-last_14d" class="px-2.5 py-1 rounded-md transition hover:text-white">14D</button>
-          <button onclick="setDatePreset('last_30d')" id="pill-last_30d" class="px-2.5 py-1 rounded-md transition hover:text-white">30D</button>
-          <button onclick="setDatePreset('this_month')" id="pill-this_month" class="px-2.5 py-1 rounded-md transition hover:text-white">Month</button>
-          <button onclick="toggleCustomDatePicker()" id="pill-custom" class="px-2.5 py-1 rounded-md transition hover:text-white flex items-center gap-1">
+        <div class="bg-apple-segmentedBg p-1 rounded-xl flex items-center text-xs font-medium text-apple-textSecondary">
+          <button onclick="setDatePreset('yesterday')" id="pill-yesterday" class="px-3 py-1 rounded-lg transition apple-segmented-active">Yesterday</button>
+          <button onclick="setDatePreset('last_7d')" id="pill-last_7d" class="px-3 py-1 rounded-lg transition hover:text-apple-textPrimary">7D</button>
+          <button onclick="setDatePreset('last_14d')" id="pill-last_14d" class="px-3 py-1 rounded-lg transition hover:text-apple-textPrimary">14D</button>
+          <button onclick="setDatePreset('last_30d')" id="pill-last_30d" class="px-3 py-1 rounded-lg transition hover:text-apple-textPrimary">30D</button>
+          <button onclick="setDatePreset('this_month')" id="pill-this_month" class="px-3 py-1 rounded-lg transition hover:text-apple-textPrimary">Month</button>
+          <button onclick="toggleCustomDatePicker()" id="pill-custom" class="px-3 py-1 rounded-lg transition hover:text-apple-textPrimary flex items-center gap-1">
             <span>Custom</span>
             <i data-lucide="calendar" class="h-3 w-3"></i>
           </button>
@@ -178,85 +191,23 @@
 
         <!-- Custom Date Range Form -->
         <div id="customDateInputs" class="hidden flex items-center gap-1.5 text-xs">
-          <input type="date" id="dateSince" class="bg-[#1c1c1e] border border-apple-border px-2.5 py-1 rounded-lg text-white font-mono focus:outline-none focus:border-apple-blue text-xs" />
-          <span class="text-apple-secondaryText">to</span>
-          <input type="date" id="dateUntil" class="bg-[#1c1c1e] border border-apple-border px-2.5 py-1 rounded-lg text-white font-mono focus:outline-none focus:border-apple-blue text-xs" />
-          <button onclick="applyCustomDateRange()" class="bg-apple-blue hover:bg-apple-blueHover text-white font-medium px-3 py-1 rounded-lg transition text-xs">Apply</button>
+          <input type="date" id="dateSince" class="bg-white border border-apple-border px-2.5 py-1 rounded-lg text-apple-textPrimary font-mono focus:outline-none focus:border-apple-blue text-xs shadow-sm" />
+          <span class="text-apple-textSecondary">to</span>
+          <input type="date" id="dateUntil" class="bg-white border border-apple-border px-2.5 py-1 rounded-lg text-apple-textPrimary font-mono focus:outline-none focus:border-apple-blue text-xs shadow-sm" />
+          <button onclick="applyCustomDateRange()" class="bg-apple-blue hover:bg-apple-blueHover text-white font-medium px-3 py-1 rounded-lg transition text-xs shadow-sm">Apply</button>
         </div>
       </div>
     </div>
 
-    <!-- Director Telemetry KPI Grid (Full Funnel & Algorithmic Dimensions) -->
-    <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
-      
-      <!-- Spend -->
-      <div class="apple-card rounded-xl p-3.5 flex flex-col justify-between">
-        <span class="text-[10px] font-semibold text-apple-secondaryText uppercase tracking-wider">Spend</span>
-        <div class="text-lg font-semibold text-white tracking-tight mt-1" id="kpiSpend">£0.00</div>
-        <span class="text-[10px] text-apple-tertiaryText" id="kpiSpendSub">Daily Velocity</span>
-      </div>
-
-      <!-- Results / Primary Conversions -->
-      <div class="apple-card rounded-xl p-3.5 flex flex-col justify-between">
-        <span class="text-[10px] font-semibold text-apple-secondaryText uppercase tracking-wider">Results</span>
-        <div class="text-lg font-semibold text-apple-green tracking-tight mt-1" id="kpiResults">0</div>
-        <span class="text-[10px] text-apple-tertiaryText truncate" id="kpiResultLabel">Conversions</span>
-      </div>
-
-      <!-- Cost Per Result (Weighted CPA) -->
-      <div class="apple-card rounded-xl p-3.5 flex flex-col justify-between">
-        <span class="text-[10px] font-semibold text-apple-secondaryText uppercase tracking-wider">Cost / Result</span>
-        <div class="text-lg font-semibold text-white tracking-tight mt-1" id="kpiCostResult">£0.00</div>
-        <span class="text-[10px] text-apple-tertiaryText">Qualified CPA</span>
-      </div>
-
-      <!-- Frequency & Saturation -->
-      <div class="apple-card rounded-xl p-3.5 flex flex-col justify-between">
-        <div class="flex items-center justify-between">
-          <span class="text-[10px] font-semibold text-apple-secondaryText uppercase tracking-wider">Frequency</span>
-          <span id="freqBadge" class="text-[9px] font-bold px-1.5 py-0.2 rounded bg-apple-green/10 text-apple-green">Fresh</span>
-        </div>
-        <div class="text-lg font-semibold text-white tracking-tight mt-1" id="kpiFrequency">1.00</div>
-        <span class="text-[10px] text-apple-tertiaryText">Audience Saturation</span>
-      </div>
-
-      <!-- Clicks -->
-      <div class="apple-card rounded-xl p-3.5 flex flex-col justify-between">
-        <span class="text-[10px] font-semibold text-apple-secondaryText uppercase tracking-wider">Clicks</span>
-        <div class="text-lg font-semibold text-white tracking-tight mt-1" id="kpiClicks">0</div>
-        <span class="text-[10px] text-apple-tertiaryText">Outbound Traffic</span>
-      </div>
-
-      <!-- Avg CPC -->
-      <div class="apple-card rounded-xl p-3.5 flex flex-col justify-between">
-        <span class="text-[10px] font-semibold text-apple-secondaryText uppercase tracking-wider">Avg CPC</span>
-        <div class="text-lg font-semibold text-white tracking-tight mt-1" id="kpiCPC">£0.00</div>
-        <span class="text-[10px] text-apple-tertiaryText">Cost / Click</span>
-      </div>
-
-      <!-- CTR -->
-      <div class="apple-card rounded-xl p-3.5 flex flex-col justify-between">
-        <span class="text-[10px] font-semibold text-apple-secondaryText uppercase tracking-wider">Link CTR</span>
-        <div class="text-lg font-semibold text-white tracking-tight mt-1" id="kpiCTR">0.00%</div>
-        <span class="text-[10px] text-apple-tertiaryText">Click Rate</span>
-      </div>
-
-      <!-- CPM -->
-      <div class="apple-card rounded-xl p-3.5 flex flex-col justify-between">
-        <span class="text-[10px] font-semibold text-apple-secondaryText uppercase tracking-wider">CPM</span>
-        <div class="text-lg font-semibold text-white tracking-tight mt-1" id="kpiCPM">£0.00</div>
-        <span class="text-[10px] text-apple-tertiaryText">Per 1k Views</span>
-      </div>
-
-    </div>
-
-    <!-- AI Summary and Feedback Panel -->
+    <!-- AI Summary and Feedback (Pure Executive Bullet Points) -->
     <div class="apple-card rounded-2xl p-6 relative">
-      <div class="flex items-center justify-between pb-3.5 mb-4 border-b border-apple-border">
+      <div class="flex items-center justify-between pb-3 mb-4 border-b border-apple-border">
         <div class="flex items-center gap-2">
-          <i data-lucide="file-text" class="h-4 w-4 text-apple-blue"></i>
-          <h3 class="text-sm font-semibold text-white">AI Summary and Feedback</h3>
-          <span id="aiModelBadge" class="text-[10px] px-2 py-0.5 rounded-md bg-[#242426] text-apple-secondaryText font-mono ml-1">
+          <div class="p-1 rounded-md bg-apple-blue/10 text-apple-blue">
+            <i data-lucide="sparkles" class="h-4 w-4"></i>
+          </div>
+          <h3 class="text-sm font-bold text-apple-textPrimary">AI Summary and Feedback</h3>
+          <span id="aiModelBadge" class="text-[10px] px-2 py-0.5 rounded-md bg-apple-bg text-apple-textSecondary font-mono border border-apple-border">
             auto-resolving
           </span>
         </div>
@@ -264,53 +215,223 @@
         <button
           onclick="generateAIBriefing()"
           id="btnGenerateAI"
-          class="flex items-center gap-1.5 text-xs text-apple-secondaryText hover:text-white transition"
+          class="flex items-center gap-1.5 text-xs text-apple-textSecondary hover:text-apple-blue transition font-medium"
         >
           <i data-lucide="rotate-cw" class="h-3 w-3"></i>
-          <span>Regenerate</span>
+          <span>Regenerate Summary</span>
         </button>
       </div>
 
-      <div id="aiNoticeContainer" class="hidden mb-3 text-xs text-apple-orange bg-apple-orange/10 border border-apple-orange/20 p-2.5 rounded-lg"></div>
+      <div id="aiNoticeContainer" class="hidden mb-3 text-xs text-apple-orange bg-apple-orange/10 border border-apple-orange/20 p-2.5 rounded-xl font-medium"></div>
 
-      <!-- Summary Content -->
-      <div id="aiOutputContainer" class="min-h-[70px] flex items-center text-xs sm:text-sm text-slate-300 leading-relaxed font-sans">
-        <p class="text-apple-secondaryText font-normal">Click "Sync Data" to generate performance summary and directives.</p>
+      <!-- Pure Bullet Points Render Box -->
+      <div id="aiOutputContainer" class="min-h-[70px] flex items-center text-xs sm:text-sm text-apple-textPrimary leading-relaxed">
+        <p class="text-apple-textSecondary">Click "Sync Data" to generate concise bullet-point summary and actionable directives.</p>
       </div>
     </div>
 
-    <!-- Visual Analytics Grid -->
+    <!-- Director Telemetry KPI Grid (8 Key Metrics) -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
+      
+      <!-- Spend -->
+      <div class="apple-card rounded-2xl p-4 flex flex-col justify-between">
+        <span class="text-[10px] font-bold text-apple-textSecondary uppercase tracking-wider">Total Spend</span>
+        <div class="text-xl font-bold text-apple-textPrimary tracking-tight mt-1" id="kpiSpend">£0.00</div>
+        <span class="text-[10px] text-apple-textTertiary" id="kpiSpendSub">Active Velocity</span>
+      </div>
+
+      <!-- Results / Primary Conversions -->
+      <div class="apple-card rounded-2xl p-4 flex flex-col justify-between border-l-4 border-l-apple-green">
+        <span class="text-[10px] font-bold text-apple-textSecondary uppercase tracking-wider">Results</span>
+        <div class="text-xl font-bold text-apple-green tracking-tight mt-1" id="kpiResults">0</div>
+        <span class="text-[10px] text-apple-textTertiary truncate" id="kpiResultLabel">Conversions</span>
+      </div>
+
+      <!-- Cost Per Result -->
+      <div class="apple-card rounded-2xl p-4 flex flex-col justify-between border-l-4 border-l-apple-purple">
+        <span class="text-[10px] font-bold text-apple-textSecondary uppercase tracking-wider">Cost / Result</span>
+        <div class="text-xl font-bold text-apple-purple tracking-tight mt-1" id="kpiCostResult">£0.00</div>
+        <span class="text-[10px] text-apple-textTertiary">Weighted CPA</span>
+      </div>
+
+      <!-- Frequency & Saturation -->
+      <div class="apple-card rounded-2xl p-4 flex flex-col justify-between">
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] font-bold text-apple-textSecondary uppercase tracking-wider">Frequency</span>
+          <span id="freqBadge" class="text-[9px] font-bold px-1.5 py-0.2 rounded-full bg-apple-green/10 text-apple-green">Fresh</span>
+        </div>
+        <div class="text-xl font-bold text-apple-textPrimary tracking-tight mt-1" id="kpiFrequency">1.00</div>
+        <span class="text-[10px] text-apple-textTertiary">Audience Saturation</span>
+      </div>
+
+      <!-- Clicks -->
+      <div class="apple-card rounded-2xl p-4 flex flex-col justify-between">
+        <span class="text-[10px] font-bold text-apple-textSecondary uppercase tracking-wider">Clicks</span>
+        <div class="text-xl font-bold text-apple-blue tracking-tight mt-1" id="kpiClicks">0</div>
+        <span class="text-[10px] text-apple-textTertiary">Outbound Link</span>
+      </div>
+
+      <!-- Avg CPC -->
+      <div class="apple-card rounded-2xl p-4 flex flex-col justify-between">
+        <span class="text-[10px] font-bold text-apple-textSecondary uppercase tracking-wider">Avg CPC</span>
+        <div class="text-xl font-bold text-apple-textPrimary tracking-tight mt-1" id="kpiCPC">£0.00</div>
+        <span class="text-[10px] text-apple-textTertiary">Cost / Click</span>
+      </div>
+
+      <!-- CTR -->
+      <div class="apple-card rounded-2xl p-4 flex flex-col justify-between">
+        <span class="text-[10px] font-bold text-apple-textSecondary uppercase tracking-wider">Link CTR</span>
+        <div class="text-xl font-bold text-apple-textPrimary tracking-tight mt-1" id="kpiCTR">0.00%</div>
+        <span class="text-[10px] text-apple-textTertiary">Click-Through</span>
+      </div>
+
+      <!-- CPM -->
+      <div class="apple-card rounded-2xl p-4 flex flex-col justify-between">
+        <span class="text-[10px] font-bold text-apple-textSecondary uppercase tracking-wider">CPM</span>
+        <div class="text-xl font-bold text-apple-textPrimary tracking-tight mt-1" id="kpiCPM">£0.00</div>
+        <span class="text-[10px] text-apple-textTertiary">Per 1k Views</span>
+      </div>
+
+    </div>
+
+    <!-- Visual Funnel Progression & Conversion Drop-off Bar -->
+    <div class="apple-card rounded-2xl p-5 space-y-3">
+      <div class="flex items-center justify-between">
+        <h4 class="text-xs font-bold text-apple-textPrimary uppercase tracking-wider">Full Funnel Conversion Progression</h4>
+        <span class="text-xs text-apple-textSecondary font-mono" id="funnelConversionRate">0.00% Overall Conversion</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-3 pt-1">
+        <!-- Stage 1 -->
+        <div class="p-3 rounded-xl bg-apple-bg border border-apple-border space-y-1">
+          <div class="flex items-center justify-between text-xs text-apple-textSecondary font-medium">
+            <span>1. Impressions</span>
+            <i data-lucide="eye" class="h-3.5 w-3.5"></i>
+          </div>
+          <div class="text-lg font-bold text-apple-textPrimary font-mono" id="funnelImpr">0</div>
+          <div class="w-full bg-apple-border h-1.5 rounded-full overflow-hidden">
+            <div class="bg-apple-blue h-full w-full rounded-full"></div>
+          </div>
+          <p class="text-[10px] text-apple-textTertiary">Total ad impressions served</p>
+        </div>
+
+        <!-- Stage 2 -->
+        <div class="p-3 rounded-xl bg-apple-bg border border-apple-border space-y-1">
+          <div class="flex items-center justify-between text-xs text-apple-textSecondary font-medium">
+            <span>2. Unique Reach</span>
+            <span class="text-[10px] font-mono text-apple-blue" id="funnelReachPercent">100%</span>
+          </div>
+          <div class="text-lg font-bold text-apple-textPrimary font-mono" id="funnelReach">0</div>
+          <div class="w-full bg-apple-border h-1.5 rounded-full overflow-hidden">
+            <div id="funnelReachBar" class="bg-apple-teal h-full w-full rounded-full"></div>
+          </div>
+          <p class="text-[10px] text-apple-textTertiary">Unique audience reached</p>
+        </div>
+
+        <!-- Stage 3 -->
+        <div class="p-3 rounded-xl bg-apple-bg border border-apple-border space-y-1">
+          <div class="flex items-center justify-between text-xs text-apple-textSecondary font-medium">
+            <span>3. Link Clicks</span>
+            <span class="text-[10px] font-mono text-apple-blue" id="funnelClickPercent">0.0% CTR</span>
+          </div>
+          <div class="text-lg font-bold text-apple-textPrimary font-mono" id="funnelClicks">0</div>
+          <div class="w-full bg-apple-border h-1.5 rounded-full overflow-hidden">
+            <div id="funnelClickBar" class="bg-apple-indigo h-full w-0 rounded-full transition-all duration-500"></div>
+          </div>
+          <p class="text-[10px] text-apple-textTertiary">Destination outbound intent</p>
+        </div>
+
+        <!-- Stage 4 -->
+        <div class="p-3 rounded-xl bg-apple-bg border border-apple-border space-y-1">
+          <div class="flex items-center justify-between text-xs text-apple-textSecondary font-medium">
+            <span>4. Conversions</span>
+            <span class="text-[10px] font-mono text-apple-green font-bold" id="funnelResultPercent">0.0% CR</span>
+          </div>
+          <div class="text-lg font-bold text-apple-green font-mono" id="funnelResults">0</div>
+          <div class="w-full bg-apple-border h-1.5 rounded-full overflow-hidden">
+            <div id="funnelResultBar" class="bg-apple-green h-full w-0 rounded-full transition-all duration-500"></div>
+          </div>
+          <p class="text-[10px] text-apple-textTertiary" id="funnelResultSub">Primary qualified actions</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4 Meaningful Charts Grid (Apple Analytics Dashboard) -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
-      <!-- Spend Distribution -->
+      <!-- Chart 1: Spend Distribution -->
       <div class="apple-card rounded-2xl p-5 flex flex-col justify-between">
         <div>
           <div class="flex items-center justify-between mb-4">
-            <h4 class="text-xs font-semibold text-white uppercase tracking-wider">Spend Share</h4>
-            <span class="text-xs text-apple-secondaryText font-mono">Active Campaigns</span>
+            <div>
+              <h4 class="text-xs font-bold text-apple-textPrimary uppercase tracking-wider">Spend Allocation</h4>
+              <p class="text-[11px] text-apple-textSecondary">Active campaign investment share</p>
+            </div>
+            <span class="text-xs text-apple-textSecondary font-mono">Doughnut</span>
           </div>
-          <div class="relative h-60 w-full flex items-center justify-center">
+          <div class="relative h-64 w-full flex items-center justify-center">
             <canvas id="spendChart"></canvas>
           </div>
         </div>
-        <p class="text-xs text-apple-secondaryText text-center mt-3 pt-3 border-t border-apple-border">
-          Proportional ad investment across active campaigns
+        <p class="text-xs text-apple-textTertiary text-center mt-3 pt-3 border-t border-apple-borderSubtle">
+          Proportional daily ad investment across active campaigns
         </p>
       </div>
 
-      <!-- Efficiency Matrix -->
+      <!-- Chart 2: Efficiency Matrix -->
       <div class="apple-card rounded-2xl p-5 flex flex-col justify-between">
         <div>
           <div class="flex items-center justify-between mb-4">
-            <h4 class="text-xs font-semibold text-white uppercase tracking-wider">Campaign Efficiency</h4>
-            <span class="text-xs text-apple-secondaryText font-mono">CPC (£) vs CTR (%)</span>
+            <div>
+              <h4 class="text-xs font-bold text-apple-textPrimary uppercase tracking-wider">Unit Economics (CPC vs CTR)</h4>
+              <p class="text-[11px] text-apple-textSecondary">Click cost efficiency vs engagement rate</p>
+            </div>
+            <span class="text-xs text-apple-textSecondary font-mono">Grouped Bar</span>
           </div>
-          <div class="relative h-60 w-full flex items-center justify-center">
+          <div class="relative h-64 w-full flex items-center justify-center">
             <canvas id="efficiencyChart"></canvas>
           </div>
         </div>
-        <p class="text-xs text-apple-secondaryText text-center mt-3 pt-3 border-t border-apple-border">
-          Unit economics and click performance comparison
+        <p class="text-xs text-apple-textTertiary text-center mt-3 pt-3 border-t border-apple-borderSubtle">
+          Real-time unit economics and click performance comparison
+        </p>
+      </div>
+
+      <!-- Chart 3: Saturation vs CPM Pressure -->
+      <div class="apple-card rounded-2xl p-5 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h4 class="text-xs font-bold text-apple-textPrimary uppercase tracking-wider">Audience Saturation vs CPM</h4>
+              <p class="text-[11px] text-apple-textSecondary">Frequency tracking to identify creative fatigue</p>
+            </div>
+            <span class="text-xs text-apple-textSecondary font-mono">Frequency Curve</span>
+          </div>
+          <div class="relative h-64 w-full flex items-center justify-center">
+            <canvas id="saturationChart"></canvas>
+          </div>
+        </div>
+        <p class="text-xs text-apple-textTertiary text-center mt-3 pt-3 border-t border-apple-borderSubtle">
+          High frequency (>2.2) correlates with rising CPM bidding pressure
+        </p>
+      </div>
+
+      <!-- Chart 4: Funnel Volume Distribution -->
+      <div class="apple-card rounded-2xl p-5 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h4 class="text-xs font-bold text-apple-textPrimary uppercase tracking-wider">Campaign Traffic Volume</h4>
+              <p class="text-[11px] text-apple-textSecondary">Total impressions & outbound clicks</p>
+            </div>
+            <span class="text-xs text-apple-textSecondary font-mono">Volume Bar</span>
+          </div>
+          <div class="relative h-64 w-full flex items-center justify-center">
+            <canvas id="volumeChart"></canvas>
+          </div>
+        </div>
+        <p class="text-xs text-apple-textTertiary text-center mt-3 pt-3 border-t border-apple-borderSubtle">
+          Volume scaling metrics across all delivering ad sets
         </p>
       </div>
 
@@ -318,49 +439,53 @@
 
     <!-- Active Ad Creatives Feed -->
     <div class="apple-card rounded-2xl p-6 space-y-4">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-apple-border pb-3.5">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-apple-border pb-4">
         <div>
-          <h3 class="text-sm font-semibold text-white">Active Ad Creatives</h3>
-          <p class="text-xs text-apple-secondaryText">High-resolution uncompressed assets running under active campaigns.</p>
+          <h3 class="text-base font-bold text-apple-textPrimary">Active Ad Creatives</h3>
+          <p class="text-xs text-apple-textSecondary">Uncompressed visual previews delivering under active campaigns.</p>
         </div>
-        <span class="text-xs text-apple-secondaryText font-mono" id="adCountDisplay">
+        <span class="text-xs text-apple-textSecondary font-mono bg-apple-bg px-3 py-1 rounded-full border border-apple-border" id="adCountDisplay">
           0 active ads
         </span>
       </div>
 
       <!-- Grid of Creatives -->
-      <div id="adCreativeGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 pt-2">
-        <div class="col-span-full py-12 text-center text-apple-secondaryText text-xs">
+      <div id="adCreativeGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-2">
+        <div class="col-span-full py-16 text-center text-apple-textSecondary text-xs">
           No active campaign ads loaded. Click <strong>Sync Data</strong> above.
         </div>
       </div>
     </div>
 
-    <!-- Active Campaigns Table (Surfacing Full Funnel & Delivery Dimensions) -->
+    <!-- Active Campaigns Breakdown Table -->
     <div class="apple-card rounded-2xl p-6 flex flex-col justify-between">
       <div>
         <div class="flex items-center justify-between mb-4">
-          <h3 class="text-sm font-semibold text-white">Active Campaigns Breakdown</h3>
-          <span class="text-xs text-apple-secondaryText font-mono" id="tableRowCount">0 active campaigns</span>
+          <div>
+            <h3 class="text-base font-bold text-apple-textPrimary">Active Campaigns Breakdown</h3>
+            <p class="text-xs text-apple-textSecondary">Full delivery telemetry, learning phases, and qualified unit costs.</p>
+          </div>
+          <span class="text-xs text-apple-textSecondary font-mono" id="tableRowCount">0 active campaigns</span>
         </div>
 
         <div class="overflow-x-auto">
-          <table class="w-full text-left text-xs text-slate-300">
-            <thead class="bg-[#1c1c1e] text-apple-secondaryText uppercase tracking-wider border-b border-apple-border">
+          <table class="w-full text-left text-xs text-apple-textPrimary">
+            <thead class="bg-apple-bg text-apple-textSecondary uppercase tracking-wider border-b border-apple-border">
               <tr>
-                <th class="py-2.5 px-3">Campaign & Objective Goal</th>
-                <th class="py-2.5 px-3">Delivery Health</th>
-                <th class="py-2.5 px-3 text-right">Spend</th>
-                <th class="py-2.5 px-3 text-right">Results</th>
-                <th class="py-2.5 px-3 text-right">Cost/Result</th>
-                <th class="py-2.5 px-3 text-right">Clicks</th>
-                <th class="py-2.5 px-3 text-right">CTR</th>
-                <th class="py-2.5 px-3 text-right">Freq</th>
+                <th class="py-3 px-3.5 rounded-l-xl">Campaign & Objective Goal</th>
+                <th class="py-3 px-3.5">Delivery Status</th>
+                <th class="py-3 px-3.5 text-right">Spend</th>
+                <th class="py-3 px-3.5 text-right">Results</th>
+                <th class="py-3 px-3.5 text-right">Cost/Result</th>
+                <th class="py-3 px-3.5 text-right">Clicks</th>
+                <th class="py-3 px-3.5 text-right">CTR</th>
+                <th class="py-3 px-3.5 text-right">Freq</th>
+                <th class="py-3 px-3.5 text-right rounded-r-xl">CPM</th>
               </tr>
             </thead>
-            <tbody id="campaignTableBody" class="divide-y divide-apple-border font-mono">
+            <tbody id="campaignTableBody" class="divide-y divide-apple-borderSubtle font-mono">
               <tr>
-                <td colspan="8" class="text-center py-6 text-apple-secondaryText font-sans">
+                <td colspan="9" class="text-center py-8 text-apple-textSecondary font-sans">
                   No active campaign data loaded. Press <strong>Sync Data</strong> to retrieve insights.
                 </td>
               </tr>
@@ -369,7 +494,7 @@
         </div>
       </div>
 
-      <div class="mt-4 pt-3 border-t border-apple-border flex justify-between items-center text-[11px] text-apple-tertiaryText font-mono">
+      <div class="mt-4 pt-3 border-t border-apple-border flex justify-between items-center text-[11px] text-apple-textTertiary font-mono">
         <span>Meta Marketing API v21.0</span>
         <span>Currency: GBP (£)</span>
       </div>
@@ -377,98 +502,98 @@
 
   </main>
 
-  <!-- High-Res Media Lightbox Modal -->
-  <div id="mediaLightboxModal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center hidden p-4 sm:p-6">
-    <div class="relative max-w-3xl w-full apple-card rounded-2xl overflow-hidden shadow-2xl flex flex-col max-h-[92vh]">
+  <!-- High-Res Media Lightbox Modal (Apple Sheet Style) -->
+  <div id="mediaLightboxModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center hidden p-4 sm:p-6">
+    <div class="relative max-w-3xl w-full apple-card rounded-3xl overflow-hidden shadow-2xl flex flex-col max-h-[92vh]">
       
       <!-- Modal Header -->
-      <div class="px-5 py-3.5 border-b border-apple-border flex items-center justify-between bg-[#1c1c1e]">
+      <div class="px-5 py-3.5 border-b border-apple-border flex items-center justify-between bg-apple-bg">
         <div class="flex items-center gap-2">
-          <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-apple-surface text-apple-secondaryText uppercase font-mono" id="lightboxTypeBadge">IMAGE</span>
-          <h4 id="lightboxTitle" class="text-xs sm:text-sm font-semibold text-white truncate max-w-lg">Ad Preview</h4>
+          <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-apple-blue text-white uppercase font-mono" id="lightboxTypeBadge">IMAGE</span>
+          <h4 id="lightboxTitle" class="text-xs sm:text-sm font-bold text-apple-textPrimary truncate max-w-lg">Ad Preview</h4>
         </div>
-        <button onclick="closeMediaLightbox()" class="text-apple-secondaryText hover:text-white p-1 rounded-md transition">
+        <button onclick="closeMediaLightbox()" class="text-apple-textSecondary hover:text-apple-textPrimary p-1.5 rounded-full hover:bg-apple-border transition">
           <i data-lucide="x" class="h-4 w-4"></i>
         </button>
       </div>
 
       <!-- High-Res Large Viewport -->
-      <div id="lightboxVisualContainer" class="overflow-auto flex items-center justify-center p-4 bg-black min-h-[350px] max-h-[60vh]">
+      <div id="lightboxVisualContainer" class="overflow-auto flex items-center justify-center p-4 bg-black/5 min-h-[350px] max-h-[60vh]">
         <!-- Full-resolution asset dynamically injected here -->
       </div>
 
       <!-- Modal Footer -->
-      <div class="p-5 border-t border-apple-border bg-[#1c1c1e] space-y-2.5">
+      <div class="p-5 border-t border-apple-border bg-apple-bg space-y-2.5">
         <div class="flex items-center justify-between gap-3">
-          <span id="lightboxCampaignTag" class="text-xs font-mono text-apple-secondaryText truncate">Campaign: Active</span>
+          <span id="lightboxCampaignTag" class="text-xs font-mono text-apple-blue font-semibold truncate">Campaign: Active</span>
           <div class="flex items-center gap-2">
-            <a id="lightboxFbLink" href="#" target="_blank" class="hidden px-3 py-1 rounded-md bg-apple-surface hover:bg-white/10 text-white font-medium text-xs transition">
-              View on Facebook
+            <a id="lightboxFbLink" href="#" target="_blank" class="hidden px-3.5 py-1.5 rounded-xl bg-white border border-apple-border hover:bg-apple-borderSubtle text-apple-textPrimary font-semibold text-xs transition shadow-sm">
+              View on Meta
             </a>
-            <div id="lightboxCtaButton" class="px-3.5 py-1 rounded-md bg-apple-blue text-white font-medium text-xs uppercase tracking-wider shrink-0">
+            <div id="lightboxCtaButton" class="px-4 py-1.5 rounded-xl bg-apple-blue text-white font-semibold text-xs uppercase tracking-wider shrink-0 shadow-sm">
               LEARN MORE
             </div>
           </div>
         </div>
-        <p id="lightboxBodyCopy" class="text-xs text-slate-300 leading-relaxed max-h-24 overflow-y-auto font-sans"></p>
+        <p id="lightboxBodyCopy" class="text-xs text-apple-textPrimary leading-relaxed max-h-24 overflow-y-auto font-sans"></p>
       </div>
 
     </div>
   </div>
 
-  <!-- Settings Modal -->
-  <div id="settingsModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center hidden p-4">
-    <div class="apple-card w-full max-w-xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+  <!-- Settings Modal (Apple Sheet Style) -->
+  <div id="settingsModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center hidden p-4">
+    <div class="apple-card w-full max-w-xl rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
       
-      <div class="px-5 py-4 border-b border-apple-border flex items-center justify-between bg-[#1c1c1e]">
-        <h3 class="text-sm font-semibold text-white">Client Workspaces & Credentials</h3>
-        <button onclick="closeSettingsModal()" class="text-apple-secondaryText hover:text-white transition">
+      <div class="px-6 py-4 border-b border-apple-border flex items-center justify-between bg-apple-bg">
+        <h3 class="text-sm font-bold text-apple-textPrimary">Client Workspaces & Credentials</h3>
+        <button onclick="closeSettingsModal()" class="text-apple-textSecondary hover:text-apple-textPrimary transition">
           <i data-lucide="x" class="h-4 w-4"></i>
         </button>
       </div>
 
-      <div class="p-5 overflow-y-auto space-y-4 flex-1 text-xs">
+      <div class="p-6 overflow-y-auto space-y-4 flex-1 text-xs">
         
-        <div class="bg-[#1c1c1e] p-4 rounded-xl border border-apple-border space-y-3">
-          <span class="text-xs font-semibold text-white block">Active Account Config</span>
+        <div class="bg-apple-bg p-4 rounded-2xl border border-apple-border space-y-3">
+          <span class="text-xs font-bold text-apple-textPrimary block">Active Account Config</span>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label class="block text-apple-secondaryText mb-1">Client Name</label>
-              <input type="text" id="cfgClientName" placeholder="e.g. Calm Drift Sanctuary" class="w-full bg-[#121214] border border-apple-border rounded-lg px-3 py-1.5 text-white focus:outline-none focus:border-apple-blue" />
+              <label class="block text-apple-textSecondary mb-1 font-medium">Client Name</label>
+              <input type="text" id="cfgClientName" placeholder="e.g. Calm Drift Sanctuary" class="w-full bg-white border border-apple-border rounded-xl px-3 py-1.5 text-apple-textPrimary focus:outline-none focus:border-apple-blue font-medium shadow-sm" />
             </div>
             <div>
-              <label class="block text-apple-secondaryText mb-1">Meta Ad Account ID</label>
-              <input type="text" id="cfgAccountId" placeholder="act_259916616" class="w-full bg-[#121214] border border-apple-border rounded-lg px-3 py-1.5 text-white focus:outline-none focus:border-apple-blue font-mono" />
+              <label class="block text-apple-textSecondary mb-1 font-medium">Meta Ad Account ID</label>
+              <input type="text" id="cfgAccountId" placeholder="act_259916616" class="w-full bg-white border border-apple-border rounded-xl px-3 py-1.5 text-apple-textPrimary focus:outline-none focus:border-apple-blue font-mono shadow-sm" />
             </div>
           </div>
 
           <div>
-            <label class="block text-apple-secondaryText mb-1">Meta System User Access Token</label>
-            <input type="password" id="cfgMetaToken" placeholder="Paste Meta token here..." class="w-full bg-[#121214] border border-apple-border rounded-lg px-3 py-1.5 text-white focus:outline-none focus:border-apple-blue font-mono" />
+            <label class="block text-apple-textSecondary mb-1 font-medium">Meta System User Access Token</label>
+            <input type="password" id="cfgMetaToken" placeholder="Paste Meta token here..." class="w-full bg-white border border-apple-border rounded-xl px-3 py-1.5 text-apple-textPrimary focus:outline-none focus:border-apple-blue font-mono shadow-sm" />
           </div>
 
           <div>
-            <label class="block text-apple-secondaryText mb-1">Gemini API Key</label>
-            <input type="password" id="cfgGeminiKey" placeholder="Paste Gemini key here..." class="w-full bg-[#121214] border border-apple-border rounded-lg px-3 py-1.5 text-white focus:outline-none focus:border-apple-blue font-mono" />
+            <label class="block text-apple-textSecondary mb-1 font-medium">Gemini API Key</label>
+            <input type="password" id="cfgGeminiKey" placeholder="Paste Gemini key here..." class="w-full bg-white border border-apple-border rounded-xl px-3 py-1.5 text-apple-textPrimary focus:outline-none focus:border-apple-blue font-mono shadow-sm" />
           </div>
 
           <div class="flex justify-end pt-1">
-            <button onclick="saveCurrentClientConfig()" class="bg-apple-blue hover:bg-apple-blueHover text-white font-medium px-4 py-1.5 rounded-lg transition">
+            <button onclick="saveCurrentClientConfig()" class="bg-apple-blue hover:bg-apple-blueHover text-white font-semibold px-4 py-1.5 rounded-xl transition shadow-sm">
               Save Changes
             </button>
           </div>
         </div>
 
-        <button onclick="createNewClientProfile()" class="w-full border border-dashed border-apple-border hover:border-apple-blue text-apple-secondaryText hover:text-white py-2.5 rounded-xl transition text-xs font-medium">
+        <button onclick="createNewClientProfile()" class="w-full border border-dashed border-apple-border hover:border-apple-blue text-apple-textSecondary hover:text-apple-blue py-3 rounded-2xl transition text-xs font-semibold">
           + Add Another Client Workspace
         </button>
 
       </div>
 
-      <div class="px-5 py-3 bg-[#121214] border-t border-apple-border flex justify-between items-center text-xs text-apple-secondaryText font-mono">
+      <div class="px-6 py-3.5 bg-apple-bg border-t border-apple-border flex justify-between items-center text-xs text-apple-textSecondary font-mono">
         <span>Stored securely in local browser storage.</span>
-        <button onclick="closeSettingsModal()" class="bg-apple-card hover:bg-apple-cardHover text-slate-300 px-3 py-1 rounded-md transition">
+        <button onclick="closeSettingsModal()" class="bg-white border border-apple-border hover:bg-apple-borderSubtle text-apple-textPrimary px-3 py-1 rounded-lg transition font-medium shadow-sm">
           Close
         </button>
       </div>
@@ -476,7 +601,7 @@
     </div>
   </div>
 
-  <!-- JavaScript Logic -->
+  <!-- JavaScript Application Logic -->
   <script>
     const DEFAULT_CLIENTS = [
       {
@@ -492,15 +617,20 @@
     let activeClientId = localStorage.getItem('whitelabel_active_client_id') || clients[0].id;
     let activeCampaigns = [];
     let activeAds = [];
+    
+    // 4 Chart Instances
     let spendChartInstance = null;
     let efficiencyChartInstance = null;
+    let saturationChartInstance = null;
+    let volumeChartInstance = null;
+
     let currentReportingPreset = 'yesterday';
     let customDateRange = null;
 
     document.addEventListener('DOMContentLoaded', () => {
       renderClientSelector();
       loadActiveClient();
-      initCharts();
+      initAllCharts();
       lucide.createIcons();
       fetchAllData();
     });
@@ -550,9 +680,9 @@
         const btn = document.getElementById(`pill-${p}`);
         if (btn) {
           if (p === preset) {
-            btn.className = 'px-2.5 py-1 rounded-md transition apple-segmented-active';
+            btn.className = 'px-3 py-1 rounded-lg transition apple-segmented-active';
           } else {
-            btn.className = 'px-2.5 py-1 rounded-md transition hover:text-white';
+            btn.className = 'px-3 py-1 rounded-lg transition hover:text-apple-textPrimary';
           }
         }
       });
@@ -586,9 +716,9 @@
       const presets = ['yesterday', 'last_7d', 'last_14d', 'last_30d', 'this_month'];
       presets.forEach(p => {
         const btn = document.getElementById(`pill-${p}`);
-        if (btn) btn.className = 'px-2.5 py-1 rounded-md transition hover:text-white';
+        if (btn) btn.className = 'px-3 py-1 rounded-lg transition hover:text-apple-textPrimary';
       });
-      document.getElementById('pill-custom').className = 'px-2.5 py-1 rounded-md transition apple-segmented-active flex items-center gap-1';
+      document.getElementById('pill-custom').className = 'px-3 py-1 rounded-lg transition apple-segmented-active flex items-center gap-1';
 
       fetchAllData();
     }
@@ -639,8 +769,12 @@
       localStorage.setItem('whitelabel_active_client_id', activeClientId);
     }
 
-    // Chart.js Apple Visualisations
-    function initCharts() {
+    // Initialize All 4 Apple Light Mode Visualisations
+    function initAllCharts() {
+      const commonGrid = { color: '#f0f0f2', drawBorder: false };
+      const commonTicks = { color: '#86868b', font: { size: 10, family: '-apple-system' } };
+
+      // 1. Spend Doughnut Chart
       const spendCtx = document.getElementById('spendChart').getContext('2d');
       spendChartInstance = new Chart(spendCtx, {
         type: 'doughnut',
@@ -648,7 +782,7 @@
           labels: ['No Active Campaigns'],
           datasets: [{
             data: [1],
-            backgroundColor: ['#2c2c2e'],
+            backgroundColor: ['#e5e5ea'],
             borderWidth: 0
           }]
         },
@@ -656,68 +790,130 @@
           responsive: true,
           maintainAspectRatio: false,
           plugins: {
-            legend: { position: 'bottom', labels: { color: '#86868b', font: { size: 11 }, boxWidth: 8, padding: 12 } }
+            legend: { position: 'bottom', labels: { color: '#1d1d1f', font: { size: 11 }, boxWidth: 10, padding: 12 } }
           },
           cutout: '72%'
         }
       });
 
+      // 2. Efficiency Bar Chart (CPC vs CTR)
       const effCtx = document.getElementById('efficiencyChart').getContext('2d');
       efficiencyChartInstance = new Chart(effCtx, {
         type: 'bar',
         data: {
           labels: ['No Data'],
           datasets: [
-            { label: 'CPC (£)', data: [0], backgroundColor: '#0071e3', borderRadius: 4 },
-            { label: 'CTR (%)', data: [0], backgroundColor: '#30d158', borderRadius: 4 }
+            { label: 'CPC (£)', data: [0], backgroundColor: '#0071e3', borderRadius: 6 },
+            { label: 'CTR (%)', data: [0], backgroundColor: '#34c759', borderRadius: 6 }
           ]
         },
         options: {
           responsive: true,
           maintainAspectRatio: false,
           scales: {
-            x: { ticks: { color: '#86868b', font: { size: 10 } }, grid: { display: false } },
-            y: { ticks: { color: '#86868b', font: { size: 10 } }, grid: { color: '#222224' } }
+            x: { ticks: commonTicks, grid: { display: false } },
+            y: { ticks: commonTicks, grid: commonGrid }
           },
           plugins: {
-            legend: { labels: { color: '#86868b', font: { size: 11 }, boxWidth: 8 } }
+            legend: { labels: { color: '#1d1d1f', font: { size: 11 }, boxWidth: 10 } }
+          }
+        }
+      });
+
+      // 3. Saturation vs CPM Pressure (Line + Bar Chart)
+      const satCtx = document.getElementById('saturationChart').getContext('2d');
+      saturationChartInstance = new Chart(satCtx, {
+        type: 'bar',
+        data: {
+          labels: ['No Data'],
+          datasets: [
+            { type: 'bar', label: 'CPM (£)', data: [0], backgroundColor: 'rgba(255, 149, 0, 0.4)', borderColor: '#ff9500', borderWidth: 1, borderRadius: 6 },
+            { type: 'line', label: 'Frequency', data: [0], borderColor: '#af52de', backgroundColor: '#af52de', borderWidth: 2, pointRadius: 4 }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            x: { ticks: commonTicks, grid: { display: false } },
+            y: { ticks: commonTicks, grid: commonGrid }
+          },
+          plugins: {
+            legend: { labels: { color: '#1d1d1f', font: { size: 11 }, boxWidth: 10 } }
+          }
+        }
+      });
+
+      // 4. Funnel Volume Bar Chart
+      const volCtx = document.getElementById('volumeChart').getContext('2d');
+      volumeChartInstance = new Chart(volCtx, {
+        type: 'bar',
+        data: {
+          labels: ['No Data'],
+          datasets: [
+            { label: 'Reach', data: [0], backgroundColor: '#5ac8fa', borderRadius: 6 },
+            { label: 'Link Clicks', data: [0], backgroundColor: '#5856d6', borderRadius: 6 }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            x: { ticks: commonTicks, grid: { display: false } },
+            y: { ticks: commonTicks, grid: commonGrid }
+          },
+          plugins: {
+            legend: { labels: { color: '#1d1d1f', font: { size: 11 }, boxWidth: 10 } }
           }
         }
       });
     }
 
-    function updateCharts(data) {
-      if (!spendChartInstance || !efficiencyChartInstance) return;
+    function updateAllCharts(data) {
+      if (!spendChartInstance || !efficiencyChartInstance || !saturationChartInstance || !volumeChartInstance) return;
 
       if (!data || data.length === 0) {
         spendChartInstance.data.labels = ['No Active Spend'];
         spendChartInstance.data.datasets[0].data = [1];
-        spendChartInstance.data.datasets[0].backgroundColor = ['#2c2c2e'];
+        spendChartInstance.data.datasets[0].backgroundColor = ['#e5e5ea'];
         spendChartInstance.update();
-
-        efficiencyChartInstance.data.labels = ['No Active Data'];
-        efficiencyChartInstance.data.datasets[0].data = [0];
-        efficiencyChartInstance.data.datasets[1].data = [0];
-        efficiencyChartInstance.update();
         return;
       }
 
-      const labels = data.map(c => c.campaign_name.length > 20 ? c.campaign_name.substring(0, 18) + '...' : c.campaign_name);
+      const labels = data.map(c => c.campaign_name.length > 18 ? c.campaign_name.substring(0, 16) + '...' : c.campaign_name);
       const spendValues = data.map(c => parseFloat(c.spend) || 0);
       const cpcValues = data.map(c => parseFloat(c.cpc) || 0);
       const ctrValues = data.map(c => parseFloat(c.ctr) || 0);
+      const cpmValues = data.map(c => parseFloat(c.cpm) || 0);
+      const freqValues = data.map(c => parseFloat(c.frequency) || 1.0);
+      const reachValues = data.map(c => parseInt(c.reach) || 0);
+      const clickValues = data.map(c => parseInt(c.clicks) || 0);
 
-      const colorPalette = ['#0071e3', '#5e5ce6', '#bf5af2', '#64d2ff', '#30d158', '#ff9f0a'];
+      const colorPalette = ['#0071e3', '#34c759', '#ff9500', '#af52de', '#5856d6', '#5ac8fa'];
 
+      // 1. Spend Chart
       spendChartInstance.data.labels = labels;
       spendChartInstance.data.datasets[0].data = spendValues;
       spendChartInstance.data.datasets[0].backgroundColor = colorPalette.slice(0, labels.length);
       spendChartInstance.update();
 
+      // 2. Efficiency Chart
       efficiencyChartInstance.data.labels = labels;
       efficiencyChartInstance.data.datasets[0].data = cpcValues;
       efficiencyChartInstance.data.datasets[1].data = ctrValues;
       efficiencyChartInstance.update();
+
+      // 3. Saturation Chart
+      saturationChartInstance.data.labels = labels;
+      saturationChartInstance.data.datasets[0].data = cpmValues;
+      saturationChartInstance.data.datasets[1].data = freqValues;
+      saturationChartInstance.update();
+
+      // 4. Volume Chart
+      volumeChartInstance.data.labels = labels;
+      volumeChartInstance.data.datasets[0].data = reachValues;
+      volumeChartInstance.data.datasets[1].data = clickValues;
+      volumeChartInstance.update();
     }
 
     // Accurate Conversion Action and Objective Extraction
@@ -728,7 +924,6 @@
       const costActions = insights.cost_per_action_type || [];
       const spend = parseFloat(insights.spend) || 0;
 
-      // Priority Action Types for Qualified Down-Funnel Conversion Tracking
       const priorityActionTypes = [
         'onsite_conversion.messaging_conversation_started_7d',
         'onsite_conversion.messaging_first_reply',
@@ -762,7 +957,6 @@
         return { results: resultCount, costPerResult: cpr, label: label.charAt(0).toUpperCase() + label.slice(1) };
       }
 
-      // Fallback: Link Clicks
       const clicks = parseInt(insights.clicks) || 0;
       const cpc = parseFloat(insights.cpc) || 0;
       return { results: clicks, costPerResult: cpc, label: 'Link Clicks' };
@@ -817,7 +1011,7 @@
       return { url: rawUrl, fbLink };
     }
 
-    // Meta Marketing API Integration with Complete Director Dimensions
+    // Meta Marketing API Fetch
     async function fetchAllData() {
       const client = getActiveClient();
       const refreshBtn = document.getElementById('refreshBtn');
@@ -846,7 +1040,6 @@
         cleanAccountId = 'act_' + cleanAccountId;
       }
 
-      // Syntax formatting for insights subfields
       let insightsField = `insights.date_preset(${currentReportingPreset}){spend,impressions,reach,frequency,clicks,ctr,cpc,cpm,actions,cost_per_action_type}`;
       if (currentReportingPreset === 'custom' && customDateRange) {
         insightsField = `insights.time_range({'since':'${customDateRange.since}','until':'${customDateRange.until}'}){spend,impressions,reach,frequency,clicks,ctr,cpc,cpm,actions,cost_per_action_type}`;
@@ -873,7 +1066,6 @@
             const spend = parseFloat(ins.spend) || 0;
             const results = resData.results;
 
-            // Health & Learning Phase Diagnosis
             let healthStatus = 'Healthy';
             let healthReason = 'Active Delivery';
             if (spend < 10.00) {
@@ -922,7 +1114,8 @@
 
         if (activeCampaigns.length > 0 || activeAds.length > 0) {
           renderMetrics(activeCampaigns);
-          updateCharts(activeCampaigns);
+          renderFunnelProgression(activeCampaigns);
+          updateAllCharts(activeCampaigns);
           renderTable(activeCampaigns);
           await renderCreativeGallery(activeAds, client.metaToken);
           generateAIBriefing();
@@ -986,7 +1179,8 @@
       ];
 
       renderMetrics(activeCampaigns);
-      updateCharts(activeCampaigns);
+      renderFunnelProgression(activeCampaigns);
+      updateAllCharts(activeCampaigns);
       renderTable(activeCampaigns);
       renderCreativeGallery(activeAds, null);
 
@@ -1026,25 +1220,25 @@
       const healthDot = document.getElementById('accountHealthIndicator');
       const healthBadge = document.getElementById('accountHealthBadge');
       if (hasStarvation || totalSpend < 10.00) {
-        healthDot.className = 'w-2.5 h-2.5 rounded-full bg-apple-orange animate-pulse';
-        healthBadge.className = 'text-[10px] font-semibold px-2 py-0.5 rounded-md bg-apple-orange/10 text-apple-orange border border-apple-orange/20';
+        healthDot.className = 'w-2.5 h-2.5 rounded-full bg-apple-orange';
+        healthBadge.className = 'text-[10px] font-semibold px-2.5 py-0.5 rounded-full bg-apple-orange/10 text-apple-orange border border-apple-orange/20';
         healthBadge.textContent = 'Learning Starvation (<£10/day)';
       } else {
-        healthDot.className = 'w-2.5 h-2.5 rounded-full bg-apple-green animate-pulse';
-        healthBadge.className = 'text-[10px] font-semibold px-2 py-0.5 rounded-md bg-apple-green/10 text-apple-green border border-apple-green/20';
+        healthDot.className = 'w-2.5 h-2.5 rounded-full bg-apple-green';
+        healthBadge.className = 'text-[10px] font-semibold px-2.5 py-0.5 rounded-full bg-apple-green/10 text-apple-green border border-apple-green/20';
         healthBadge.textContent = 'Healthy Delivery Velocity';
       }
 
       // Update Frequency Saturation Badge
       const freqBadge = document.getElementById('freqBadge');
       if (blendedFrequency >= 2.50) {
-        freqBadge.className = 'text-[9px] font-bold px-1.5 py-0.2 rounded bg-apple-red/10 text-apple-red';
+        freqBadge.className = 'text-[9px] font-bold px-1.5 py-0.2 rounded-full bg-apple-red/10 text-apple-red';
         freqBadge.textContent = 'Fatigued';
       } else if (blendedFrequency >= 1.80) {
-        freqBadge.className = 'text-[9px] font-bold px-1.5 py-0.2 rounded bg-apple-orange/10 text-apple-orange';
+        freqBadge.className = 'text-[9px] font-bold px-1.5 py-0.2 rounded-full bg-apple-orange/10 text-apple-orange';
         freqBadge.textContent = 'Moderate';
       } else {
-        freqBadge.className = 'text-[9px] font-bold px-1.5 py-0.2 rounded bg-apple-green/10 text-apple-green';
+        freqBadge.className = 'text-[9px] font-bold px-1.5 py-0.2 rounded-full bg-apple-green/10 text-apple-green';
         freqBadge.textContent = 'Fresh';
       }
 
@@ -1059,6 +1253,43 @@
       document.getElementById('kpiCostResult').textContent = totalResults > 0 ? `£${weightedCostPerResult.toFixed(2)}` : '£0.00';
     }
 
+    // Render Visual Funnel Drop-off Progression
+    function renderFunnelProgression(data) {
+      let totalImpr = 0;
+      let totalReach = 0;
+      let totalClicks = 0;
+      let totalResults = 0;
+      let resultLabel = 'Results';
+
+      data.forEach(item => {
+        totalImpr += parseInt(item.impressions) || 0;
+        totalReach += parseInt(item.reach) || Math.round(totalImpr * 0.9);
+        totalClicks += parseInt(item.clicks) || 0;
+        totalResults += parseInt(item.results) || 0;
+        if (item.result_label) resultLabel = item.result_label;
+      });
+
+      const reachPercent = totalImpr > 0 ? ((totalReach / totalImpr) * 100).toFixed(1) : '100';
+      const ctrPercent = totalImpr > 0 ? ((totalClicks / totalImpr) * 100).toFixed(2) : '0.00';
+      const conversionRate = totalClicks > 0 ? ((totalResults / totalClicks) * 100).toFixed(1) : '0.0';
+      const overallRate = totalImpr > 0 ? ((totalResults / totalImpr) * 100).toFixed(2) : '0.00';
+
+      document.getElementById('funnelImpr').textContent = totalImpr.toLocaleString();
+      document.getElementById('funnelReach').textContent = totalReach.toLocaleString();
+      document.getElementById('funnelClicks').textContent = totalClicks.toLocaleString();
+      document.getElementById('funnelResults').textContent = totalResults.toLocaleString();
+
+      document.getElementById('funnelReachPercent').textContent = `${reachPercent}% Reach`;
+      document.getElementById('funnelClickPercent').textContent = `${ctrPercent}% CTR`;
+      document.getElementById('funnelResultPercent').textContent = `${conversionRate}% CR`;
+      document.getElementById('funnelResultSub').textContent = `Qualified ${resultLabel}`;
+      document.getElementById('funnelConversionRate').textContent = `${overallRate}% Overall Conversion`;
+
+      // Set width bars dynamically
+      document.getElementById('funnelClickBar').style.width = `${Math.min(100, Math.max(10, parseFloat(ctrPercent) * 20))}%`;
+      document.getElementById('funnelResultBar').style.width = `${Math.min(100, Math.max(10, parseFloat(conversionRate)))}%`;
+    }
+
     function renderTable(data) {
       const tbody = document.getElementById('campaignTableBody');
       const countEl = document.getElementById('tableRowCount');
@@ -1067,7 +1298,7 @@
       if (!data || data.length === 0) {
         tbody.innerHTML = `
           <tr>
-            <td colspan="8" class="text-center py-6 text-apple-secondaryText font-sans">
+            <td colspan="9" class="text-center py-8 text-apple-textSecondary font-sans">
               No active campaign records found for this timeframe.
             </td>
           </tr>
@@ -1083,28 +1314,30 @@
         const clicks = parseInt(item.clicks) || 0;
         const ctr = parseFloat(item.ctr) || 0;
         const cpc = parseFloat(item.cpc) || 0;
+        const cpm = parseFloat(item.cpm) || 0;
         const results = parseInt(item.results) || 0;
         const cpr = parseFloat(item.cost_per_result) || 0;
         const freq = parseFloat(item.frequency) || 1.0;
 
         const healthBadge = item.health_status === 'Starvation'
-          ? `<span class="px-2 py-0.5 rounded text-[10px] bg-apple-orange/10 text-apple-orange border border-apple-orange/20 font-medium">Starvation</span>`
-          : `<span class="px-2 py-0.5 rounded text-[10px] bg-apple-green/10 text-apple-green border border-apple-green/20 font-medium">Delivering</span>`;
+          ? `<span class="px-2.5 py-0.5 rounded-full text-[10px] bg-apple-orange/10 text-apple-orange border border-apple-orange/20 font-bold">Starvation</span>`
+          : `<span class="px-2.5 py-0.5 rounded-full text-[10px] bg-apple-green/10 text-apple-green border border-apple-green/20 font-bold">Delivering</span>`;
 
         const row = document.createElement('tr');
         row.className = 'hover:bg-apple-cardHover transition';
         row.innerHTML = `
-          <td class="py-2.5 px-3 font-sans max-w-xs truncate" title="${item.campaign_name}">
-            <div class="font-medium text-white truncate">${item.campaign_name}</div>
-            <div class="text-[10px] font-mono text-apple-secondaryText">${item.objective} → ${item.optimization_goal}</div>
+          <td class="py-3 px-3.5 font-sans max-w-xs truncate" title="${item.campaign_name}">
+            <div class="font-bold text-apple-textPrimary truncate">${item.campaign_name}</div>
+            <div class="text-[10px] font-mono text-apple-textSecondary">${item.objective} → ${item.optimization_goal}</div>
           </td>
-          <td class="py-2.5 px-3 font-sans">${healthBadge}</td>
-          <td class="py-2.5 px-3 text-right text-slate-200">£${spend.toFixed(2)}</td>
-          <td class="py-2.5 px-3 text-right text-apple-green font-semibold">${results.toLocaleString()} <span class="text-[10px] text-apple-secondaryText font-normal">(${item.result_label || 'res'})</span></td>
-          <td class="py-2.5 px-3 text-right text-slate-200">£${cpr.toFixed(2)}</td>
-          <td class="py-2.5 px-3 text-right text-white">${clicks.toLocaleString()}</td>
-          <td class="py-2.5 px-3 text-right ${ctr >= 1.5 ? 'text-apple-green' : 'text-apple-secondaryText'}">${ctr.toFixed(2)}%</td>
-          <td class="py-2.5 px-3 text-right text-apple-secondaryText">${freq.toFixed(2)}</td>
+          <td class="py-3 px-3.5 font-sans">${healthBadge}</td>
+          <td class="py-3 px-3.5 text-right text-apple-textPrimary font-semibold">£${spend.toFixed(2)}</td>
+          <td class="py-3 px-3.5 text-right text-apple-green font-bold">${results.toLocaleString()} <span class="text-[10px] text-apple-textSecondary font-normal">(${item.result_label || 'res'})</span></td>
+          <td class="py-3 px-3.5 text-right text-apple-textPrimary font-semibold">£${cpr.toFixed(2)}</td>
+          <td class="py-3 px-3.5 text-right text-apple-blue font-semibold">${clicks.toLocaleString()}</td>
+          <td class="py-3 px-3.5 text-right ${ctr >= 1.5 ? 'text-apple-green font-bold' : 'text-apple-textSecondary'}">${ctr.toFixed(2)}%</td>
+          <td class="py-3 px-3.5 text-right text-apple-textSecondary font-medium">${freq.toFixed(2)}</td>
+          <td class="py-3 px-3.5 text-right text-apple-textSecondary">£${cpm.toFixed(2)}</td>
         `;
         tbody.appendChild(row);
       });
@@ -1118,7 +1351,7 @@
 
       if (!ads || ads.length === 0) {
         grid.innerHTML = `
-          <div class="col-span-full py-12 text-center text-apple-secondaryText text-xs font-sans">
+          <div class="col-span-full py-16 text-center text-apple-textSecondary text-xs font-sans">
             No active ads detected under active campaigns.
           </div>
         `;
@@ -1150,58 +1383,58 @@
         const adCpc = parseFloat(insight.cpc) || 0;
 
         const card = document.createElement('div');
-        card.className = 'apple-card rounded-xl overflow-hidden flex flex-col justify-between transition duration-200 hover:border-apple-blue group relative';
+        card.className = 'apple-card rounded-2xl overflow-hidden flex flex-col justify-between transition duration-200 hover:border-apple-blue group relative';
 
         card.innerHTML = `
           <div>
             <!-- High-Res Media Frame with No-Referrer Policy -->
-            <div class="relative w-full aspect-square bg-black overflow-hidden cursor-pointer flex items-center justify-center" onclick="openMediaLightbox(${i})">
+            <div class="relative w-full aspect-square bg-apple-bg overflow-hidden cursor-pointer flex items-center justify-center border-b border-apple-border" onclick="openMediaLightbox(${i})">
               ${assetInfo.url ? `
                 <img src="${assetInfo.url}" referrerpolicy="no-referrer" alt="${title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" />
               ` : `
-                <div class="w-full h-full flex flex-col items-center justify-center p-6 text-center bg-[#1c1c1e]">
-                  <i data-lucide="image" class="h-6 w-6 text-apple-secondaryText mb-1.5"></i>
-                  <span class="text-xs text-apple-secondaryText">Creative Asset</span>
+                <div class="w-full h-full flex flex-col items-center justify-center p-6 text-center">
+                  <i data-lucide="image" class="h-6 w-6 text-apple-textSecondary mb-1.5"></i>
+                  <span class="text-xs text-apple-textSecondary">Creative Asset</span>
                 </div>
               `}
               
-              <div class="absolute top-2.5 left-2.5 flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-medium bg-black/70 text-white backdrop-blur-md">
+              <div class="absolute top-3 left-3 flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold bg-white/90 text-apple-textPrimary backdrop-blur-md shadow-sm border border-apple-border">
                 <i data-lucide="${isVideo ? 'play' : 'image'}" class="h-3 w-3"></i>
                 <span>${isVideo ? 'VIDEO' : 'IMAGE'}</span>
               </div>
 
-              <div class="absolute bottom-2.5 right-2.5 px-2.5 py-0.5 rounded-full bg-apple-blue text-white font-mono text-[10px] font-semibold uppercase">
+              <div class="absolute bottom-3 right-3 px-3 py-1 rounded-full bg-apple-blue text-white font-mono text-[10px] font-bold uppercase shadow-sm">
                 ${cta}
               </div>
             </div>
 
             <!-- Ad Copy Details -->
-            <div class="p-4 space-y-1.5">
-              <span class="text-[10px] text-apple-blue font-mono block truncate" title="${ad.campaign?.name || 'Active Campaign'}">
+            <div class="p-5 space-y-1.5">
+              <span class="text-[10px] text-apple-blue font-mono font-bold block truncate" title="${ad.campaign?.name || 'Active Campaign'}">
                 ${ad.campaign?.name || 'Active Campaign'}
               </span>
-              <h4 class="text-xs font-semibold text-white line-clamp-1" title="${title}">${title}</h4>
-              <p class="text-xs text-apple-secondaryText line-clamp-3 leading-relaxed font-sans">${bodyText}</p>
+              <h4 class="text-xs font-bold text-apple-textPrimary line-clamp-1" title="${title}">${title}</h4>
+              <p class="text-xs text-apple-textSecondary line-clamp-3 leading-relaxed font-sans">${bodyText}</p>
             </div>
           </div>
 
           <!-- Metric Strip -->
-          <div class="p-3 bg-[#121214] border-t border-apple-border grid grid-cols-4 gap-1 text-center font-mono">
+          <div class="p-3.5 bg-apple-bg border-t border-apple-border grid grid-cols-4 gap-1 text-center font-mono">
             <div>
-              <span class="text-[9px] text-apple-secondaryText block uppercase">Spend</span>
-              <span class="text-xs font-medium text-white">£${adSpend.toFixed(2)}</span>
+              <span class="text-[9px] text-apple-textSecondary block uppercase font-bold">Spend</span>
+              <span class="text-xs font-bold text-apple-textPrimary">£${adSpend.toFixed(2)}</span>
             </div>
             <div>
-              <span class="text-[9px] text-apple-secondaryText block uppercase">Clicks</span>
-              <span class="text-xs font-medium text-slate-200">${adClicks}</span>
+              <span class="text-[9px] text-apple-textSecondary block uppercase font-bold">Clicks</span>
+              <span class="text-xs font-bold text-apple-blue">${adClicks}</span>
             </div>
             <div>
-              <span class="text-[9px] text-apple-secondaryText block uppercase">CTR</span>
-              <span class="text-xs font-medium ${adCtr >= 1.5 ? 'text-apple-green' : 'text-slate-300'}">${adCtr.toFixed(2)}%</span>
+              <span class="text-[9px] text-apple-textSecondary block uppercase font-bold">CTR</span>
+              <span class="text-xs font-bold ${adCtr >= 1.5 ? 'text-apple-green' : 'text-apple-textSecondary'}">${adCtr.toFixed(2)}%</span>
             </div>
             <div>
-              <span class="text-[9px] text-apple-secondaryText block uppercase">CPC</span>
-              <span class="text-xs font-medium text-slate-200">£${adCpc.toFixed(2)}</span>
+              <span class="text-[9px] text-apple-textSecondary block uppercase font-bold">CPC</span>
+              <span class="text-xs font-bold text-apple-textPrimary">£${adCpc.toFixed(2)}</span>
             </div>
           </div>
         `;
@@ -1247,18 +1480,18 @@
 
       if (isVideo && videoUrl) {
         container.innerHTML = `
-          <video controls autoplay class="w-full max-h-[58vh] rounded-lg">
+          <video controls autoplay class="w-full max-h-[58vh] rounded-2xl shadow-lg">
             <source src="${videoUrl}" type="video/mp4">
             Your browser does not support HTML5 video preview.
           </video>
         `;
       } else if (imageUrl) {
         container.innerHTML = `
-          <img src="${imageUrl}" referrerpolicy="no-referrer" alt="${title}" class="max-h-[58vh] w-auto max-w-full object-contain rounded-lg" />
+          <img src="${imageUrl}" referrerpolicy="no-referrer" alt="${title}" class="max-h-[58vh] w-auto max-w-full object-contain rounded-2xl shadow-lg border border-apple-border" />
         `;
       } else {
         container.innerHTML = `
-          <div class="text-center py-16 text-apple-secondaryText">
+          <div class="text-center py-16 text-apple-textSecondary">
             <i data-lucide="image" class="h-8 w-8 mx-auto text-apple-border mb-2"></i>
             <p class="text-xs">Visual preview generated from active creative spec.</p>
           </div>
@@ -1275,7 +1508,7 @@
       document.getElementById('mediaLightboxModal').classList.add('hidden');
     }
 
-    // AI Director Performance Audit Covering All 4 Dimensions
+    // Pure Bullet-Point Executive AI Summary
     async function generateAIBriefing() {
       const client = getActiveClient();
       const outputContainer = document.getElementById('aiOutputContainer');
@@ -1284,16 +1517,16 @@
 
       if (!client.geminiKey) {
         outputContainer.innerHTML = `
-          <p class="text-apple-orange text-xs">Gemini API Key not configured. Click Settings (top right) to enter your key.</p>
+          <p class="text-apple-orange text-xs font-medium">Gemini API Key not configured. Click Settings (top right) to enter your key.</p>
         `;
         return;
       }
 
       btn.disabled = true;
       outputContainer.innerHTML = `
-        <div class="flex items-center gap-2.5 py-2">
+        <div class="flex items-center gap-2.5 py-3">
           <div class="apple-spinner"></div>
-          <span class="text-xs text-apple-secondaryText">Conducting full algorithmic delivery audit...</span>
+          <span class="text-xs text-apple-textSecondary font-medium">Synthesising pure executive bullet points with Gemini...</span>
         </div>
       `;
 
@@ -1315,31 +1548,25 @@
       const systemPrompt = `
 You are a senior Meta performance marketing director reviewing performance metrics for "${client.name}".
 
-AUDIT THE 4 KEY DIMENSIONS:
-1. Learning Phase & Delivery Starvation: Evaluate if spend (<£10/day) is starving the pixel from reaching 50 conversions/week.
-2. Objective vs Goal Mismatch: Check if the campaign objective/optimization goal matches the call to action in the ad copy.
-3. Frequency & Audience Saturation: Review frequency against CPM/CTR to flag creative fatigue.
-4. Down-Funnel Conversion Economics: Evaluate true Results (Leads/Messages/Purchases) vs Link Clicks.
-
 STRICT FORMAT REQUIREMENT:
-- Write concise, practical executive bullet points using British English spelling (e.g. optimisation, analysing, prioritising, behaviour, programme).
-- Avoid robotic filler or generic buzzwords. Keep the tone grounded, authoritative, and direct.
+- Provide an EXECUTIVE BRIEF composed of PURE BULLET POINTS.
+- DO NOT write any paragraphs, introductions, or conversational filler.
+- Use British English spelling (e.g. optimisation, analysing, prioritising, behaviour, programme).
+- Use strictly the 3 sections below, with exactly 2 to 3 punchy, data-backed bullet points per section:
 
-Format your output strictly using these 3 clear bullet sections:
+### • Delivery & Algorithmic Health
+- [Bullet on current spend velocity, whether trapped in learning starvation (<£10/day), frequency, and CPM]
+- [Bullet on primary qualified results, weighted CPA, and audience response]
 
-### Performance Summary
-- [Bullet on current spend velocity, reach, frequency saturation, and click cost]
-- [Bullet on primary conversions (results), qualified CPA, and delivery health]
+### • Budget & Structure Recommendations
+- [Bullet with exact numerical daily budget adjustment recommendation in £]
+- [Bullet on objective setup / ABO vs Advantage+ Campaign Budget structure]
 
-### Budget & Scaling
-- [Specific daily budget adjustment recommendation in £ to exit learning starvation]
-- [Objective / bidding structure adjustment recommendation]
+### • Creative & Tactical Directives
+- [Bullet on copywriting tweak or angle pivot based on current active ad copy]
+- [Bullet on immediate operational change to execute in Meta Ads Manager today]
 
-### Tactical Directives
-- [Actionable creative or copy adjustment based on current offer and copy]
-- [Immediate operational change to execute in Meta Ads Manager]
-
-Active Campaign Telemetry:
+Active Telemetry:
 ${JSON.stringify(auditPayload, null, 2)}
       `;
 
@@ -1403,7 +1630,7 @@ ${JSON.stringify(auditPayload, null, 2)}
       if (generatedText) {
         badge.textContent = successfulModel;
         const htmlContent = marked.parse(generatedText);
-        outputContainer.innerHTML = `<div class="space-y-1.5 text-slate-200 text-xs sm:text-sm leading-relaxed">${htmlContent}</div>`;
+        outputContainer.innerHTML = `<div class="space-y-2 text-apple-textPrimary text-xs sm:text-sm leading-relaxed">${htmlContent}</div>`;
       } else {
         outputContainer.innerHTML = `
           <p class="text-apple-orange text-xs">Error generating summary (${lastErrorMessage || 'Service busy'}). Please try again.</p>
