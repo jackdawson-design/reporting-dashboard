@@ -385,31 +385,31 @@
 
   </main>
 
-  <!-- High-Res Media Lightbox Modal -->
-  <div id="mediaLightboxModal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center hidden p-4">
-    <div class="relative max-w-2xl w-full bg-anthracite-900 border border-anthracite-750 rounded-2xl overflow-hidden shadow-2xl flex flex-col max-h-[92vh]">
+  <!-- Scaled High-Res Media Lightbox Modal -->
+  <div id="mediaLightboxModal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center hidden p-4 sm:p-6">
+    <div class="relative max-w-3xl w-full bg-anthracite-900 border border-anthracite-750 rounded-2xl overflow-hidden shadow-2xl flex flex-col max-h-[92vh]">
       
       <!-- Modal Header -->
-      <div class="px-4 py-3 border-b border-anthracite-800 flex items-center justify-between bg-anthracite-950">
+      <div class="px-5 py-3.5 border-b border-anthracite-800 flex items-center justify-between bg-anthracite-950">
         <div class="flex items-center gap-2">
           <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-accent text-white uppercase font-mono" id="lightboxTypeBadge">IMAGE</span>
-          <h4 id="lightboxTitle" class="text-xs sm:text-sm font-bold text-white truncate max-w-md">Ad Preview</h4>
+          <h4 id="lightboxTitle" class="text-xs sm:text-sm font-bold text-white truncate max-w-md sm:max-w-xl">Ad Preview</h4>
         </div>
-        <button onclick="closeMediaLightbox()" class="text-slate-400 hover:text-white p-1 rounded-lg bg-anthracite-850 transition">
+        <button onclick="closeMediaLightbox()" class="text-slate-400 hover:text-white p-1.5 rounded-lg bg-anthracite-850 hover:bg-anthracite-800 transition">
           <i data-lucide="x" class="h-4 w-4"></i>
         </button>
       </div>
 
-      <!-- High-Res Media Box -->
-      <div id="lightboxVisualContainer" class="overflow-hidden flex items-center justify-center p-3 bg-anthracite-950 min-h-[280px] max-h-[50vh]">
+      <!-- High-Res Scaled Media Box -->
+      <div id="lightboxVisualContainer" class="overflow-hidden flex items-center justify-center p-4 bg-black/90 min-h-[350px] max-h-[62vh]">
         <!-- Full asset injected dynamically -->
       </div>
 
       <!-- Modal Footer Copy & Actions -->
-      <div class="p-4 border-t border-anthracite-800 bg-anthracite-900 space-y-2.5">
-        <div class="flex items-center justify-between gap-2">
-          <span id="lightboxCampaignTag" class="text-[11px] font-mono text-accent truncate">Campaign: Active</span>
-          <div id="lightboxCtaButton" class="px-3 py-1 rounded bg-accent text-white font-mono text-[10px] font-bold uppercase tracking-wider shrink-0">
+      <div class="p-5 border-t border-anthracite-800 bg-anthracite-900 space-y-2.5">
+        <div class="flex items-center justify-between gap-3">
+          <span id="lightboxCampaignTag" class="text-xs font-mono text-accent truncate">Campaign: Active</span>
+          <div id="lightboxCtaButton" class="px-3.5 py-1 rounded bg-accent text-white font-mono text-xs font-bold uppercase tracking-wider shrink-0 shadow">
             LEARN MORE
           </div>
         </div>
@@ -601,7 +601,6 @@
 
     // Chart.js Initialisations
     function initCharts() {
-      // 1. Spend Chart
       const spendCtx = document.getElementById('spendChart').getContext('2d');
       spendChartInstance = new Chart(spendCtx, {
         type: 'doughnut',
@@ -627,7 +626,6 @@
         }
       });
 
-      // 2. Efficiency Chart (Bar)
       const effCtx = document.getElementById('efficiencyChart').getContext('2d');
       efficiencyChartInstance = new Chart(effCtx, {
         type: 'bar',
@@ -675,17 +673,49 @@
 
       const colorPalette = ['#ff6200', '#ff8533', '#ffa766', '#3b82f6', '#10b981', '#8b5cf6'];
 
-      // Update Spend Doughnut
       spendChartInstance.data.labels = labels;
       spendChartInstance.data.datasets[0].data = spendValues;
       spendChartInstance.data.datasets[0].backgroundColor = colorPalette.slice(0, labels.length);
       spendChartInstance.update();
 
-      // Update Efficiency Bar Chart
       efficiencyChartInstance.data.labels = labels;
       efficiencyChartInstance.data.datasets[0].data = cpcValues;
       efficiencyChartInstance.data.datasets[1].data = ctrValues;
       efficiencyChartInstance.update();
+    }
+
+    // High-Resolution Image Unwrapper & URL Extractor
+    function extractBestImageUrl(creative) {
+      if (!creative) return null;
+      let rawUrl = creative.image_url || null;
+
+      const spec = creative.object_story_spec?.link_data || {};
+      const videoSpec = creative.object_story_spec?.video_data || {};
+
+      if (!rawUrl) {
+        rawUrl = spec.picture || creative.thumbnail_url || videoSpec.image_url || null;
+      }
+
+      if (rawUrl) {
+        // 1. Unwrap safe_image.php proxy
+        if (rawUrl.includes('safe_image.php') && rawUrl.includes('url=')) {
+          try {
+            const urlObj = new URL(rawUrl);
+            const nestedUrl = urlObj.searchParams.get('url');
+            if (nestedUrl) rawUrl = decodeURIComponent(nestedUrl);
+          } catch (e) {
+            console.warn('URL unwrap notice:', e);
+          }
+        }
+
+        // 2. Upgrade Meta downsampled CDN paths to high-res tokens
+        rawUrl = rawUrl.replace(/&w=\d+&h=\d+/, '&w=1200&h=1200');
+        rawUrl = rawUrl.replace(/_s\.jpg/, '_n.jpg').replace(/_t\.jpg/, '_n.jpg').replace(/_q\.jpg/, '_n.jpg');
+        rawUrl = rawUrl.replace(/p\d+x\d+\//, '');
+        rawUrl = rawUrl.replace(/s\d+x\d+\//, '');
+      }
+
+      return rawUrl;
     }
 
     // Meta Marketing API Integration
@@ -718,7 +748,7 @@
       }
 
       const campaignsEndpoint = `https://graph.facebook.com/v21.0/${cleanAccountId}/campaigns?fields=id,name,status,effective_status,insights.date_preset(yesterday){spend,impressions,reach,clicks,ctr,cpc,cpm,actions,cost_per_action_type}&effective_status=['ACTIVE']&access_token=${client.metaToken}`;
-      const adsEndpoint = `https://graph.facebook.com/v21.0/${cleanAccountId}/ads?fields=id,name,status,effective_status,campaign{id,name,status,effective_status},creative{id,name,title,body,image_url,thumbnail_url,image_crops,video_id,call_to_action_type,object_story_spec{link_data,video_data}},insights.date_preset(yesterday){spend,impressions,reach,clicks,ctr,cpc,cpm,actions}&effective_status=['ACTIVE']&limit=35&access_token=${client.metaToken}`;
+      const adsEndpoint = `https://graph.facebook.com/v21.0/${cleanAccountId}/ads?fields=id,name,status,effective_status,campaign{id,name,status,effective_status},creative{id,name,title,body,image_url,thumbnail_url,video_id,call_to_action_type,object_story_spec{link_data,video_data,photo_data}},insights.date_preset(yesterday){spend,impressions,reach,clicks,ctr,cpc,cpm,actions}&effective_status=['ACTIVE']&limit=35&access_token=${client.metaToken}`;
 
       try {
         const [campRes, adsRes] = await Promise.all([
@@ -919,21 +949,7 @@
       });
     }
 
-    // Resolves high-resolution asset URLs from Meta creative specs
-    function extractBestImageUrl(creative) {
-      if (!creative) return null;
-      if (creative.image_url) return creative.image_url;
-      const linkData = creative.object_story_spec?.link_data;
-      if (linkData?.picture) {
-        // Meta thumbnails often contain downscaling tokens; we clean parameters where possible
-        return linkData.picture;
-      }
-      if (creative.thumbnail_url) return creative.thumbnail_url;
-      if (creative.object_story_spec?.video_data?.image_url) return creative.object_story_spec.video_data.image_url;
-      return null;
-    }
-
-    // Render Creative Feed Gallery
+    // Render Creative Feed Gallery with Edge-to-Edge Full Visual Cover
     function renderCreativeGallery(ads) {
       const grid = document.getElementById('adCreativeGrid');
       const countDisplay = document.getElementById('adCountDisplay');
@@ -968,16 +984,16 @@
         const adCpc = parseFloat(insight.cpc) || 0;
 
         const card = document.createElement('div');
-        card.className = 'bg-anthracite-850 border border-anthracite-750 hover:border-accent/60 rounded-xl overflow-hidden flex flex-col justify-between transition duration-200 group relative';
+        card.className = 'bg-anthracite-850 border border-anthracite-750 hover:border-accent/60 rounded-xl overflow-hidden flex flex-col justify-between transition duration-200 group relative shadow-lg';
 
         card.innerHTML = `
           <div>
-            <!-- Visual Box (Crisp Aspect Ratio Preview) -->
-            <div class="relative h-52 w-full bg-anthracite-950 overflow-hidden border-b border-anthracite-800 cursor-pointer flex items-center justify-center" onclick="openMediaLightbox(${index})">
+            <!-- Visual Box (Full-Width Aspect-Cover Preview) -->
+            <div class="relative w-full aspect-square sm:aspect-video bg-anthracite-950 overflow-hidden border-b border-anthracite-800 cursor-pointer" onclick="openMediaLightbox(${index})">
               ${imageUrl ? `
-                <img src="${imageUrl}" alt="${title}" class="max-h-full max-w-full object-contain group-hover:scale-105 transition duration-300" />
+                <img src="${imageUrl}" alt="${title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" />
               ` : `
-                <div class="w-full h-full flex flex-col items-center justify-center p-4 text-center">
+                <div class="w-full h-full flex flex-col items-center justify-center p-4 text-center bg-anthracite-900">
                   <i data-lucide="image" class="h-8 w-8 text-slate-600 mb-2"></i>
                   <span class="text-[11px] text-slate-500 font-medium">Meta Creative Asset</span>
                 </div>
@@ -1035,7 +1051,7 @@
       lucide.createIcons();
     }
 
-    // Modal Lightbox
+    // Modal Lightbox (Expanded High-Res Scaled View)
     function openMediaLightbox(index) {
       const ad = activeAds[index];
       if (!ad) return;
@@ -1061,19 +1077,19 @@
 
       if (isVideo && videoUrl) {
         container.innerHTML = `
-          <video controls autoplay class="max-h-[46vh] max-w-full rounded-lg shadow-2xl">
+          <video controls autoplay class="w-full max-h-[60vh] rounded-xl shadow-2xl">
             <source src="${videoUrl}" type="video/mp4">
             Your browser does not support HTML5 video preview.
           </video>
         `;
       } else if (imageUrl) {
         container.innerHTML = `
-          <img src="${imageUrl}" alt="${title}" class="max-h-[46vh] max-w-full object-contain rounded-lg shadow-xl" />
+          <img src="${imageUrl}" alt="${title}" class="min-w-[280px] sm:min-w-[480px] w-auto h-auto max-h-[60vh] max-w-full object-contain rounded-xl shadow-2xl" />
         `;
       } else {
         container.innerHTML = `
-          <div class="text-center py-12 text-slate-400">
-            <i data-lucide="image" class="h-8 w-8 mx-auto text-slate-600 mb-2"></i>
+          <div class="text-center py-16 text-slate-400">
+            <i data-lucide="image" class="h-10 w-10 mx-auto text-slate-600 mb-2"></i>
             <p class="text-xs">Visual preview generated from active creative spec.</p>
           </div>
         `;
