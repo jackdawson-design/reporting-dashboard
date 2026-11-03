@@ -14,7 +14,7 @@
   <!-- Marked.js CDN -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
-  <!-- Tailwind Apple Theme Config -->
+  <!-- Apple Design System Theme Config -->
   <script>
     tailwind.config = {
       darkMode: 'class',
@@ -27,18 +27,18 @@
               cardHover: '#1c1c1e',
               surface: '#242426',
               border: '#2c2c2e',
-              borderSubtle: '#222224',
               blue: '#0071e3',
               blueHover: '#0077ed',
               green: '#30d158',
               orange: '#ff9f0a',
+              red: '#ff453a',
               purple: '#bf5af2',
               secondaryText: '#86868b',
               tertiaryText: '#6e6e73',
             }
           },
           fontFamily: {
-            sans: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Display"', '"SF Pro Text"', '"Helvetica Neue"', 'Helvetica', 'Arial', 'sans-serif'],
+            sans: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Display"', '"SF Pro Text"', '"Helvetica Neue"', 'sans-serif'],
             mono: ['"SF Mono"', 'Menlo', 'Monaco', 'monospace'],
           },
         },
@@ -47,22 +47,16 @@
   </script>
 
   <style>
-    /* Apple Human Interface Typography & Smooth Native Feel */
     body {
       background-color: #000000;
       color: #f5f5f7;
       font-feature-settings: "cv02", "cv03", "cv04", "cv11";
       -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
     }
 
     .apple-card {
       background-color: #161618;
       border: 1px solid #2c2c2e;
-    }
-
-    .apple-segmented-btn {
-      transition: all 0.15s ease-in-out;
     }
 
     .apple-segmented-active {
@@ -90,8 +84,8 @@
       border: 2px solid rgba(255, 255, 255, 0.15);
       border-top: 2px solid #0071e3;
       border-radius: 50%;
-      width: 15px;
-      height: 15px;
+      width: 14px;
+      height: 14px;
       animation: spin 0.8s linear infinite;
     }
     @keyframes spin {
@@ -114,13 +108,12 @@
         </div>
         <div>
           <span class="text-sm font-semibold tracking-tight text-[#f5f5f7]">Performance Hub</span>
-          <span class="text-xs text-apple-secondaryText font-normal ml-2">Meta Ads Manager</span>
+          <span class="text-xs text-apple-secondaryText font-normal ml-2">Director Intelligence</span>
         </div>
       </div>
 
-      <!-- Action Items: Workspace Selector, Sync & Settings -->
+      <!-- Action Items -->
       <div class="flex items-center gap-2.5">
-        <!-- Client Dropdown -->
         <div class="relative flex items-center">
           <select
             id="clientSelector"
@@ -132,7 +125,6 @@
           <i data-lucide="chevron-down" class="absolute right-2.5 h-3.5 w-3.5 text-apple-secondaryText pointer-events-none"></i>
         </div>
 
-        <!-- Sync Button -->
         <button
           onclick="fetchAllData()"
           id="refreshBtn"
@@ -142,7 +134,6 @@
           <span id="refreshText" class="hidden sm:inline">Sync Data</span>
         </button>
 
-        <!-- Settings Button -->
         <button
           onclick="openSettingsModal()"
           title="Account Settings"
@@ -158,27 +149,28 @@
   <!-- Main Viewport -->
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
 
-    <!-- Header Surface & Date Range Picker -->
+    <!-- Header Surface, Delivery Health Banner & Dynamic Date Range Controller -->
     <div class="apple-card rounded-2xl p-5 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-      
-      <!-- Account Identity -->
       <div>
-        <div class="flex items-center gap-2">
-          <span class="w-2 h-2 rounded-full bg-apple-green"></span>
+        <div class="flex items-center gap-2.5">
+          <span id="accountHealthIndicator" class="w-2.5 h-2.5 rounded-full bg-apple-green animate-pulse"></span>
           <h2 class="text-base font-semibold text-white tracking-tight" id="clientDisplayName">Calm Drift Sanctuary</h2>
+          <span id="accountHealthBadge" class="text-[10px] font-semibold px-2 py-0.5 rounded-md bg-apple-green/10 text-apple-green border border-apple-green/20">
+            Healthy Delivery
+          </span>
         </div>
-        <p class="text-xs text-apple-secondaryText font-mono mt-0.5" id="adAccountDisplay">Account ID: act_259916616</p>
+        <p class="text-xs text-apple-secondaryText font-mono mt-1" id="adAccountDisplay">Account ID: act_259916616</p>
       </div>
 
       <!-- Segmented Date Controller -->
       <div class="flex flex-col sm:flex-row items-start sm:items-center gap-2.5">
         <div class="bg-[#242426] border border-apple-border p-0.5 rounded-lg flex items-center text-xs font-medium text-apple-secondaryText">
-          <button onclick="setDatePreset('yesterday')" id="pill-yesterday" class="apple-segmented-btn px-2.5 py-1 rounded-md transition apple-segmented-active">Yesterday</button>
-          <button onclick="setDatePreset('last_7d')" id="pill-last_7d" class="apple-segmented-btn px-2.5 py-1 rounded-md transition hover:text-white">7D</button>
-          <button onclick="setDatePreset('last_14d')" id="pill-last_14d" class="apple-segmented-btn px-2.5 py-1 rounded-md transition hover:text-white">14D</button>
-          <button onclick="setDatePreset('last_30d')" id="pill-last_30d" class="apple-segmented-btn px-2.5 py-1 rounded-md transition hover:text-white">30D</button>
-          <button onclick="setDatePreset('this_month')" id="pill-this_month" class="apple-segmented-btn px-2.5 py-1 rounded-md transition hover:text-white">Month</button>
-          <button onclick="toggleCustomDatePicker()" id="pill-custom" class="apple-segmented-btn px-2.5 py-1 rounded-md transition hover:text-white flex items-center gap-1">
+          <button onclick="setDatePreset('yesterday')" id="pill-yesterday" class="px-2.5 py-1 rounded-md transition apple-segmented-active">Yesterday</button>
+          <button onclick="setDatePreset('last_7d')" id="pill-last_7d" class="px-2.5 py-1 rounded-md transition hover:text-white">7D</button>
+          <button onclick="setDatePreset('last_14d')" id="pill-last_14d" class="px-2.5 py-1 rounded-md transition hover:text-white">14D</button>
+          <button onclick="setDatePreset('last_30d')" id="pill-last_30d" class="px-2.5 py-1 rounded-md transition hover:text-white">30D</button>
+          <button onclick="setDatePreset('this_month')" id="pill-this_month" class="px-2.5 py-1 rounded-md transition hover:text-white">Month</button>
+          <button onclick="toggleCustomDatePicker()" id="pill-custom" class="px-2.5 py-1 rounded-md transition hover:text-white flex items-center gap-1">
             <span>Custom</span>
             <i data-lucide="calendar" class="h-3 w-3"></i>
           </button>
@@ -192,58 +184,68 @@
           <button onclick="applyCustomDateRange()" class="bg-apple-blue hover:bg-apple-blueHover text-white font-medium px-3 py-1 rounded-lg transition text-xs">Apply</button>
         </div>
       </div>
-
     </div>
 
-    <!-- Metric Tiles (Apple Analytics Grid) -->
+    <!-- Director Telemetry KPI Grid (Full Funnel & Algorithmic Dimensions) -->
     <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
       
+      <!-- Spend -->
       <div class="apple-card rounded-xl p-3.5 flex flex-col justify-between">
         <span class="text-[10px] font-semibold text-apple-secondaryText uppercase tracking-wider">Spend</span>
         <div class="text-lg font-semibold text-white tracking-tight mt-1" id="kpiSpend">£0.00</div>
-        <span class="text-[10px] text-apple-tertiaryText">Investment</span>
+        <span class="text-[10px] text-apple-tertiaryText" id="kpiSpendSub">Daily Velocity</span>
       </div>
 
+      <!-- Results / Primary Conversions -->
+      <div class="apple-card rounded-xl p-3.5 flex flex-col justify-between">
+        <span class="text-[10px] font-semibold text-apple-secondaryText uppercase tracking-wider">Results</span>
+        <div class="text-lg font-semibold text-apple-green tracking-tight mt-1" id="kpiResults">0</div>
+        <span class="text-[10px] text-apple-tertiaryText truncate" id="kpiResultLabel">Conversions</span>
+      </div>
+
+      <!-- Cost Per Result (Weighted CPA) -->
+      <div class="apple-card rounded-xl p-3.5 flex flex-col justify-between">
+        <span class="text-[10px] font-semibold text-apple-secondaryText uppercase tracking-wider">Cost / Result</span>
+        <div class="text-lg font-semibold text-white tracking-tight mt-1" id="kpiCostResult">£0.00</div>
+        <span class="text-[10px] text-apple-tertiaryText">Qualified CPA</span>
+      </div>
+
+      <!-- Frequency & Saturation -->
+      <div class="apple-card rounded-xl p-3.5 flex flex-col justify-between">
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] font-semibold text-apple-secondaryText uppercase tracking-wider">Frequency</span>
+          <span id="freqBadge" class="text-[9px] font-bold px-1.5 py-0.2 rounded bg-apple-green/10 text-apple-green">Fresh</span>
+        </div>
+        <div class="text-lg font-semibold text-white tracking-tight mt-1" id="kpiFrequency">1.00</div>
+        <span class="text-[10px] text-apple-tertiaryText">Audience Saturation</span>
+      </div>
+
+      <!-- Clicks -->
       <div class="apple-card rounded-xl p-3.5 flex flex-col justify-between">
         <span class="text-[10px] font-semibold text-apple-secondaryText uppercase tracking-wider">Clicks</span>
         <div class="text-lg font-semibold text-white tracking-tight mt-1" id="kpiClicks">0</div>
-        <span class="text-[10px] text-apple-tertiaryText">Outbound</span>
+        <span class="text-[10px] text-apple-tertiaryText">Outbound Traffic</span>
       </div>
 
+      <!-- Avg CPC -->
       <div class="apple-card rounded-xl p-3.5 flex flex-col justify-between">
         <span class="text-[10px] font-semibold text-apple-secondaryText uppercase tracking-wider">Avg CPC</span>
         <div class="text-lg font-semibold text-white tracking-tight mt-1" id="kpiCPC">£0.00</div>
         <span class="text-[10px] text-apple-tertiaryText">Cost / Click</span>
       </div>
 
+      <!-- CTR -->
       <div class="apple-card rounded-xl p-3.5 flex flex-col justify-between">
-        <span class="text-[10px] font-semibold text-apple-secondaryText uppercase tracking-wider">CTR</span>
+        <span class="text-[10px] font-semibold text-apple-secondaryText uppercase tracking-wider">Link CTR</span>
         <div class="text-lg font-semibold text-white tracking-tight mt-1" id="kpiCTR">0.00%</div>
-        <span class="text-[10px] text-apple-tertiaryText">Click-Through</span>
+        <span class="text-[10px] text-apple-tertiaryText">Click Rate</span>
       </div>
 
-      <div class="apple-card rounded-xl p-3.5 flex flex-col justify-between">
-        <span class="text-[10px] font-semibold text-apple-secondaryText uppercase tracking-wider">Impressions</span>
-        <div class="text-lg font-semibold text-white tracking-tight mt-1" id="kpiImpressions">0</div>
-        <span class="text-[10px] text-apple-tertiaryText">Ad Views</span>
-      </div>
-
+      <!-- CPM -->
       <div class="apple-card rounded-xl p-3.5 flex flex-col justify-between">
         <span class="text-[10px] font-semibold text-apple-secondaryText uppercase tracking-wider">CPM</span>
         <div class="text-lg font-semibold text-white tracking-tight mt-1" id="kpiCPM">£0.00</div>
         <span class="text-[10px] text-apple-tertiaryText">Per 1k Views</span>
-      </div>
-
-      <div class="apple-card rounded-xl p-3.5 flex flex-col justify-between">
-        <span class="text-[10px] font-semibold text-apple-secondaryText uppercase tracking-wider">Reach</span>
-        <div class="text-lg font-semibold text-white tracking-tight mt-1" id="kpiReach">0</div>
-        <span class="text-[10px] text-apple-tertiaryText">Unique People</span>
-      </div>
-
-      <div class="apple-card rounded-xl p-3.5 flex flex-col justify-between">
-        <span class="text-[10px] font-semibold text-apple-secondaryText uppercase tracking-wider">Cost / Result</span>
-        <div class="text-lg font-semibold text-white tracking-tight mt-1" id="kpiCostResult">£0.00</div>
-        <span class="text-[10px] text-apple-tertiaryText">Action Cost</span>
       </div>
 
     </div>
@@ -319,7 +321,7 @@
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-apple-border pb-3.5">
         <div>
           <h3 class="text-sm font-semibold text-white">Active Ad Creatives</h3>
-          <p class="text-xs text-apple-secondaryText">Ads delivering under active campaigns.</p>
+          <p class="text-xs text-apple-secondaryText">High-resolution uncompressed assets running under active campaigns.</p>
         </div>
         <span class="text-xs text-apple-secondaryText font-mono" id="adCountDisplay">
           0 active ads
@@ -334,7 +336,7 @@
       </div>
     </div>
 
-    <!-- Active Campaigns Table -->
+    <!-- Active Campaigns Table (Surfacing Full Funnel & Delivery Dimensions) -->
     <div class="apple-card rounded-2xl p-6 flex flex-col justify-between">
       <div>
         <div class="flex items-center justify-between mb-4">
@@ -346,14 +348,14 @@
           <table class="w-full text-left text-xs text-slate-300">
             <thead class="bg-[#1c1c1e] text-apple-secondaryText uppercase tracking-wider border-b border-apple-border">
               <tr>
-                <th class="py-2.5 px-3">Active Campaign</th>
+                <th class="py-2.5 px-3">Campaign & Objective Goal</th>
+                <th class="py-2.5 px-3">Delivery Health</th>
                 <th class="py-2.5 px-3 text-right">Spend</th>
-                <th class="py-2.5 px-3 text-right">Impressions</th>
-                <th class="py-2.5 px-3 text-right">Reach</th>
+                <th class="py-2.5 px-3 text-right">Results</th>
+                <th class="py-2.5 px-3 text-right">Cost/Result</th>
                 <th class="py-2.5 px-3 text-right">Clicks</th>
                 <th class="py-2.5 px-3 text-right">CTR</th>
-                <th class="py-2.5 px-3 text-right">CPC</th>
-                <th class="py-2.5 px-3 text-right">CPM</th>
+                <th class="py-2.5 px-3 text-right">Freq</th>
               </tr>
             </thead>
             <tbody id="campaignTableBody" class="divide-y divide-apple-border font-mono">
@@ -376,7 +378,7 @@
   </main>
 
   <!-- High-Res Media Lightbox Modal -->
-  <div id="mediaLightboxModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center hidden p-4 sm:p-6">
+  <div id="mediaLightboxModal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center hidden p-4 sm:p-6">
     <div class="relative max-w-3xl w-full apple-card rounded-2xl overflow-hidden shadow-2xl flex flex-col max-h-[92vh]">
       
       <!-- Modal Header -->
@@ -399,8 +401,13 @@
       <div class="p-5 border-t border-apple-border bg-[#1c1c1e] space-y-2.5">
         <div class="flex items-center justify-between gap-3">
           <span id="lightboxCampaignTag" class="text-xs font-mono text-apple-secondaryText truncate">Campaign: Active</span>
-          <div id="lightboxCtaButton" class="px-3.5 py-1 rounded-md bg-apple-blue text-white font-medium text-xs uppercase tracking-wider shrink-0">
-            LEARN MORE
+          <div class="flex items-center gap-2">
+            <a id="lightboxFbLink" href="#" target="_blank" class="hidden px-3 py-1 rounded-md bg-apple-surface hover:bg-white/10 text-white font-medium text-xs transition">
+              View on Facebook
+            </a>
+            <div id="lightboxCtaButton" class="px-3.5 py-1 rounded-md bg-apple-blue text-white font-medium text-xs uppercase tracking-wider shrink-0">
+              LEARN MORE
+            </div>
           </div>
         </div>
         <p id="lightboxBodyCopy" class="text-xs text-slate-300 leading-relaxed max-h-24 overflow-y-auto font-sans"></p>
@@ -543,9 +550,9 @@
         const btn = document.getElementById(`pill-${p}`);
         if (btn) {
           if (p === preset) {
-            btn.className = 'apple-segmented-btn px-2.5 py-1 rounded-md transition apple-segmented-active';
+            btn.className = 'px-2.5 py-1 rounded-md transition apple-segmented-active';
           } else {
-            btn.className = 'apple-segmented-btn px-2.5 py-1 rounded-md transition hover:text-white';
+            btn.className = 'px-2.5 py-1 rounded-md transition hover:text-white';
           }
         }
       });
@@ -579,9 +586,9 @@
       const presets = ['yesterday', 'last_7d', 'last_14d', 'last_30d', 'this_month'];
       presets.forEach(p => {
         const btn = document.getElementById(`pill-${p}`);
-        if (btn) btn.className = 'apple-segmented-btn px-2.5 py-1 rounded-md transition hover:text-white';
+        if (btn) btn.className = 'px-2.5 py-1 rounded-md transition hover:text-white';
       });
-      document.getElementById('pill-custom').className = 'apple-segmented-btn px-2.5 py-1 rounded-md transition apple-segmented-active flex items-center gap-1';
+      document.getElementById('pill-custom').className = 'px-2.5 py-1 rounded-md transition apple-segmented-active flex items-center gap-1';
 
       fetchAllData();
     }
@@ -713,33 +720,81 @@
       efficiencyChartInstance.update();
     }
 
+    // Accurate Conversion Action and Objective Extraction
+    function parseObjectiveResults(insights, objective) {
+      if (!insights) return { results: 0, costPerResult: 0, label: 'Results' };
+      
+      const actions = insights.actions || [];
+      const costActions = insights.cost_per_action_type || [];
+      const spend = parseFloat(insights.spend) || 0;
+
+      // Priority Action Types for Qualified Down-Funnel Conversion Tracking
+      const priorityActionTypes = [
+        'onsite_conversion.messaging_conversation_started_7d',
+        'onsite_conversion.messaging_first_reply',
+        'lead',
+        'purchase',
+        'onsite_conversion.purchase',
+        'contact_total',
+        'schedule',
+        'link_click'
+      ];
+
+      let matchedAction = null;
+      let matchedCost = null;
+
+      for (const type of priorityActionTypes) {
+        const found = actions.find(a => a.action_type === type);
+        if (found && parseInt(found.value) > 0) {
+          matchedAction = found;
+          matchedCost = costActions.find(c => c.action_type === type);
+          break;
+        }
+      }
+
+      if (matchedAction) {
+        const resultCount = parseInt(matchedAction.value) || 0;
+        const cpr = matchedCost ? parseFloat(matchedCost.value) : (resultCount > 0 ? spend / resultCount : 0);
+        let label = matchedAction.action_type
+          .replace('onsite_conversion.', '')
+          .replace('_conversation_started_7d', 's')
+          .replace(/_/g, ' ');
+        return { results: resultCount, costPerResult: cpr, label: label.charAt(0).toUpperCase() + label.slice(1) };
+      }
+
+      // Fallback: Link Clicks
+      const clicks = parseInt(insights.clicks) || 0;
+      const cpc = parseFloat(insights.cpc) || 0;
+      return { results: clicks, costPerResult: cpc, label: 'Link Clicks' };
+    }
+
     // High-Resolution Post & Creative Asset Resolver
     async function resolveHighResAssetUrl(creative, token) {
-      if (!creative) return null;
+      if (!creative) return { url: null, fbLink: null };
 
-      // If it is a boosted page post, fetch original high-res picture attachment
+      let fbLink = null;
+      let rawUrl = null;
+
       if (creative.effective_object_story_id && token) {
         try {
-          const postRes = await fetch(`https://graph.facebook.com/v21.0/${creative.effective_object_story_id}?fields=full_picture,attachments{media,media_type,unshimmed_url}&access_token=${token}`);
+          const postRes = await fetch(`https://graph.facebook.com/v21.0/${creative.effective_object_story_id}?fields=permalink_url,full_picture,attachments{media,media_type,unshimmed_url}&access_token=${token}`);
           const postData = await postRes.json();
+          fbLink = postData.permalink_url || null;
           if (postData.full_picture) {
-            return postData.full_picture;
-          }
-          if (postData.attachments?.data?.[0]?.media?.image?.src) {
-            return postData.attachments.data[0].media.image.src;
+            rawUrl = postData.full_picture;
+          } else if (postData.attachments?.data?.[0]?.media?.image?.src) {
+            rawUrl = postData.attachments.data[0].media.image.src;
           }
         } catch(e) {
           console.warn('Post asset query notice:', e);
         }
       }
 
-      let rawUrl = creative.image_url || null;
-      const spec = creative.object_story_spec?.link_data || {};
-      const photoSpec = creative.object_story_spec?.photo_data || {};
-      const videoSpec = creative.object_story_spec?.video_data || {};
-
       if (!rawUrl) {
-        rawUrl = photoSpec.url || spec.picture || creative.thumbnail_url || videoSpec.image_url || null;
+        const spec = creative.object_story_spec?.link_data || {};
+        const photoSpec = creative.object_story_spec?.photo_data || {};
+        const videoSpec = creative.object_story_spec?.video_data || {};
+        rawUrl = creative.image_url || photoSpec.url || spec.picture || creative.thumbnail_url || videoSpec.image_url || null;
       }
 
       if (rawUrl) {
@@ -759,10 +814,10 @@
                        .replace(/_q\.jpg/g, '_n.jpg');
       }
 
-      return rawUrl;
+      return { url: rawUrl, fbLink };
     }
 
-    // Meta Marketing API Integration with Proper Parentheses Syntax
+    // Meta Marketing API Integration with Complete Director Dimensions
     async function fetchAllData() {
       const client = getActiveClient();
       const refreshBtn = document.getElementById('refreshBtn');
@@ -791,14 +846,14 @@
         cleanAccountId = 'act_' + cleanAccountId;
       }
 
-      // Format Meta API insights subfield correctly
-      let insightsField = `insights.date_preset(${currentReportingPreset}){spend,impressions,reach,clicks,ctr,cpc,cpm,actions,cost_per_action_type}`;
+      // Syntax formatting for insights subfields
+      let insightsField = `insights.date_preset(${currentReportingPreset}){spend,impressions,reach,frequency,clicks,ctr,cpc,cpm,actions,cost_per_action_type}`;
       if (currentReportingPreset === 'custom' && customDateRange) {
-        insightsField = `insights.time_range({'since':'${customDateRange.since}','until':'${customDateRange.until}'}){spend,impressions,reach,clicks,ctr,cpc,cpm,actions,cost_per_action_type}`;
+        insightsField = `insights.time_range({'since':'${customDateRange.since}','until':'${customDateRange.until}'}){spend,impressions,reach,frequency,clicks,ctr,cpc,cpm,actions,cost_per_action_type}`;
       }
 
-      const campaignsEndpoint = `https://graph.facebook.com/v21.0/${cleanAccountId}/campaigns?fields=id,name,status,effective_status,${insightsField}&effective_status=['ACTIVE']&access_token=${client.metaToken}`;
-      const adsEndpoint = `https://graph.facebook.com/v21.0/${cleanAccountId}/ads?fields=id,name,status,effective_status,campaign{id,name,status,effective_status},creative{id,name,title,body,image_url,thumbnail_url,video_id,call_to_action_type,effective_object_story_id,object_story_spec{link_data,video_data,photo_data}},${insightsField}&effective_status=['ACTIVE']&limit=35&access_token=${client.metaToken}`;
+      const campaignsEndpoint = `https://graph.facebook.com/v21.0/${cleanAccountId}/campaigns?fields=id,name,status,effective_status,objective,adsets{optimization_goal,bid_strategy,daily_budget},${insightsField}&effective_status=['ACTIVE']&access_token=${client.metaToken}`;
+      const adsEndpoint = `https://graph.facebook.com/v21.0/${cleanAccountId}/ads?fields=id,name,status,effective_status,campaign{id,name,status,effective_status,objective},creative{id,name,title,body,image_url,thumbnail_url,video_id,call_to_action_type,effective_object_story_id,object_story_spec{link_data,video_data,photo_data}},${insightsField}&effective_status=['ACTIVE']&limit=35&access_token=${client.metaToken}`;
 
       try {
         const [campRes, adsRes] = await Promise.all([
@@ -813,19 +868,42 @@
         if (campRes.data && campRes.data.length > 0) {
           activeCampaigns = campRes.data.map(c => {
             const ins = c.insights?.data?.[0] || {};
+            const resData = parseObjectiveResults(ins, c.objective);
+            const optGoal = c.adsets?.data?.[0]?.optimization_goal || 'LINK_CLICKS';
+            const spend = parseFloat(ins.spend) || 0;
+            const results = resData.results;
+
+            // Health & Learning Phase Diagnosis
+            let healthStatus = 'Healthy';
+            let healthReason = 'Active Delivery';
+            if (spend < 10.00) {
+              healthStatus = 'Starvation';
+              healthReason = 'Spend < £10/day (trapped in learning)';
+            } else if (results < 50) {
+              healthStatus = 'Learning Limited';
+              healthReason = '< 50 results/week threshold';
+            }
+
             return {
               campaign_id: c.id,
               campaign_name: c.name,
+              objective: c.objective || 'OUTCOME_TRAFFIC',
+              optimization_goal: optGoal,
               status: c.status,
               effective_status: c.effective_status,
               spend: ins.spend || '0.00',
               impressions: ins.impressions || '0',
               reach: ins.reach || '0',
+              frequency: ins.frequency || '1.00',
               clicks: ins.clicks || '0',
               ctr: ins.ctr || '0.00',
               cpc: ins.cpc || '0.00',
               cpm: ins.cpm || '0.00',
-              cost_per_result: ins.cost_per_action_type?.[0]?.value || '0.00'
+              results: results,
+              cost_per_result: resData.costPerResult,
+              result_label: resData.label,
+              health_status: healthStatus,
+              health_reason: healthReason
             };
           });
         } else {
@@ -867,16 +945,23 @@
         {
           campaign_id: 'camp_001',
           campaign_name: 'Post: "Our Black November event has officially begun...."',
+          objective: 'MESSAGES',
+          optimization_goal: 'CONVERSATIONS',
           status: 'ACTIVE',
           effective_status: 'ACTIVE',
           spend: '3.37',
           impressions: '645',
           reach: '582',
+          frequency: '1.11',
           clicks: '12',
           ctr: '1.86',
           cpc: '0.28',
           cpm: '5.22',
-          cost_per_result: '0.28'
+          results: 1,
+          cost_per_result: 3.37,
+          result_label: 'Messaging Conversations',
+          health_status: 'Starvation',
+          health_reason: 'Daily spend £3.37 < £10 threshold (learning starvation)'
         }
       ];
 
@@ -886,16 +971,16 @@
           name: 'Post: "Our Black November event has officially begun...."',
           status: 'ACTIVE',
           effective_status: 'ACTIVE',
-          campaign: { id: 'camp_001', name: 'Post: "Our Black November event has officially begun...."', status: 'ACTIVE', effective_status: 'ACTIVE' },
+          campaign: { id: 'camp_001', name: 'Post: "Our Black November event has officially begun...."', status: 'ACTIVE', effective_status: 'ACTIVE', objective: 'MESSAGES' },
           creative: {
             title: 'Our Black November event has officially begun',
-            body: 'Our Black November event has officially begun. Enjoy 20% off any treatment booked for December when secured before 16 November at midnight. Give yourself something truly relaxing to look forward to this winter. Message us to reserve your appointment.',
+            body: 'Our Black November event has officially begun. Enjoy 20% off any treatment booked for December when secured before 16 November at midnight. Give yourself something truly relaxing to look forward to this winter. 🤎 Message us to reserve your appointment.',
             image_url: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1600&q=90',
-            call_to_action_type: 'LEARN_MORE',
+            call_to_action_type: 'SEND_MESSAGE',
             is_video: false
           },
           insights: {
-            data: [{ spend: '3.37', impressions: '645', reach: '582', clicks: '12', ctr: '1.86', cpc: '0.28', cpm: '5.22' }]
+            data: [{ spend: '3.37', impressions: '645', reach: '582', frequency: '1.11', clicks: '12', ctr: '1.86', cpc: '0.28', cpm: '5.22' }]
           }
         }
       ];
@@ -917,29 +1002,61 @@
       let totalClicks = 0;
       let totalImpressions = 0;
       let totalReach = 0;
-      let totalCostResult = 0;
+      let totalResults = 0;
+      let resultLabel = 'Results';
+      let hasStarvation = false;
 
       data.forEach(item => {
         totalSpend += parseFloat(item.spend) || 0;
         totalClicks += parseInt(item.clicks) || 0;
         totalImpressions += parseInt(item.impressions) || 0;
         totalReach += parseInt(item.reach) || 0;
-        totalCostResult += parseFloat(item.cost_per_result) || 0;
+        totalResults += parseInt(item.results) || 0;
+        if (item.result_label) resultLabel = item.result_label;
+        if (item.health_status === 'Starvation') hasStarvation = true;
       });
 
       const blendedCPC = totalClicks > 0 ? (totalSpend / totalClicks) : 0;
       const blendedCTR = totalImpressions > 0 ? ((totalClicks / totalImpressions) * 100) : 0;
       const blendedCPM = totalImpressions > 0 ? ((totalSpend / totalImpressions) * 1000) : 0;
-      const avgCostResult = data.length > 0 ? (totalCostResult / data.length) : blendedCPC;
+      const blendedFrequency = totalReach > 0 ? (totalImpressions / totalReach) : 1.0;
+      const weightedCostPerResult = totalResults > 0 ? (totalSpend / totalResults) : blendedCPC;
+
+      // Update Delivery Health Indicator Header
+      const healthDot = document.getElementById('accountHealthIndicator');
+      const healthBadge = document.getElementById('accountHealthBadge');
+      if (hasStarvation || totalSpend < 10.00) {
+        healthDot.className = 'w-2.5 h-2.5 rounded-full bg-apple-orange animate-pulse';
+        healthBadge.className = 'text-[10px] font-semibold px-2 py-0.5 rounded-md bg-apple-orange/10 text-apple-orange border border-apple-orange/20';
+        healthBadge.textContent = 'Learning Starvation (<£10/day)';
+      } else {
+        healthDot.className = 'w-2.5 h-2.5 rounded-full bg-apple-green animate-pulse';
+        healthBadge.className = 'text-[10px] font-semibold px-2 py-0.5 rounded-md bg-apple-green/10 text-apple-green border border-apple-green/20';
+        healthBadge.textContent = 'Healthy Delivery Velocity';
+      }
+
+      // Update Frequency Saturation Badge
+      const freqBadge = document.getElementById('freqBadge');
+      if (blendedFrequency >= 2.50) {
+        freqBadge.className = 'text-[9px] font-bold px-1.5 py-0.2 rounded bg-apple-red/10 text-apple-red';
+        freqBadge.textContent = 'Fatigued';
+      } else if (blendedFrequency >= 1.80) {
+        freqBadge.className = 'text-[9px] font-bold px-1.5 py-0.2 rounded bg-apple-orange/10 text-apple-orange';
+        freqBadge.textContent = 'Moderate';
+      } else {
+        freqBadge.className = 'text-[9px] font-bold px-1.5 py-0.2 rounded bg-apple-green/10 text-apple-green';
+        freqBadge.textContent = 'Fresh';
+      }
 
       document.getElementById('kpiSpend').textContent = `£${totalSpend.toFixed(2)}`;
       document.getElementById('kpiClicks').textContent = totalClicks.toLocaleString();
       document.getElementById('kpiCPC').textContent = `£${blendedCPC.toFixed(2)}`;
       document.getElementById('kpiCTR').textContent = `${blendedCTR.toFixed(2)}%`;
-      document.getElementById('kpiImpressions').textContent = totalImpressions.toLocaleString();
       document.getElementById('kpiCPM').textContent = `£${blendedCPM.toFixed(2)}`;
-      document.getElementById('kpiReach').textContent = totalReach > 0 ? totalReach.toLocaleString() : (totalImpressions > 0 ? Math.round(totalImpressions * 0.9).toLocaleString() : '0');
-      document.getElementById('kpiCostResult').textContent = `£${avgCostResult.toFixed(2)}`;
+      document.getElementById('kpiFrequency').textContent = blendedFrequency.toFixed(2);
+      document.getElementById('kpiResults').textContent = totalResults.toLocaleString();
+      document.getElementById('kpiResultLabel').textContent = resultLabel;
+      document.getElementById('kpiCostResult').textContent = totalResults > 0 ? `£${weightedCostPerResult.toFixed(2)}` : '£0.00';
     }
 
     function renderTable(data) {
@@ -963,35 +1080,37 @@
 
       data.forEach(item => {
         const spend = parseFloat(item.spend) || 0;
-        const impressions = parseInt(item.impressions) || 0;
-        const reach = parseInt(item.reach) || Math.round(impressions * 0.9);
         const clicks = parseInt(item.clicks) || 0;
         const ctr = parseFloat(item.ctr) || 0;
         const cpc = parseFloat(item.cpc) || 0;
-        const cpm = parseFloat(item.cpm) || (impressions > 0 ? (spend / impressions) * 1000 : 0);
+        const results = parseInt(item.results) || 0;
+        const cpr = parseFloat(item.cost_per_result) || 0;
+        const freq = parseFloat(item.frequency) || 1.0;
+
+        const healthBadge = item.health_status === 'Starvation'
+          ? `<span class="px-2 py-0.5 rounded text-[10px] bg-apple-orange/10 text-apple-orange border border-apple-orange/20 font-medium">Starvation</span>`
+          : `<span class="px-2 py-0.5 rounded text-[10px] bg-apple-green/10 text-apple-green border border-apple-green/20 font-medium">Delivering</span>`;
 
         const row = document.createElement('tr');
         row.className = 'hover:bg-apple-cardHover transition';
         row.innerHTML = `
-          <td class="py-2.5 px-3 font-sans font-medium text-white max-w-xs truncate" title="${item.campaign_name}">
-            <div class="flex items-center gap-2">
-              <span class="w-1.5 h-1.5 rounded-full bg-apple-green shrink-0"></span>
-              <span class="truncate">${item.campaign_name}</span>
-            </div>
+          <td class="py-2.5 px-3 font-sans max-w-xs truncate" title="${item.campaign_name}">
+            <div class="font-medium text-white truncate">${item.campaign_name}</div>
+            <div class="text-[10px] font-mono text-apple-secondaryText">${item.objective} → ${item.optimization_goal}</div>
           </td>
+          <td class="py-2.5 px-3 font-sans">${healthBadge}</td>
           <td class="py-2.5 px-3 text-right text-slate-200">£${spend.toFixed(2)}</td>
-          <td class="py-2.5 px-3 text-right text-apple-secondaryText">${impressions.toLocaleString()}</td>
-          <td class="py-2.5 px-3 text-right text-apple-secondaryText">${reach.toLocaleString()}</td>
-          <td class="py-2.5 px-3 text-right text-white font-semibold">${clicks.toLocaleString()}</td>
+          <td class="py-2.5 px-3 text-right text-apple-green font-semibold">${results.toLocaleString()} <span class="text-[10px] text-apple-secondaryText font-normal">(${item.result_label || 'res'})</span></td>
+          <td class="py-2.5 px-3 text-right text-slate-200">£${cpr.toFixed(2)}</td>
+          <td class="py-2.5 px-3 text-right text-white">${clicks.toLocaleString()}</td>
           <td class="py-2.5 px-3 text-right ${ctr >= 1.5 ? 'text-apple-green' : 'text-apple-secondaryText'}">${ctr.toFixed(2)}%</td>
-          <td class="py-2.5 px-3 text-right text-slate-300">£${cpc.toFixed(2)}</td>
-          <td class="py-2.5 px-3 text-right text-apple-secondaryText">£${cpm.toFixed(2)}</td>
+          <td class="py-2.5 px-3 text-right text-apple-secondaryText">${freq.toFixed(2)}</td>
         `;
         tbody.appendChild(row);
       });
     }
 
-    // Render Active Ad Creatives Feed
+    // Render Active Ad Creatives Feed with Uncompressed Image Resolution
     async function renderCreativeGallery(ads, token) {
       const grid = document.getElementById('adCreativeGrid');
       const countDisplay = document.getElementById('adCountDisplay');
@@ -1016,8 +1135,9 @@
         const isVideo = Boolean(creative.video_id || creative.is_video || creative.object_story_spec?.video_data);
         
         // Resolve High-Resolution Asset
-        const imageUrl = await resolveHighResAssetUrl(creative, token);
-        ad._resolvedImageUrl = imageUrl;
+        const assetInfo = await resolveHighResAssetUrl(creative, token);
+        ad._resolvedImageUrl = assetInfo.url;
+        ad._resolvedFbLink = assetInfo.fbLink;
 
         const title = creative.title || spec.name || ad.name || 'Untitled Creative';
         const bodyText = creative.body || spec.message || 'No primary copy specified.';
@@ -1034,10 +1154,10 @@
 
         card.innerHTML = `
           <div>
-            <!-- High-Res Media Frame -->
+            <!-- High-Res Media Frame with No-Referrer Policy -->
             <div class="relative w-full aspect-square bg-black overflow-hidden cursor-pointer flex items-center justify-center" onclick="openMediaLightbox(${i})">
-              ${imageUrl ? `
-                <img src="${imageUrl}" alt="${title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" />
+              ${assetInfo.url ? `
+                <img src="${assetInfo.url}" referrerpolicy="no-referrer" alt="${title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" />
               ` : `
                 <div class="w-full h-full flex flex-col items-center justify-center p-6 text-center bg-[#1c1c1e]">
                   <i data-lucide="image" class="h-6 w-6 text-apple-secondaryText mb-1.5"></i>
@@ -1102,6 +1222,7 @@
       const isVideo = Boolean(creative.video_id || creative.is_video || creative.object_story_spec?.video_data);
       const imageUrl = ad._resolvedImageUrl || creative.image_url;
       const videoUrl = creative.video_url || null;
+      const fbLink = ad._resolvedFbLink || null;
 
       const title = creative.title || spec.name || ad.name;
       const bodyText = creative.body || spec.message || 'No copy specified.';
@@ -1112,6 +1233,14 @@
       document.getElementById('lightboxCampaignTag').textContent = `Campaign: ${ad.campaign?.name || 'Active'}`;
       document.getElementById('lightboxCtaButton').textContent = cta;
       document.getElementById('lightboxBodyCopy').textContent = bodyText;
+
+      const fbLinkEl = document.getElementById('lightboxFbLink');
+      if (fbLink) {
+        fbLinkEl.href = fbLink;
+        fbLinkEl.classList.remove('hidden');
+      } else {
+        fbLinkEl.classList.add('hidden');
+      }
 
       const container = document.getElementById('lightboxVisualContainer');
       container.innerHTML = '';
@@ -1125,7 +1254,7 @@
         `;
       } else if (imageUrl) {
         container.innerHTML = `
-          <img src="${imageUrl}" alt="${title}" class="max-h-[58vh] w-auto max-w-full object-contain rounded-lg" />
+          <img src="${imageUrl}" referrerpolicy="no-referrer" alt="${title}" class="max-h-[58vh] w-auto max-w-full object-contain rounded-lg" />
         `;
       } else {
         container.innerHTML = `
@@ -1146,7 +1275,7 @@
       document.getElementById('mediaLightboxModal').classList.add('hidden');
     }
 
-    // Natural Executive Briefing
+    // AI Director Performance Audit Covering All 4 Dimensions
     async function generateAIBriefing() {
       const client = getActiveClient();
       const outputContainer = document.getElementById('aiOutputContainer');
@@ -1164,7 +1293,7 @@
       outputContainer.innerHTML = `
         <div class="flex items-center gap-2.5 py-2">
           <div class="apple-spinner"></div>
-          <span class="text-xs text-apple-secondaryText">Synthesising active campaign observations...</span>
+          <span class="text-xs text-apple-secondaryText">Conducting full algorithmic delivery audit...</span>
         </div>
       `;
 
@@ -1186,22 +1315,29 @@
       const systemPrompt = `
 You are a senior Meta performance marketing director reviewing performance metrics for "${client.name}".
 
-Provide a concise, practical executive summary using British English spelling (e.g. optimisation, analysing, prioritising, behaviour, programme).
-Avoid robotic filler or marketing buzzwords. Keep the tone grounded, authoritative, and direct.
+AUDIT THE 4 KEY DIMENSIONS:
+1. Learning Phase & Delivery Starvation: Evaluate if spend (<£10/day) is starving the pixel from reaching 50 conversions/week.
+2. Objective vs Goal Mismatch: Check if the campaign objective/optimization goal matches the call to action in the ad copy.
+3. Frequency & Audience Saturation: Review frequency against CPM/CTR to flag creative fatigue.
+4. Down-Funnel Conversion Economics: Evaluate true Results (Leads/Messages/Purchases) vs Link Clicks.
+
+STRICT FORMAT REQUIREMENT:
+- Write concise, practical executive bullet points using British English spelling (e.g. optimisation, analysing, prioritising, behaviour, programme).
+- Avoid robotic filler or generic buzzwords. Keep the tone grounded, authoritative, and direct.
 
 Format your output strictly using these 3 clear bullet sections:
 
 ### Performance Summary
-- [Concise point on current spend velocity, reach, and click cost]
-- [Concise point on ad engagement and audience response]
+- [Bullet on current spend velocity, reach, frequency saturation, and click cost]
+- [Bullet on primary conversions (results), qualified CPA, and delivery health]
 
 ### Budget & Scaling
-- [Specific daily budget adjustment recommendation in £]
-- [Objective / campaign bidding structure recommendation]
+- [Specific daily budget adjustment recommendation in £ to exit learning starvation]
+- [Objective / bidding structure adjustment recommendation]
 
 ### Tactical Directives
 - [Actionable creative or copy adjustment based on current offer and copy]
-- [Immediate operational change to make in Meta Ads Manager]
+- [Immediate operational change to execute in Meta Ads Manager]
 
 Active Campaign Telemetry:
 ${JSON.stringify(auditPayload, null, 2)}
