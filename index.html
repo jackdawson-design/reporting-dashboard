@@ -1,507 +1,549 @@
 <!DOCTYPE html>
-<html lang="en-GB">
+<html lang="en-GB" class="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Microsoft Windows 98 — Meta Ads Performance Hub</title>
+  <title>Performance Hub — Meta Ads & AI Strategic Suite</title>
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
   <!-- Chart.js CDN -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <!-- Marked.js CDN -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
+  <!-- Tailwind Custom Configuration -->
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            ios: {
+              bg: '#000000',
+              surface: 'rgba(28, 28, 30, 0.75)',
+              surfaceLight: 'rgba(44, 44, 46, 0.65)',
+              border: 'rgba(255, 255, 255, 0.12)',
+              borderLight: 'rgba(255, 255, 255, 0.06)',
+              blue: '#0a84ff',
+              indigo: '#5e5ce6',
+              purple: '#bf5af2',
+              teal: '#64d2ff',
+              green: '#30d158',
+              orange: '#ff9f0a',
+              red: '#ff453a',
+            }
+          },
+          fontFamily: {
+            sans: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Display"', '"SF Pro Text"', 'system-ui', 'sans-serif'],
+            mono: ['"SF Mono"', 'JetBrains Mono', 'Menlo', 'monospace'],
+          },
+        },
+      },
+    };
+  </script>
+
   <style>
-    /* Windows 98 System Typography & Palette */
-    :root {
-      --win-bg: #008080;
-      --win-gray: #c0c0c0;
-      --win-light: #ffffff;
-      --win-dark: #808080;
-      --win-black: #000000;
-      --win-blue-start: #000080;
-      --win-blue-end: #1084d0;
-    }
-
+    /* iOS Frosted Glass & Smooth Scrollbar */
     body {
-      background-color: var(--win-bg);
-      font-family: 'Segoe UI', Tahoma, 'MS Sans Serif', Geneva, sans-serif;
-      font-size: 11px;
-      user-select: none;
-      overflow-x: hidden;
-      padding-bottom: 40px;
+      background-color: #000000;
+      color: #f5f5f7;
+      font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+      -webkit-font-smoothing: antialiased;
     }
 
-    /* 3D Window & Component Borders */
-    .win-window {
-      background: var(--win-gray);
-      border-top: 2px solid #ffffff;
-      border-left: 2px solid #ffffff;
-      border-right: 2px solid #000000;
-      border-bottom: 2px solid #000000;
-      box-shadow: inset 1px 1px 0 #dfdfdf, inset -1px -1px 0 #808080;
+    .ios-glass {
+      background: rgba(28, 28, 30, 0.72);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    .win-button {
-      background: var(--win-gray);
-      border-top: 2px solid #ffffff;
-      border-left: 2px solid #ffffff;
-      border-right: 2px solid #000000;
-      border-bottom: 2px solid #000000;
-      box-shadow: inset 1px 1px 0 #dfdfdf, inset -1px -1px 0 #808080;
-      font-weight: bold;
-      cursor: pointer;
-      padding: 3px 8px;
+    .ios-glass-subtle {
+      background: rgba(44, 44, 46, 0.5);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
     }
 
-    .win-button:active, .win-button-pressed {
-      border-top: 2px solid #000000;
-      border-left: 2px solid #000000;
-      border-right: 2px solid #ffffff;
-      border-bottom: 2px solid #ffffff;
-      box-shadow: inset 1px 1px 0 #808080;
-      padding: 4px 7px 2px 9px;
-    }
-
-    .win-sunken {
-      background: #ffffff;
-      color: #000000;
-      border-top: 2px solid #808080;
-      border-left: 2px solid #808080;
-      border-right: 2px solid #ffffff;
-      border-bottom: 2px solid #ffffff;
-      box-shadow: inset 1px 1px 0 #000000;
-    }
-
-    .win-titlebar {
-      background: linear-gradient(90deg, var(--win-blue-start), var(--win-blue-end));
+    .ios-pill-active {
+      background: rgba(255, 255, 255, 0.18);
       color: #ffffff;
-      padding: 3px 4px;
-      font-weight: bold;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
     }
 
-    .win-ctrl-btn {
-      width: 16px;
-      height: 14px;
-      background: var(--win-gray);
-      border-top: 1px solid #ffffff;
-      border-left: 1px solid #ffffff;
-      border-right: 1px solid #000000;
-      border-bottom: 1px solid #000000;
-      color: #000000;
-      font-size: 9px;
-      line-height: 9px;
-      font-weight: 900;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      box-shadow: inset 1px 1px 0 #dfdfdf;
-    }
-
-    .win-ctrl-btn:active {
-      border-top: 1px solid #000000;
-      border-left: 1px solid #000000;
-      border-right: 1px solid #ffffff;
-      border-bottom: 1px solid #ffffff;
-    }
-
-    .win-taskbar {
-      background: var(--win-gray);
-      border-top: 2px solid #ffffff;
-      box-shadow: inset 0 1px 0 #dfdfdf;
-    }
-
-    .win-tray {
-      border-top: 1px solid #808080;
-      border-left: 1px solid #808080;
-      border-right: 1px solid #ffffff;
-      border-bottom: 1px solid #ffffff;
-      padding: 2px 6px;
-    }
-
-    fieldset.win-group {
-      border: 2px groove #ffffff;
-      padding: 8px;
-      margin-top: 6px;
-    }
-
-    legend.win-legend {
-      padding: 0 4px;
-      font-weight: bold;
-      color: #000080;
-    }
-
-    /* Scrollbars */
     ::-webkit-scrollbar {
-      width: 14px;
-      height: 14px;
+      width: 6px;
+      height: 6px;
     }
     ::-webkit-scrollbar-track {
-      background: #dfdfdf;
-      box-shadow: inset 1px 1px 0 #808080;
+      background: transparent;
     }
     ::-webkit-scrollbar-thumb {
-      background: var(--win-gray);
-      border-top: 1px solid #ffffff;
-      border-left: 1px solid #ffffff;
-      border-right: 1px solid #000000;
-      border-bottom: 1px solid #000000;
-      box-shadow: inset 1px 1px 0 #dfdfdf;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.35);
+    }
+
+    .loader-ring {
+      border: 2px solid rgba(10, 132, 255, 0.2);
+      border-top: 2px solid #0a84ff;
+      border-radius: 50%;
+      width: 16px;
+      height: 16px;
+      animation: spin 0.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
   </style>
 </head>
 
-<body class="p-2 sm:p-4 selection:bg-[#000080] selection:text-white">
+<body class="min-h-screen selection:bg-ios-blue selection:text-white pb-16">
 
-  <!-- Desktop Icons (Left Rail) -->
-  <div class="hidden md:flex flex-col gap-6 fixed top-4 left-4 z-0">
-    <div onclick="openSettingsModal()" class="flex flex-col items-center w-16 text-center cursor-pointer group">
-      <div class="w-8 h-8 flex items-center justify-center text-xl bg-slate-200 border border-black shadow">⚙️</div>
-      <span class="text-white mt-1 px-1 group-hover:bg-[#000080]">Settings.exe</span>
+  <!-- Apple iOS Floating Translucent Navigation Bar -->
+  <header class="sticky top-0 z-40 ios-glass border-b border-ios-border/60">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <div class="flex items-center gap-3">
+        <div class="h-9 w-9 rounded-2xl bg-gradient-to-tr from-ios-blue via-ios-indigo to-ios-purple flex items-center justify-center text-white shadow-lg shadow-ios-blue/20">
+          <i data-lucide="sparkles" class="h-5 w-5 stroke-[2.2]"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-sm sm:text-base font-semibold tracking-tight text-white">Performance Hub</h1>
+            <span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-white/10 text-slate-300 border border-white/10 font-mono">
+              iOS 18 Suite
+            </span>
+          </div>
+          <p class="text-[11px] text-slate-400 font-medium">Meta Ads & Gemini AI Intelligence</p>
+        </div>
+      </div>
+
+      <!-- Action Controls -->
+      <div class="flex items-center gap-2.5">
+        <!-- Client Selector Dropdown -->
+        <div class="relative flex items-center">
+          <select
+            id="clientSelector"
+            onchange="switchClient(this.value)"
+            class="ios-glass-subtle text-slate-200 text-xs rounded-full pl-3 pr-8 py-1.5 focus:outline-none focus:ring-2 focus:ring-ios-blue font-medium cursor-pointer transition appearance-none hover:bg-white/10"
+          >
+            <!-- Injected dynamically via JS -->
+          </select>
+          <i data-lucide="chevron-down" class="absolute right-2.5 h-3.5 w-3.5 text-slate-400 pointer-events-none"></i>
+        </div>
+
+        <!-- Refresh / Sync Button -->
+        <button
+          onclick="fetchAllData()"
+          id="refreshBtn"
+          class="flex items-center gap-1.5 bg-ios-blue hover:bg-blue-600 active:scale-95 text-white text-xs font-semibold px-3.5 py-1.5 rounded-full transition duration-150 shadow-md shadow-ios-blue/25"
+        >
+          <i data-lucide="refresh-cw" id="refreshIcon" class="h-3.5 w-3.5"></i>
+          <span id="refreshText" class="hidden sm:inline">Sync Data</span>
+        </button>
+
+        <!-- Settings Button -->
+        <button
+          onclick="openSettingsModal()"
+          title="Account Credentials"
+          class="p-2 rounded-full ios-glass-subtle hover:bg-white/10 text-slate-300 hover:text-white transition active:scale-95"
+        >
+          <i data-lucide="sliders-horizontal" class="h-4 w-4"></i>
+        </button>
+      </div>
+
     </div>
-    <div onclick="fetchAllData()" class="flex flex-col items-center w-16 text-center cursor-pointer group">
-      <div class="w-8 h-8 flex items-center justify-center text-xl bg-slate-200 border border-black shadow">📊</div>
-      <span class="text-white mt-1 px-1 group-hover:bg-[#000080]">MetaSync.bat</span>
-    </div>
-  </div>
+  </header>
 
   <!-- Main Container -->
-  <div class="max-w-6xl mx-auto space-y-4 relative z-10 md:pl-16">
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
 
-    <!-- Top Window: Meta Performance Hub Manager -->
-    <div class="win-window shadow-xl">
-      <div class="win-titlebar">
-        <div class="flex items-center gap-1.5 truncate">
-          <span>🖥️</span>
-          <span class="truncate">Meta Ad Manager [Version 4.10.1998] — Client: <span id="clientTitle">Calm Drift Sanctuary</span></span>
-        </div>
-        <div class="flex items-center gap-1">
-          <button class="win-ctrl-btn">_</button>
-          <button class="win-ctrl-btn">□</button>
-          <button class="win-ctrl-btn" onclick="openSettingsModal()">X</button>
+    <!-- Active Client Banner & iOS Dynamic Date Range Picker -->
+    <div class="ios-glass rounded-3xl p-5 flex flex-col lg:flex-row lg:items-center justify-between gap-4 shadow-xl">
+      
+      <!-- Account Info -->
+      <div class="flex items-center gap-3.5">
+        <div class="w-3 h-3 rounded-full bg-ios-green animate-pulse shadow-sm shadow-ios-green"></div>
+        <div>
+          <h2 class="text-base sm:text-lg font-bold text-white tracking-tight" id="clientDisplayName">Calm Drift Sanctuary</h2>
+          <p class="text-xs text-slate-400 font-mono" id="adAccountDisplay">Account ID: act_259916616</p>
         </div>
       </div>
 
-      <!-- Menu Bar -->
-      <div class="flex items-center gap-4 px-2 py-1 border-b border-[#808080] bg-[#c0c0c0] text-black text-[11px]">
-        <span class="hover:bg-[#000080] hover:text-white px-1 cursor-pointer"><u>F</u>ile</span>
-        <span class="hover:bg-[#000080] hover:text-white px-1 cursor-pointer" onclick="openSettingsModal()"><u>E</u>dit Settings</span>
-        <span class="hover:bg-[#000080] hover:text-white px-1 cursor-pointer" onclick="fetchAllData()"><u>V</u>iew Refresh</span>
-        <span class="hover:bg-[#000080] hover:text-white px-1 cursor-pointer"><u>H</u>elp</span>
-      </div>
-
-      <!-- Control Toolbar -->
-      <div class="p-2 flex flex-wrap items-center justify-between gap-2 border-b border-[#ffffff] bg-[#c0c0c0]">
-        <div class="flex items-center gap-2">
-          <label class="font-bold text-black">Workspace Profile:</label>
-          <select id="clientSelector" onchange="switchClient(this.value)" class="win-sunken px-2 py-0.5 text-xs font-mono font-bold outline-none cursor-pointer">
-            <!-- Dynamic Inject -->
-          </select>
-          <span class="win-sunken px-2 py-0.5 font-mono text-[11px] text-slate-700" id="adAccountDisplay">act_259916616</span>
-        </div>
-
-        <div class="flex items-center gap-2">
-          <button onclick="fetchAllData()" id="btnSync" class="win-button flex items-center gap-1">
-            <span>🔄</span> <span id="syncText">Sync Live Data</span>
-          </button>
-          <button onclick="openSettingsModal()" class="win-button">
-            <span>⚙️ Properties</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Telemetry Dashboard Status Grid -->
-      <div class="p-3 bg-[#c0c0c0]">
-        <fieldset class="win-group">
-          <legend class="win-legend">Live Campaign Telemetry (Yesterday)</legend>
-          
-          <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2 pt-1 text-center font-mono">
-            <div class="win-sunken p-1.5">
-              <span class="text-[9px] text-slate-600 block font-sans font-bold">TOTAL SPEND</span>
-              <span class="text-sm font-black text-black" id="kpiSpend">£0.00</span>
-            </div>
-            <div class="win-sunken p-1.5">
-              <span class="text-[9px] text-slate-600 block font-sans font-bold">CLICKS</span>
-              <span class="text-sm font-black text-black" id="kpiClicks">0</span>
-            </div>
-            <div class="win-sunken p-1.5">
-              <span class="text-[9px] text-slate-600 block font-sans font-bold">AVG CPC</span>
-              <span class="text-sm font-black text-black" id="kpiCPC">£0.00</span>
-            </div>
-            <div class="win-sunken p-1.5">
-              <span class="text-[9px] text-slate-600 block font-sans font-bold">LINK CTR</span>
-              <span class="text-sm font-black text-[#000080]" id="kpiCTR">0.00%</span>
-            </div>
-            <div class="win-sunken p-1.5">
-              <span class="text-[9px] text-slate-600 block font-sans font-bold">IMPRESSIONS</span>
-              <span class="text-sm font-black text-black" id="kpiImpressions">0</span>
-            </div>
-            <div class="win-sunken p-1.5">
-              <span class="text-[9px] text-slate-600 block font-sans font-bold">CPM</span>
-              <span class="text-sm font-black text-black" id="kpiCPM">£0.00</span>
-            </div>
-            <div class="win-sunken p-1.5">
-              <span class="text-[9px] text-slate-600 block font-sans font-bold">EST REACH</span>
-              <span class="text-sm font-black text-black" id="kpiReach">0</span>
-            </div>
-            <div class="win-sunken p-1.5">
-              <span class="text-[9px] text-slate-600 block font-sans font-bold">COST/RESULT</span>
-              <span class="text-sm font-black text-[#008000]" id="kpiCostResult">£0.00</span>
-            </div>
-          </div>
-        </fieldset>
-      </div>
-    </div>
-
-    <!-- Middle Window: AI Summary and Feedback (Styled as Notepad.exe) -->
-    <div class="win-window shadow-xl">
-      <div class="win-titlebar">
-        <div class="flex items-center gap-1.5">
-          <span>📝</span>
-          <span>Notepad.exe — [AI Summary and Feedback.txt]</span>
-        </div>
-        <div class="flex items-center gap-1">
-          <button class="win-ctrl-btn">_</button>
-          <button class="win-ctrl-btn">□</button>
-          <button class="win-ctrl-btn" onclick="generateAIBriefing()">X</button>
-        </div>
-      </div>
-
-      <div class="p-3 bg-[#c0c0c0]">
-        <div class="flex items-center justify-between pb-2 text-[11px]">
-          <span class="text-slate-800 font-bold">Summary Stream: <span id="aiModelBadge" class="font-mono text-black font-normal bg-white px-1 border border-black">auto-resolving...</span></span>
-          <button onclick="generateAIBriefing()" id="btnGenerateAI" class="win-button text-xs flex items-center gap-1">
-            <span>⚡</span>
-            <span>Re-evaluate Directives</span>
-          </button>
-        </div>
-
-        <div id="aiNoticeContainer" class="hidden mb-2 p-1.5 bg-[#ffffcc] text-black border border-black text-[11px]"></div>
-
-        <!-- Notepad Editor Body -->
-        <div id="aiOutputContainer" class="win-sunken p-3 min-h-[90px] font-mono text-xs leading-relaxed text-black overflow-y-auto max-h-64">
-          Click "Sync Live Data" to generate executive bullet-point summary and media buying directives.
-        </div>
-      </div>
-
-      <!-- Notepad Status Strip -->
-      <div class="px-2 py-0.5 border-t border-[#808080] bg-[#c0c0c0] flex justify-between text-[10px] text-slate-700">
-        <span>Windows 98 AI Performance Engine</span>
-        <span>Encoding: ANSI / Plain Text</span>
-      </div>
-    </div>
-
-    <!-- Active Ad Creatives Explorer Window -->
-    <div class="win-window shadow-xl">
-      <div class="win-titlebar">
-        <div class="flex items-center gap-1.5">
-          <span>📁</span>
-          <span>C:\MetaAds\Active_Creatives_Explorer\</span>
-        </div>
-        <div class="flex items-center gap-1">
-          <span class="bg-[#c0c0c0] text-black font-mono font-bold px-1.5 py-0.5 text-[10px] border border-black" id="adCountDisplay">0 Active Ads</span>
-          <button class="win-ctrl-btn">X</button>
-        </div>
-      </div>
-
-      <div class="p-3 bg-[#c0c0c0]">
-        <div class="text-[11px] text-black mb-2 flex items-center justify-between">
-          <span>Active creative assets running on Meta. Click any asset to preview in full resolution:</span>
-        </div>
-
-        <!-- Ad Grid View -->
-        <div id="adCreativeGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 pt-1">
-          <div class="col-span-full py-8 text-center text-slate-600 font-mono win-sunken p-4">
-            No active creative assets detected. Press [Sync Live Data] above.
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Analytics Charts Window -->
-    <div class="win-window shadow-xl">
-      <div class="win-titlebar">
-        <div class="flex items-center gap-1.5">
-          <span>📈</span>
-          <span>MS Graph Viewer — Active Spend & Performance Metrics</span>
-        </div>
-        <div class="flex items-center gap-1">
-          <button class="win-ctrl-btn">_</button>
-          <button class="win-ctrl-btn">□</button>
-          <button class="win-ctrl-btn">X</button>
-        </div>
-      </div>
-
-      <div class="p-3 bg-[#c0c0c0] grid grid-cols-1 lg:grid-cols-2 gap-3">
+      <!-- iOS Date Range Segmented Picker -->
+      <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3">
         
-        <fieldset class="win-group">
-          <legend class="win-legend">Budget Allocation (Yesterday)</legend>
-          <div class="win-sunken p-2 h-56 flex items-center justify-center">
+        <!-- Segmented Control Pills -->
+        <div class="bg-black/40 border border-white/10 p-1 rounded-full flex items-center text-xs font-medium text-slate-400">
+          <button onclick="setDatePreset('yesterday')" id="pill-yesterday" class="px-3 py-1 rounded-full transition ios-pill-active">Yesterday</button>
+          <button onclick="setDatePreset('last_7d')" id="pill-last_7d" class="px-3 py-1 rounded-full transition hover:text-white">7D</button>
+          <button onclick="setDatePreset('last_14d')" id="pill-last_14d" class="px-3 py-1 rounded-full transition hover:text-white">14D</button>
+          <button onclick="setDatePreset('last_30d')" id="pill-last_30d" class="px-3 py-1 rounded-full transition hover:text-white">30D</button>
+          <button onclick="setDatePreset('this_month')" id="pill-this_month" class="px-3 py-1 rounded-full transition hover:text-white">Month</button>
+          <button onclick="toggleCustomDatePicker()" id="pill-custom" class="px-3 py-1 rounded-full transition hover:text-white flex items-center gap-1">
+            <span>Custom</span>
+            <i data-lucide="calendar" class="h-3 w-3"></i>
+          </button>
+        </div>
+
+        <!-- Custom Date Range Inputs (Revealed when Custom is clicked) -->
+        <div id="customDateInputs" class="hidden flex items-center gap-2 text-xs">
+          <input type="date" id="dateSince" class="ios-glass-subtle px-2.5 py-1 rounded-lg text-white font-mono focus:outline-none focus:ring-1 focus:ring-ios-blue text-xs" />
+          <span class="text-slate-400">to</span>
+          <input type="date" id="dateUntil" class="ios-glass-subtle px-2.5 py-1 rounded-lg text-white font-mono focus:outline-none focus:ring-1 focus:ring-ios-blue text-xs" />
+          <button onclick="applyCustomDateRange()" class="bg-ios-blue hover:bg-blue-600 text-white font-semibold px-3 py-1 rounded-lg transition active:scale-95">Apply</button>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Complete Top Telemetry / iOS Metric Tiles -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
+      
+      <!-- Spend -->
+      <div class="ios-glass rounded-2xl p-4 flex flex-col justify-between hover:bg-white/[0.06] transition group">
+        <div class="flex items-center justify-between text-slate-400 text-[10px] font-semibold uppercase tracking-wider">
+          <span>Spend</span>
+          <i data-lucide="pound-sterling" class="h-3.5 w-3.5 text-ios-orange"></i>
+        </div>
+        <div class="text-lg font-bold text-white tracking-tight mt-1" id="kpiSpend">£0.00</div>
+        <span class="text-[10px] text-slate-500 font-medium">Investment</span>
+      </div>
+
+      <!-- Clicks -->
+      <div class="ios-glass rounded-2xl p-4 flex flex-col justify-between hover:bg-white/[0.06] transition group">
+        <div class="flex items-center justify-between text-slate-400 text-[10px] font-semibold uppercase tracking-wider">
+          <span>Clicks</span>
+          <i data-lucide="mouse-pointer-click" class="h-3.5 w-3.5 text-ios-blue"></i>
+        </div>
+        <div class="text-lg font-bold text-white tracking-tight mt-1" id="kpiClicks">0</div>
+        <span class="text-[10px] text-slate-500 font-medium">Link Traffic</span>
+      </div>
+
+      <!-- Avg CPC -->
+      <div class="ios-glass rounded-2xl p-4 flex flex-col justify-between hover:bg-white/[0.06] transition group">
+        <div class="flex items-center justify-between text-slate-400 text-[10px] font-semibold uppercase tracking-wider">
+          <span>Avg CPC</span>
+          <i data-lucide="trending-up" class="h-3.5 w-3.5 text-ios-teal"></i>
+        </div>
+        <div class="text-lg font-bold text-white tracking-tight mt-1" id="kpiCPC">£0.00</div>
+        <span class="text-[10px] text-slate-500 font-medium">Cost / Click</span>
+      </div>
+
+      <!-- CTR -->
+      <div class="ios-glass rounded-2xl p-4 flex flex-col justify-between hover:bg-white/[0.06] transition group">
+        <div class="flex items-center justify-between text-slate-400 text-[10px] font-semibold uppercase tracking-wider">
+          <span>Link CTR</span>
+          <i data-lucide="target" class="h-3.5 w-3.5 text-ios-green"></i>
+        </div>
+        <div class="text-lg font-bold text-ios-green tracking-tight mt-1" id="kpiCTR">0.00%</div>
+        <span class="text-[10px] text-slate-500 font-medium">Click Rate</span>
+      </div>
+
+      <!-- Impressions -->
+      <div class="ios-glass rounded-2xl p-4 flex flex-col justify-between hover:bg-white/[0.06] transition group">
+        <div class="flex items-center justify-between text-slate-400 text-[10px] font-semibold uppercase tracking-wider">
+          <span>Impr.</span>
+          <i data-lucide="eye" class="h-3.5 w-3.5 text-slate-400"></i>
+        </div>
+        <div class="text-lg font-bold text-slate-200 tracking-tight mt-1" id="kpiImpressions">0</div>
+        <span class="text-[10px] text-slate-500 font-medium">Ad Views</span>
+      </div>
+
+      <!-- CPM -->
+      <div class="ios-glass rounded-2xl p-4 flex flex-col justify-between hover:bg-white/[0.06] transition group">
+        <div class="flex items-center justify-between text-slate-400 text-[10px] font-semibold uppercase tracking-wider">
+          <span>CPM</span>
+          <i data-lucide="layers" class="h-3.5 w-3.5 text-slate-400"></i>
+        </div>
+        <div class="text-lg font-bold text-slate-200 tracking-tight mt-1" id="kpiCPM">£0.00</div>
+        <span class="text-[10px] text-slate-500 font-medium">Per 1k Views</span>
+      </div>
+
+      <!-- Reach -->
+      <div class="ios-glass rounded-2xl p-4 flex flex-col justify-between hover:bg-white/[0.06] transition group">
+        <div class="flex items-center justify-between text-slate-400 text-[10px] font-semibold uppercase tracking-wider">
+          <span>Reach</span>
+          <i data-lucide="users" class="h-3.5 w-3.5 text-slate-400"></i>
+        </div>
+        <div class="text-lg font-bold text-slate-200 tracking-tight mt-1" id="kpiReach">0</div>
+        <span class="text-[10px] text-slate-500 font-medium">Unique People</span>
+      </div>
+
+      <!-- Cost / Result -->
+      <div class="ios-glass rounded-2xl p-4 flex flex-col justify-between hover:bg-white/[0.06] transition group">
+        <div class="flex items-center justify-between text-slate-400 text-[10px] font-semibold uppercase tracking-wider">
+          <span>Cost/Result</span>
+          <i data-lucide="award" class="h-3.5 w-3.5 text-ios-purple"></i>
+        </div>
+        <div class="text-lg font-bold text-ios-purple tracking-tight mt-1" id="kpiCostResult">£0.00</div>
+        <span class="text-[10px] text-slate-500 font-medium">Action Cost</span>
+      </div>
+
+    </div>
+
+    <!-- AI Summary and Feedback Panel (Apple Card Style) -->
+    <div class="ios-glass rounded-3xl p-6 relative overflow-hidden shadow-2xl border border-ios-blue/30">
+      <div class="absolute -right-20 -top-20 w-64 h-64 bg-ios-blue/15 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 pb-4 border-b border-white/10">
+        <div class="flex items-center gap-3">
+          <div class="h-9 w-9 rounded-2xl bg-ios-blue/20 border border-ios-blue/40 flex items-center justify-center text-ios-blue">
+            <i data-lucide="brain-circuit" class="h-5 w-5"></i>
+          </div>
+          <div>
+            <h3 class="text-sm sm:text-base font-bold text-white flex items-center gap-2">
+              AI Summary and Feedback
+              <span id="aiModelBadge" class="text-[10px] px-2.5 py-0.5 rounded-full bg-ios-blue/20 text-ios-blue font-semibold border border-ios-blue/30 font-mono">
+                auto-resolving...
+              </span>
+            </h3>
+            <p class="text-xs text-slate-400">Direct observations and pragmatic media buying steps.</p>
+          </div>
+        </div>
+
+        <button
+          onclick="generateAIBriefing()"
+          id="btnGenerateAI"
+          class="flex items-center gap-1.5 ios-glass-subtle hover:bg-white/10 text-xs font-semibold px-4 py-1.5 rounded-full text-slate-200 transition active:scale-95"
+        >
+          <i data-lucide="sparkles" class="h-3.5 w-3.5 text-ios-blue"></i>
+          <span>Regenerate Feedback</span>
+        </button>
+      </div>
+
+      <div id="aiNoticeContainer" class="hidden mb-3 text-xs text-ios-orange bg-ios-orange/10 border border-ios-orange/20 p-3 rounded-2xl"></div>
+
+      <!-- AI Content Box -->
+      <div id="aiOutputContainer" class="min-h-[80px] flex items-center text-slate-200 text-xs sm:text-sm leading-relaxed">
+        <p class="text-slate-400 italic">Click "Sync Data" to generate crisp bullet-point feedback for active campaigns and creatives.</p>
+      </div>
+    </div>
+
+    <!-- Analytics & Charts Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+      <!-- Chart 1: Spend Distribution -->
+      <div class="ios-glass rounded-3xl p-6 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-xs font-bold text-white uppercase tracking-wider">Spend Distribution</h3>
+            <span class="text-xs text-slate-400 font-mono">Campaign Share</span>
+          </div>
+          <div class="relative h-64 w-full flex items-center justify-center">
             <canvas id="spendChart"></canvas>
           </div>
-        </fieldset>
+        </div>
+        <p class="text-xs text-slate-500 text-center mt-3 pt-3 border-t border-white/10">
+          Proportional daily ad investment across active campaigns
+        </p>
+      </div>
 
-        <fieldset class="win-group">
-          <legend class="win-legend">Efficiency Matrix (CPC vs CTR)</legend>
-          <div class="win-sunken p-2 h-56 flex items-center justify-center">
+      <!-- Chart 2: Efficiency Matrix -->
+      <div class="ios-glass rounded-3xl p-6 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-xs font-bold text-white uppercase tracking-wider">Campaign Efficiency Benchmarks</h3>
+            <span class="text-xs text-slate-400 font-mono">CPC (£) vs CTR (%)</span>
+          </div>
+          <div class="relative h-64 w-full flex items-center justify-center">
             <canvas id="efficiencyChart"></canvas>
           </div>
-        </fieldset>
+        </div>
+        <p class="text-xs text-slate-500 text-center mt-3 pt-3 border-t border-white/10">
+          Real-time unit economics and click efficiency comparison
+        </p>
+      </div>
 
+    </div>
+
+    <!-- Active Ad Creatives Feed / High-Res Visual Gallery -->
+    <div class="ios-glass rounded-3xl p-6 space-y-4">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
+        <div>
+          <h3 class="text-sm sm:text-base font-bold text-white flex items-center gap-2">
+            <i data-lucide="layers" class="h-4 w-4 text-ios-blue"></i>
+            Active Ad Creatives Feed
+          </h3>
+          <p class="text-xs text-slate-400">High-resolution previews of ads delivering under active campaigns.</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-xs text-ios-green bg-ios-green/10 border border-ios-green/20 px-3 py-1 rounded-full font-semibold flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-ios-green animate-pulse"></span>
+            Active Only
+          </span>
+          <span class="text-xs text-slate-300 ios-glass-subtle px-3 py-1 rounded-full font-mono" id="adCountDisplay">
+            0 active ads
+          </span>
+        </div>
+      </div>
+
+      <!-- Grid of Ad Creatives -->
+      <div id="adCreativeGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-2">
+        <div class="col-span-full py-16 text-center text-slate-500 text-xs">
+          No active campaign ads loaded. Press <strong>Sync Data</strong> to pull active assets.
+        </div>
       </div>
     </div>
 
-    <!-- Active Campaign Data Sheet Table -->
-    <div class="win-window shadow-xl">
-      <div class="win-titlebar">
-        <div class="flex items-center gap-1.5">
-          <span>📑</span>
-          <span>Microsoft Excel 97 — ActiveCampaigns.xls</span>
+    <!-- Active Campaigns Detailed Table -->
+    <div class="ios-glass rounded-3xl p-6 flex flex-col justify-between">
+      <div>
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-sm font-bold text-white">Active Campaigns Telemetry</h3>
+          <span class="text-xs text-slate-400 font-mono" id="tableRowCount">0 active campaigns identified</span>
         </div>
-        <div class="flex items-center gap-1">
-          <span class="bg-[#c0c0c0] text-black font-mono font-bold px-1.5 py-0.5 text-[10px] border border-black" id="tableRowCount">0 Active Campaigns</span>
-        </div>
-      </div>
 
-      <div class="p-3 bg-[#c0c0c0]">
-        <div class="win-sunken overflow-x-auto">
-          <table class="w-full text-left text-xs text-black border-collapse font-mono">
-            <thead class="bg-[#c0c0c0] border-b-2 border-black font-bold text-[11px]">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs text-slate-300">
+            <thead class="bg-white/[0.04] text-slate-400 uppercase tracking-wider border-b border-white/10">
               <tr>
-                <th class="py-1 px-2 border-r border-[#808080]">Campaign Name</th>
-                <th class="py-1 px-2 text-right border-r border-[#808080]">Spend</th>
-                <th class="py-1 px-2 text-right border-r border-[#808080]">Impr</th>
-                <th class="py-1 px-2 text-right border-r border-[#808080]">Reach</th>
-                <th class="py-1 px-2 text-right border-r border-[#808080]">Clicks</th>
-                <th class="py-1 px-2 text-right border-r border-[#808080]">CTR</th>
-                <th class="py-1 px-2 text-right border-r border-[#808080]">CPC</th>
-                <th class="py-1 px-2 text-right">CPM</th>
+                <th class="py-3 px-3.5 rounded-l-xl">Active Campaign</th>
+                <th class="py-3 px-3.5 text-right">Spend</th>
+                <th class="py-3 px-3.5 text-right">Impressions</th>
+                <th class="py-3 px-3.5 text-right">Reach</th>
+                <th class="py-3 px-3.5 text-right">Clicks</th>
+                <th class="py-3 px-3.5 text-right">CTR</th>
+                <th class="py-3 px-3.5 text-right">CPC</th>
+                <th class="py-3 px-3.5 text-right rounded-r-xl">CPM</th>
               </tr>
             </thead>
-            <tbody id="campaignTableBody" class="divide-y divide-slate-300">
+            <tbody id="campaignTableBody" class="divide-y divide-white/5 font-mono">
               <tr>
-                <td colspan="8" class="text-center py-6 text-slate-600 font-sans">
-                  No active campaign records found for yesterday.
+                <td colspan="8" class="text-center py-8 text-slate-500 font-sans">
+                  No active campaign data loaded. Press <strong>Sync Data</strong> to retrieve insights.
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
-    </div>
 
-  </div>
-
-  <!-- Full-Resolution Image Previewer Window (Win98 Lightbox Modal) -->
-  <div id="mediaLightboxModal" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-[1px] flex items-center justify-center hidden p-3">
-    <div class="win-window max-w-2xl w-full shadow-2xl flex flex-col max-h-[92vh]">
-      
-      <div class="win-titlebar">
-        <div class="flex items-center gap-1.5 truncate">
-          <span>🖼️</span>
-          <span id="lightboxTitle" class="truncate">ImageViewer.exe — Active Asset</span>
-        </div>
-        <button onclick="closeMediaLightbox()" class="win-ctrl-btn">X</button>
-      </div>
-
-      <div class="p-3 bg-[#c0c0c0] flex-1 overflow-y-auto space-y-3">
-        <!-- Sunken Image Viewport (Crisp and Large) -->
-        <div class="win-sunken p-2 bg-black flex items-center justify-center min-h-[300px] max-h-[55vh] overflow-hidden" id="lightboxVisualContainer">
-          <!-- Injected dynamically -->
-        </div>
-
-        <fieldset class="win-group">
-          <legend class="win-legend">Ad Copy & Specifications</legend>
-          <div class="space-y-1.5 text-black">
-            <div class="flex justify-between items-center text-xs">
-              <span id="lightboxCampaignTag" class="font-bold text-[#000080]">Campaign: Active</span>
-              <span id="lightboxCtaButton" class="win-button text-[10px] font-bold uppercase">LEARN_MORE</span>
-            </div>
-            <div id="lightboxBodyCopy" class="win-sunken p-2 max-h-24 overflow-y-auto text-xs font-sans leading-relaxed"></div>
-          </div>
-        </fieldset>
-      </div>
-
-      <div class="p-2 border-t border-[#ffffff] bg-[#c0c0c0] flex justify-end">
-        <button onclick="closeMediaLightbox()" class="win-button px-4">Close Preview</button>
+      <div class="mt-4 pt-3 border-t border-white/10 flex justify-between items-center text-[11px] text-slate-500 font-mono">
+        <span>Meta Marketing API v21.0</span>
+        <span>Currency: GBP (£)</span>
       </div>
     </div>
-  </div>
 
-  <!-- Settings / Control Panel Properties Window -->
-  <div id="settingsModal" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-[1px] flex items-center justify-center hidden p-3">
-    <div class="win-window max-w-lg w-full shadow-2xl flex flex-col max-h-[90vh]">
+  </main>
+
+  <!-- High-Res Media Lightbox Modal (Apple Sheet Style) -->
+  <div id="mediaLightboxModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-xl flex items-center justify-center hidden p-4 sm:p-6">
+    <div class="relative max-w-4xl w-full ios-glass border border-white/20 rounded-3xl overflow-hidden shadow-2xl flex flex-col max-h-[92vh]">
       
-      <div class="win-titlebar">
-        <div class="flex items-center gap-1.5">
-          <span>⚙️</span>
-          <span>Control Panel — Client Credentials Properties</span>
+      <!-- Modal Header -->
+      <div class="px-5 py-4 border-b border-white/10 flex items-center justify-between bg-black/40">
+        <div class="flex items-center gap-2.5">
+          <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-ios-blue text-white uppercase font-mono" id="lightboxTypeBadge">IMAGE</span>
+          <h4 id="lightboxTitle" class="text-sm font-semibold text-white truncate max-w-lg">Ad Preview</h4>
         </div>
-        <button onclick="closeSettingsModal()" class="win-ctrl-btn">X</button>
-      </div>
-
-      <div class="p-4 bg-[#c0c0c0] overflow-y-auto space-y-4 text-black">
-        <fieldset class="win-group">
-          <legend class="win-legend">Active Account Configuration</legend>
-          
-          <div class="space-y-3 pt-1 text-xs">
-            <div>
-              <label class="block font-bold mb-1">Client / Brand Name:</label>
-              <input type="text" id="cfgClientName" class="win-sunken w-full p-1.5 outline-none font-bold" />
-            </div>
-            <div>
-              <label class="block font-bold mb-1">Meta Ad Account ID (e.g. act_259916616):</label>
-              <input type="text" id="cfgAccountId" class="win-sunken w-full p-1.5 font-mono outline-none" />
-            </div>
-            <div>
-              <label class="block font-bold mb-1">Meta System User Access Token:</label>
-              <input type="password" id="cfgMetaToken" placeholder="Paste Meta token here..." class="win-sunken w-full p-1.5 font-mono outline-none" />
-            </div>
-            <div>
-              <label class="block font-bold mb-1">Gemini API Key:</label>
-              <input type="password" id="cfgGeminiKey" placeholder="Paste Gemini key here..." class="win-sunken w-full p-1.5 font-mono outline-none" />
-            </div>
-          </div>
-        </fieldset>
-
-        <button onclick="createNewClientProfile()" class="win-button w-full text-xs">
-          ➕ Create Another Client Workspace
+        <button onclick="closeMediaLightbox()" class="text-slate-400 hover:text-white p-1.5 rounded-full ios-glass-subtle transition active:scale-95">
+          <i data-lucide="x" class="h-4 w-4"></i>
         </button>
       </div>
 
-      <div class="p-2 border-t border-[#ffffff] bg-[#c0c0c0] flex justify-end gap-2">
-        <button onclick="saveCurrentClientConfig()" class="win-button px-4">OK (Save)</button>
-        <button onclick="closeSettingsModal()" class="win-button px-4">Cancel</button>
+      <!-- High-Res Large Viewport Container -->
+      <div id="lightboxVisualContainer" class="overflow-auto flex items-center justify-center p-4 bg-black/70 min-h-[380px] max-h-[62vh]">
+        <!-- Full-resolution asset dynamically injected here -->
       </div>
+
+      <!-- Modal Footer Copy & Actions -->
+      <div class="p-5 border-t border-white/10 bg-black/60 space-y-3">
+        <div class="flex items-center justify-between gap-3">
+          <span id="lightboxCampaignTag" class="text-xs font-mono text-ios-teal truncate">Campaign: Active</span>
+          <div id="lightboxCtaButton" class="px-4 py-1.5 rounded-full bg-ios-blue text-white font-semibold text-xs uppercase tracking-wider shrink-0 shadow">
+            LEARN MORE
+          </div>
+        </div>
+        <p id="lightboxBodyCopy" class="text-xs text-slate-300 leading-relaxed max-h-28 overflow-y-auto font-sans"></p>
+      </div>
+
     </div>
   </div>
 
-  <!-- Windows 98 Taskbar (Fixed at Bottom) -->
-  <div class="fixed bottom-0 left-0 right-0 h-8 win-taskbar z-50 flex items-center justify-between px-1">
-    <div class="flex items-center gap-1">
-      <button onclick="openSettingsModal()" class="win-button flex items-center gap-1 px-2 py-0.5">
-        <span class="font-extrabold text-[#000080]">🪟 Start</span>
-      </button>
-      <div class="win-button win-button-pressed flex items-center gap-1 text-[11px] px-2 py-0.5 truncate max-w-[200px]">
-        <span>📊</span>
-        <span class="truncate" id="taskbarClient">Calm Drift</span>
+  <!-- Settings & Workspace Modal (Apple Sheet Style) -->
+  <div id="settingsModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-xl flex items-center justify-center hidden p-4">
+    <div class="ios-glass border border-white/20 w-full max-w-2xl rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+      
+      <div class="px-6 py-4 border-b border-white/10 flex items-center justify-between bg-black/40">
+        <h3 class="text-base font-bold text-white flex items-center gap-2">
+          <i data-lucide="sliders-horizontal" class="h-4 w-4 text-ios-blue"></i>
+          Client Credentials & Workspaces
+        </h3>
+        <button onclick="closeSettingsModal()" class="text-slate-400 hover:text-white p-1.5 rounded-full ios-glass-subtle transition">
+          <i data-lucide="x" class="h-4 w-4"></i>
+        </button>
       </div>
-    </div>
 
-    <!-- System Tray -->
-    <div class="win-tray flex items-center gap-2 text-[11px] font-mono">
-      <span>🔔</span>
-      <span>💷</span>
-      <span id="winClock">12:00 PM</span>
+      <div class="p-6 overflow-y-auto space-y-5 flex-1">
+        
+        <!-- Active Client Profile Form -->
+        <div class="bg-white/[0.04] p-5 rounded-2xl border border-white/10 space-y-4">
+          <div class="flex items-center justify-between">
+            <h4 class="text-xs font-bold text-white uppercase tracking-wider">Active Workspace</h4>
+            <span class="text-[10px] text-ios-blue font-semibold px-2.5 py-0.5 rounded-full bg-ios-blue/10 border border-ios-blue/20">
+              Live Config
+            </span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+            <div>
+              <label class="block text-slate-400 mb-1 font-medium">Client / Brand Name</label>
+              <input type="text" id="cfgClientName" placeholder="e.g. Calm Drift Sanctuary" class="w-full ios-glass-subtle rounded-xl px-3.5 py-2 text-white focus:outline-none focus:ring-1 focus:ring-ios-blue" />
+            </div>
+            <div>
+              <label class="block text-slate-400 mb-1 font-medium">Meta Ad Account ID</label>
+              <input type="text" id="cfgAccountId" placeholder="act_259916616" class="w-full ios-glass-subtle rounded-xl px-3.5 py-2 text-white focus:outline-none focus:ring-1 focus:ring-ios-blue font-mono" />
+            </div>
+          </div>
+
+          <div class="text-xs">
+            <label class="block text-slate-400 mb-1 font-medium">Meta System User Access Token</label>
+            <input type="password" id="cfgMetaToken" placeholder="Paste your Meta System User token here..." class="w-full ios-glass-subtle rounded-xl px-3.5 py-2 text-white focus:outline-none focus:ring-1 focus:ring-ios-blue font-mono" />
+          </div>
+
+          <div class="text-xs">
+            <label class="block text-slate-400 mb-1 font-medium">Gemini API Key</label>
+            <input type="password" id="cfgGeminiKey" placeholder="Paste your Gemini API key here..." class="w-full ios-glass-subtle rounded-xl px-3.5 py-2 text-white focus:outline-none focus:ring-1 focus:ring-ios-blue font-mono" />
+          </div>
+
+          <div class="flex justify-end pt-2">
+            <button onclick="saveCurrentClientConfig()" class="flex items-center gap-1.5 bg-ios-blue hover:bg-blue-600 text-white text-xs font-semibold px-4 py-2 rounded-full transition shadow-md active:scale-95">
+              <i data-lucide="check" class="h-3.5 w-3.5"></i>
+              <span>Save Client Changes</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="border-t border-white/10 pt-3">
+          <button onclick="createNewClientProfile()" class="w-full border border-dashed border-white/20 hover:border-ios-blue text-slate-300 hover:text-ios-blue text-xs font-semibold py-3 rounded-2xl transition flex items-center justify-center gap-2">
+            <i data-lucide="plus" class="h-4 w-4"></i>
+            <span>Add Another Client Workspace</span>
+          </button>
+        </div>
+
+      </div>
+
+      <div class="px-6 py-3 bg-black/40 border-t border-white/10 flex justify-between items-center text-xs text-slate-500 font-mono">
+        <span>Stored securely in local browser storage.</span>
+        <button onclick="closeSettingsModal()" class="ios-glass-subtle hover:bg-white/10 text-slate-300 px-4 py-1.5 rounded-full transition">
+          Close
+        </button>
+      </div>
+
     </div>
   </div>
 
-  <!-- JavaScript Application Logic -->
+  <!-- Main JavaScript Logic -->
   <script>
     const DEFAULT_CLIENTS = [
       {
@@ -519,23 +561,16 @@
     let activeAds = [];
     let spendChartInstance = null;
     let efficiencyChartInstance = null;
+    let currentReportingPreset = 'yesterday';
+    let customDateRange = null;
 
     document.addEventListener('DOMContentLoaded', () => {
       renderClientSelector();
       loadActiveClient();
       initCharts();
-      startWinClock();
+      lucide.createIcons();
       fetchAllData();
     });
-
-    function startWinClock() {
-      const update = () => {
-        const now = new Date();
-        document.getElementById('winClock').textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-      };
-      update();
-      setInterval(update, 1000);
-    }
 
     function getActiveClient() {
       return clients.find(c => c.id === activeClientId) || clients[0];
@@ -562,9 +597,8 @@
 
     function loadActiveClient() {
       const client = getActiveClient();
-      document.getElementById('clientTitle').textContent = client.name;
-      document.getElementById('taskbarClient').textContent = client.name;
-      document.getElementById('adAccountDisplay').textContent = client.accountId;
+      document.getElementById('clientDisplayName').textContent = client.name;
+      document.getElementById('adAccountDisplay').textContent = `Account ID: ${client.accountId}`;
       
       document.getElementById('cfgClientName').value = client.name;
       document.getElementById('cfgAccountId').value = client.accountId;
@@ -572,9 +606,66 @@
       document.getElementById('cfgGeminiKey').value = client.geminiKey || '';
     }
 
+    // iOS Segmented Date Preset Handler
+    function setDatePreset(preset) {
+      currentReportingPreset = preset;
+      customDateRange = null;
+      document.getElementById('customDateInputs').classList.add('hidden');
+
+      // Update UI active pills
+      const presets = ['yesterday', 'last_7d', 'last_14d', 'last_30d', 'this_month', 'custom'];
+      presets.forEach(p => {
+        const btn = document.getElementById(`pill-${p}`);
+        if (btn) {
+          if (p === preset) {
+            btn.className = 'px-3 py-1 rounded-full transition ios-pill-active';
+          } else {
+            btn.className = 'px-3 py-1 rounded-full transition hover:text-white';
+          }
+        }
+      });
+
+      fetchAllData();
+    }
+
+    function toggleCustomDatePicker() {
+      const inputs = document.getElementById('customDateInputs');
+      inputs.classList.toggle('hidden');
+
+      // Populate default start/end dates if empty
+      const today = new Date().toISOString().split('T')[0];
+      const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+      
+      if (!document.getElementById('dateSince').value) document.getElementById('dateSince').value = sevenDaysAgo;
+      if (!document.getElementById('dateUntil').value) document.getElementById('dateUntil').value = today;
+    }
+
+    function applyCustomDateRange() {
+      const since = document.getElementById('dateSince').value;
+      const until = document.getElementById('dateUntil').value;
+
+      if (!since || !until) {
+        alert('Please select both Start and End dates.');
+        return;
+      }
+
+      currentReportingPreset = 'custom';
+      customDateRange = { since, until };
+
+      const presets = ['yesterday', 'last_7d', 'last_14d', 'last_30d', 'this_month'];
+      presets.forEach(p => {
+        const btn = document.getElementById(`pill-${p}`);
+        if (btn) btn.className = 'px-3 py-1 rounded-full transition hover:text-white';
+      });
+      document.getElementById('pill-custom').className = 'px-3 py-1 rounded-full transition ios-pill-active flex items-center gap-1';
+
+      fetchAllData();
+    }
+
     function openSettingsModal() {
       loadActiveClient();
       document.getElementById('settingsModal').classList.remove('hidden');
+      lucide.createIcons();
     }
 
     function closeSettingsModal() {
@@ -609,6 +700,7 @@
       saveClientsToStorage();
       renderClientSelector();
       loadActiveClient();
+      lucide.createIcons();
     }
 
     function saveClientsToStorage() {
@@ -616,26 +708,26 @@
       localStorage.setItem('whitelabel_active_client_id', activeClientId);
     }
 
-    // Windows 98 Chart Visualisations
+    // Chart.js Apple Style Visualisations
     function initCharts() {
       const spendCtx = document.getElementById('spendChart').getContext('2d');
       spendChartInstance = new Chart(spendCtx, {
-        type: 'pie',
+        type: 'doughnut',
         data: {
           labels: ['No Active Campaigns'],
           datasets: [{
             data: [1],
-            backgroundColor: ['#808080'],
-            borderColor: '#000000',
-            borderWidth: 1
+            backgroundColor: ['rgba(255, 255, 255, 0.1)'],
+            borderWidth: 0
           }]
         },
         options: {
           responsive: true,
           maintainAspectRatio: false,
           plugins: {
-            legend: { position: 'bottom', labels: { color: '#000000', font: { size: 10, family: 'Tahoma' } } }
-          }
+            legend: { position: 'bottom', labels: { color: '#94a3b8', font: { size: 11 }, boxWidth: 10, padding: 12 } }
+          },
+          cutout: '72%'
         }
       });
 
@@ -645,19 +737,19 @@
         data: {
           labels: ['No Data'],
           datasets: [
-            { label: 'CPC (£)', data: [0], backgroundColor: '#000080' },
-            { label: 'CTR (%)', data: [0], backgroundColor: '#008000' }
+            { label: 'CPC (£)', data: [0], backgroundColor: '#0a84ff', borderRadius: 8 },
+            { label: 'CTR (%)', data: [0], backgroundColor: '#30d158', borderRadius: 8 }
           ]
         },
         options: {
           responsive: true,
           maintainAspectRatio: false,
           scales: {
-            x: { ticks: { color: '#000000', font: { size: 9 } }, grid: { display: false } },
-            y: { ticks: { color: '#000000', font: { size: 9 } }, grid: { color: '#dfdfdf' } }
+            x: { ticks: { color: '#64748b', font: { size: 10 } }, grid: { display: false } },
+            y: { ticks: { color: '#64748b', font: { size: 10 } }, grid: { color: 'rgba(255, 255, 255, 0.05)' } }
           },
           plugins: {
-            legend: { labels: { color: '#000000', font: { size: 10 } } }
+            legend: { labels: { color: '#94a3b8', font: { size: 11 }, boxWidth: 10 } }
           }
         }
       });
@@ -669,7 +761,7 @@
       if (!data || data.length === 0) {
         spendChartInstance.data.labels = ['No Active Spend'];
         spendChartInstance.data.datasets[0].data = [1];
-        spendChartInstance.data.datasets[0].backgroundColor = ['#808080'];
+        spendChartInstance.data.datasets[0].backgroundColor = ['rgba(255, 255, 255, 0.1)'];
         spendChartInstance.update();
 
         efficiencyChartInstance.data.labels = ['No Active Data'];
@@ -684,7 +776,7 @@
       const cpcValues = data.map(c => parseFloat(c.cpc) || 0);
       const ctrValues = data.map(c => parseFloat(c.ctr) || 0);
 
-      const colorPalette = ['#000080', '#008080', '#800080', '#808000', '#008000', '#800000'];
+      const colorPalette = ['#0a84ff', '#5e5ce6', '#bf5af2', '#64d2ff', '#30d158', '#ff9f0a'];
 
       spendChartInstance.data.labels = labels;
       spendChartInstance.data.datasets[0].data = spendValues;
@@ -697,14 +789,14 @@
       efficiencyChartInstance.update();
     }
 
-    // High-Resolution Image & Video Asset Resolver (Direct from Meta Graph)
+    // High-Resolution Image Unwrapper & Full Resolution Post Asset Resolver
     async function resolveHighResAssetUrl(creative, token) {
       if (!creative) return null;
 
-      // 1. If it's a boosted post, fetch the raw uncompressed post full_picture directly
+      // 1. If it's a boosted post, query the parent post's uncompressed full_picture attachment
       if (creative.effective_object_story_id && token) {
         try {
-          const postRes = await fetch(`https://graph.facebook.com/v21.0/${creative.effective_object_story_id}?fields=full_picture,attachments{media,target}&access_token=${token}`);
+          const postRes = await fetch(`https://graph.facebook.com/v21.0/${creative.effective_object_story_id}?fields=full_picture,attachments{media,media_type,unshimmed_url}&access_token=${token}`);
           const postData = await postRes.json();
           if (postData.full_picture) {
             return postData.full_picture;
@@ -713,11 +805,11 @@
             return postData.attachments.data[0].media.image.src;
           }
         } catch(e) {
-          console.warn('Post full_picture fetch note:', e);
+          console.warn('Post full_picture fetch notice:', e);
         }
       }
 
-      // 2. Extract from standard creative spec
+      // 2. Extract and clean raw URL
       let rawUrl = creative.image_url || null;
       const spec = creative.object_story_spec?.link_data || {};
       const photoSpec = creative.object_story_spec?.photo_data || {};
@@ -728,7 +820,7 @@
       }
 
       if (rawUrl) {
-        // Strip safe_image.php proxy wrappers
+        // Strip safe_image.php proxy
         if (rawUrl.includes('safe_image.php') && rawUrl.includes('url=')) {
           try {
             const urlObj = new URL(rawUrl);
@@ -737,7 +829,7 @@
           } catch(e) {}
         }
 
-        // Strip downscaling tokens so CDN returns raw dimensions
+        // Clean CDN downscaling parameters
         rawUrl = rawUrl.replace(/\/[sp]\d+x\d+\//g, '/')
                        .replace(/&w=\d+&h=\d+/g, '')
                        .replace(/_s\.jpg/g, '_n.jpg')
@@ -748,18 +840,27 @@
       return rawUrl;
     }
 
-    // Meta Marketing API Fetch
+    // Meta Marketing API (Dynamic Date Range + Full Resolution Asset Query)
     async function fetchAllData() {
       const client = getActiveClient();
-      const syncText = document.getElementById('syncText');
+      const refreshBtn = document.getElementById('refreshBtn');
+      const refreshIcon = document.getElementById('refreshIcon');
+      const refreshText = document.getElementById('refreshText');
       const noticeContainer = document.getElementById('aiNoticeContainer');
 
       noticeContainer.classList.add('hidden');
-      syncText.textContent = 'Fetching Meta Graph...';
+      noticeContainer.innerHTML = '';
+
+      refreshBtn.disabled = true;
+      refreshText.textContent = 'Syncing...';
+      refreshIcon.classList.add('animate-spin');
 
       if (!client.metaToken) {
-        handleFallbackData('No Meta Access Token configured. Loaded demonstration baseline. Click Properties to add token.');
-        syncText.textContent = 'Sync Live Data';
+        handleFallbackData('No Meta Access Token detected. Displaying demonstration campaign baseline. Click Settings to enter your live token.');
+        refreshBtn.disabled = false;
+        refreshText.textContent = 'Sync Data';
+        refreshIcon.classList.remove('animate-spin');
+        lucide.createIcons();
         return;
       }
 
@@ -768,8 +869,14 @@
         cleanAccountId = 'act_' + cleanAccountId;
       }
 
-      const campaignsEndpoint = `https://graph.facebook.com/v21.0/${cleanAccountId}/campaigns?fields=id,name,status,effective_status,insights.date_preset(yesterday){spend,impressions,reach,clicks,ctr,cpc,cpm,actions,cost_per_action_type}&effective_status=['ACTIVE']&access_token=${client.metaToken}`;
-      const adsEndpoint = `https://graph.facebook.com/v21.0/${cleanAccountId}/ads?fields=id,name,status,effective_status,campaign{id,name,status,effective_status},creative{id,name,title,body,image_url,thumbnail_url,video_id,call_to_action_type,effective_object_story_id,object_story_spec{link_data,video_data,photo_data}},insights.date_preset(yesterday){spend,impressions,reach,clicks,ctr,cpc,cpm,actions}&effective_status=['ACTIVE']&limit=30&access_token=${client.metaToken}`;
+      // Construct Date Parameter
+      let dateParam = `date_preset=${currentReportingPreset}`;
+      if (currentReportingPreset === 'custom' && customDateRange) {
+        dateParam = `time_range={'since':'${customDateRange.since}','until':'${customDateRange.until}'}`;
+      }
+
+      const campaignsEndpoint = `https://graph.facebook.com/v21.0/${cleanAccountId}/campaigns?fields=id,name,status,effective_status,insights.${dateParam}{spend,impressions,reach,clicks,ctr,cpc,cpm,actions,cost_per_action_type}&effective_status=['ACTIVE']&access_token=${client.metaToken}`;
+      const adsEndpoint = `https://graph.facebook.com/v21.0/${cleanAccountId}/ads?fields=id,name,status,effective_status,campaign{id,name,status,effective_status},creative{id,name,title,body,image_url,thumbnail_url,video_id,call_to_action_type,effective_object_story_id,object_story_spec{link_data,video_data,photo_data}},insights.${dateParam}{spend,impressions,reach,clicks,ctr,cpc,cpm,actions}&effective_status=['ACTIVE']&limit=35&access_token=${client.metaToken}`;
 
       try {
         const [campRes, adsRes] = await Promise.all([
@@ -778,7 +885,7 @@
         ]);
 
         if (campRes.error) {
-          throw new Error(campRes.error.message || 'Meta Campaigns API error.');
+          throw new Error(campRes.error.message || 'Meta Campaigns API returned an error.');
         }
 
         if (campRes.data && campRes.data.length > 0) {
@@ -820,13 +927,16 @@
           await renderCreativeGallery(activeAds, client.metaToken);
           generateAIBriefing();
         } else {
-          handleFallbackData('No active spend recorded yesterday. Loaded active simulation.');
+          handleFallbackData(`No active campaign spend recorded for selected period (${currentReportingPreset}). Showing baseline preview.`);
         }
 
       } catch (err) {
-        handleFallbackData(`Meta Graph notice: ${err.message}. Displaying active simulation.`);
+        handleFallbackData(`Notice: Direct Meta Graph request returned (${err.message}). Showing active campaign simulation.`);
       } finally {
-        syncText.textContent = 'Sync Live Data';
+        refreshBtn.disabled = false;
+        refreshText.textContent = 'Sync Data';
+        refreshIcon.classList.remove('animate-spin');
+        lucide.createIcons();
       }
     }
 
@@ -857,8 +967,8 @@
           campaign: { id: 'camp_001', name: 'Post: "Our Black November event has officially begun...."', status: 'ACTIVE', effective_status: 'ACTIVE' },
           creative: {
             title: 'Our Black November event has officially begun',
-            body: 'Our Black November event has officially begun. Enjoy 20% off any treatment booked for December when secured before 16 November at midnight. Give yourself something truly relaxing to look forward to this winter. Message us to reserve your appointment.',
-            image_url: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1200&q=85',
+            body: 'Our Black November event has officially begun. Enjoy 20% off any treatment booked for December when secured before 16 November at midnight. Give yourself something truly relaxing to look forward to this winter. 🤎 Message us to reserve your appointment.',
+            image_url: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1600&q=90',
             call_to_action_type: 'LEARN_MORE',
             is_video: false
           },
@@ -918,16 +1028,16 @@
       if (!data || data.length === 0) {
         tbody.innerHTML = `
           <tr>
-            <td colspan="8" class="text-center py-4 text-slate-600 font-sans">
-              No active campaign records found.
+            <td colspan="8" class="text-center py-8 text-slate-500 font-sans">
+              No active campaign records found for this timeframe.
             </td>
           </tr>
         `;
-        countEl.textContent = '0 Active Campaigns';
+        countEl.textContent = '0 active campaigns';
         return;
       }
 
-      countEl.textContent = `${data.length} Active Campaign${data.length > 1 ? 's' : ''}`;
+      countEl.textContent = `${data.length} active campaign${data.length > 1 ? 's' : ''}`;
 
       data.forEach(item => {
         const spend = parseFloat(item.spend) || 0;
@@ -939,24 +1049,27 @@
         const cpm = parseFloat(item.cpm) || (impressions > 0 ? (spend / impressions) * 1000 : 0);
 
         const row = document.createElement('tr');
-        row.className = 'hover:bg-[#000080] hover:text-white transition';
+        row.className = 'hover:bg-white/[0.04] transition';
         row.innerHTML = `
-          <td class="py-1 px-2 border-r border-[#dfdfdf] truncate max-w-xs font-sans font-bold" title="${item.campaign_name}">
-            ${item.campaign_name}
+          <td class="py-3 px-3.5 font-sans font-medium text-white max-w-xs truncate" title="${item.campaign_name}">
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-ios-green shrink-0"></span>
+              <span class="truncate">${item.campaign_name}</span>
+            </div>
           </td>
-          <td class="py-1 px-2 text-right border-r border-[#dfdfdf]">£${spend.toFixed(2)}</td>
-          <td class="py-1 px-2 text-right border-r border-[#dfdfdf]">${impressions.toLocaleString()}</td>
-          <td class="py-1 px-2 text-right border-r border-[#dfdfdf]">${reach.toLocaleString()}</td>
-          <td class="py-1 px-2 text-right border-r border-[#dfdfdf] font-bold">${clicks.toLocaleString()}</td>
-          <td class="py-1 px-2 text-right border-r border-[#dfdfdf]">${ctr.toFixed(2)}%</td>
-          <td class="py-1 px-2 text-right border-r border-[#dfdfdf]">£${cpc.toFixed(2)}</td>
-          <td class="py-1 px-2 text-right">£${cpm.toFixed(2)}</td>
+          <td class="py-3 px-3.5 text-right text-slate-200">£${spend.toFixed(2)}</td>
+          <td class="py-3 px-3.5 text-right text-slate-400">${impressions.toLocaleString()}</td>
+          <td class="py-3 px-3.5 text-right text-slate-400">${reach.toLocaleString()}</td>
+          <td class="py-3 px-3.5 text-right text-white font-semibold">${clicks.toLocaleString()}</td>
+          <td class="py-3 px-3.5 text-right ${ctr >= 1.5 ? 'text-ios-green font-semibold' : 'text-slate-400'}">${ctr.toFixed(2)}%</td>
+          <td class="py-3 px-3.5 text-right text-slate-300">£${cpc.toFixed(2)}</td>
+          <td class="py-3 px-3.5 text-right text-slate-400">£${cpm.toFixed(2)}</td>
         `;
         tbody.appendChild(row);
       });
     }
 
-    // Render Active Ad Creatives Feed
+    // Render Creative Feed Gallery with High-Definition Apple Cards
     async function renderCreativeGallery(ads, token) {
       const grid = document.getElementById('adCreativeGrid');
       const countDisplay = document.getElementById('adCountDisplay');
@@ -964,15 +1077,15 @@
 
       if (!ads || ads.length === 0) {
         grid.innerHTML = `
-          <div class="col-span-full py-8 text-center text-slate-600 font-mono win-sunken p-4">
-            No active creative assets detected.
+          <div class="col-span-full py-16 text-center text-slate-500 text-xs font-sans">
+            No active ads detected under active campaigns.
           </div>
         `;
-        countDisplay.textContent = '0 Active Ads';
+        countDisplay.textContent = '0 active ads';
         return;
       }
 
-      countDisplay.textContent = `${ads.length} Active Ad${ads.length > 1 ? 's' : ''}`;
+      countDisplay.textContent = `${ads.length} active ad creative${ads.length > 1 ? 's' : ''}`;
 
       for (let i = 0; i < ads.length; i++) {
         const ad = ads[i];
@@ -980,12 +1093,12 @@
         const spec = creative.object_story_spec?.link_data || {};
         const isVideo = Boolean(creative.video_id || creative.is_video || creative.object_story_spec?.video_data);
         
-        // Resolve High-Res Image Asset
+        // Resolve High-Resolution Asset
         const imageUrl = await resolveHighResAssetUrl(creative, token);
         ad._resolvedImageUrl = imageUrl; // Cache for lightbox
 
         const title = creative.title || spec.name || ad.name || 'Untitled Creative';
-        const bodyText = creative.body || spec.message || 'No primary copy text.';
+        const bodyText = creative.body || spec.message || 'No primary copy specified.';
         const cta = (creative.call_to_action_type || spec.call_to_action?.type || 'LEARN_MORE').replace(/_/g, ' ');
 
         const insight = ad.insights?.data?.[0] || {};
@@ -995,65 +1108,77 @@
         const adCpc = parseFloat(insight.cpc) || 0;
 
         const card = document.createElement('div');
-        card.className = 'win-window p-2 flex flex-col justify-between';
+        card.className = 'ios-glass rounded-3xl overflow-hidden flex flex-col justify-between transition duration-300 hover:border-ios-blue/50 hover:shadow-2xl group relative';
 
         card.innerHTML = `
           <div>
-            <!-- High-Res Sunken Visual Asset Box -->
-            <div class="win-sunken bg-black overflow-hidden relative cursor-pointer h-48 flex items-center justify-center" onclick="openMediaLightbox(${i})">
+            <!-- High-Res Media Box -->
+            <div class="relative w-full aspect-square bg-black overflow-hidden cursor-pointer" onclick="openMediaLightbox(${i})">
               ${imageUrl ? `
-                <img src="${imageUrl}" alt="${title}" class="w-full h-full object-cover" />
+                <img src="${imageUrl}" alt="${title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
               ` : `
-                <div class="p-4 text-center text-slate-400 font-mono text-xs">
-                  <span>[Meta Dynamic Asset]</span>
+                <div class="w-full h-full flex flex-col items-center justify-center p-6 text-center bg-white/[0.02]">
+                  <i data-lucide="image" class="h-8 w-8 text-slate-600 mb-2"></i>
+                  <span class="text-xs text-slate-500">Meta Creative Asset</span>
                 </div>
               `}
               
-              <div class="absolute top-1 left-1 bg-[#c0c0c0] text-black font-mono px-1 border border-black text-[9px] font-bold">
-                ${isVideo ? '📹 VIDEO' : '🖼️ IMAGE'}
+              <!-- Video / Static Badge -->
+              <div class="absolute top-3 left-3 flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold backdrop-blur-md bg-black/60 text-white border border-white/20 shadow">
+                <i data-lucide="${isVideo ? 'play-circle' : 'image'}" class="h-3.5 w-3.5 ${isVideo ? 'text-ios-blue' : 'text-slate-300'}"></i>
+                <span>${isVideo ? 'VIDEO AD' : 'IMAGE AD'}</span>
               </div>
 
-              <div class="absolute bottom-1 right-1 bg-[#c0c0c0] text-black font-mono px-1 border border-black text-[9px] font-bold">
+              <!-- Click to Expand Overlay -->
+              <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition duration-200 flex items-center justify-center gap-2 text-white font-medium text-xs backdrop-blur-xs">
+                <i data-lucide="maximize-2" class="h-4 w-4 text-ios-blue"></i>
+                <span>View Full Asset</span>
+              </div>
+
+              <!-- CTA Badge -->
+              <div class="absolute bottom-3 right-3 px-3 py-1 rounded-full bg-ios-blue text-white font-mono text-[10px] font-bold uppercase tracking-wider shadow-lg">
                 ${cta}
               </div>
             </div>
 
-            <!-- Ad Info -->
-            <div class="pt-2 pb-1 space-y-1 text-black font-sans">
-              <span class="text-[10px] font-mono text-[#000080] font-bold block truncate" title="${ad.campaign?.name}">
-                📁 ${ad.campaign?.name || 'Active Campaign'}
+            <!-- Ad Copy Details -->
+            <div class="p-5 space-y-2">
+              <span class="text-[11px] text-ios-teal font-mono block truncate" title="${ad.campaign?.name || 'Active Campaign'}">
+                🎯 ${ad.campaign?.name || 'Active Campaign'}
               </span>
-              <h4 class="text-xs font-bold line-clamp-1" title="${title}">${title}</h4>
-              <p class="text-[11px] text-slate-800 line-clamp-2 leading-tight">${bodyText}</p>
+              <h4 class="text-sm font-bold text-white line-clamp-1" title="${title}">${title}</h4>
+              <p class="text-xs text-slate-400 line-clamp-3 leading-relaxed font-sans">${bodyText}</p>
             </div>
           </div>
 
-          <!-- Bottom Telemetry Strip -->
-          <div class="win-sunken p-1.5 grid grid-cols-4 gap-1 text-center font-mono text-[10px] bg-[#c0c0c0] text-black mt-2">
+          <!-- Bottom Metric Strip -->
+          <div class="p-4 bg-white/[0.02] border-t border-white/10 grid grid-cols-4 gap-1 text-center font-mono">
             <div>
-              <span class="block text-slate-600 font-bold">SPEND</span>
-              <span class="font-bold">£${adSpend.toFixed(2)}</span>
+              <span class="text-[9px] text-slate-500 block uppercase font-medium">Spend</span>
+              <span class="text-xs font-bold text-white">£${adSpend.toFixed(2)}</span>
             </div>
             <div>
-              <span class="block text-slate-600 font-bold">CLICKS</span>
-              <span class="font-bold">${adClicks}</span>
+              <span class="text-[9px] text-slate-500 block uppercase font-medium">Clicks</span>
+              <span class="text-xs font-bold text-slate-200">${adClicks}</span>
             </div>
             <div>
-              <span class="block text-slate-600 font-bold">CTR</span>
-              <span class="font-bold text-[#000080]">${adCtr.toFixed(2)}%</span>
+              <span class="text-[9px] text-slate-500 block uppercase font-medium">CTR</span>
+              <span class="text-xs font-bold ${adCtr >= 1.5 ? 'text-ios-green' : 'text-slate-300'}">${adCtr.toFixed(2)}%</span>
             </div>
             <div>
-              <span class="block text-slate-600 font-bold">CPC</span>
-              <span class="font-bold">£${adCpc.toFixed(2)}</span>
+              <span class="text-[9px] text-slate-500 block uppercase font-medium">CPC</span>
+              <span class="text-xs font-bold text-slate-200">£${adCpc.toFixed(2)}</span>
             </div>
           </div>
         `;
 
         grid.appendChild(card);
       }
+
+      lucide.createIcons();
     }
 
-    // Modal Lightbox (Clean, Crisp High-Res View)
+    // Modal Lightbox (Expanded Full-Screen High-Resolution Sheet)
     function openMediaLightbox(index) {
       const ad = activeAds[index];
       if (!ad) return;
@@ -1068,7 +1193,8 @@
       const bodyText = creative.body || spec.message || 'No copy specified.';
       const cta = (creative.call_to_action_type || spec.call_to_action?.type || 'LEARN_MORE').replace(/_/g, ' ');
 
-      document.getElementById('lightboxTitle').textContent = `ImageViewer.exe — [${title}]`;
+      document.getElementById('lightboxTitle').textContent = title;
+      document.getElementById('lightboxTypeBadge').textContent = isVideo ? 'VIDEO AD' : 'IMAGE AD';
       document.getElementById('lightboxCampaignTag').textContent = `Campaign: ${ad.campaign?.name || 'Active'}`;
       document.getElementById('lightboxCtaButton').textContent = cta;
       document.getElementById('lightboxBodyCopy').textContent = bodyText;
@@ -1078,21 +1204,26 @@
 
       if (isVideo && videoUrl) {
         container.innerHTML = `
-          <video controls autoplay class="w-full max-h-[50vh]">
+          <video controls autoplay class="w-full max-h-[60vh] rounded-2xl shadow-2xl">
             <source src="${videoUrl}" type="video/mp4">
+            Your browser does not support HTML5 video preview.
           </video>
         `;
       } else if (imageUrl) {
         container.innerHTML = `
-          <img src="${imageUrl}" alt="${title}" class="max-w-full max-h-[50vh] object-contain shadow" />
+          <img src="${imageUrl}" alt="${title}" class="max-h-[60vh] w-auto max-w-full object-contain rounded-2xl shadow-2xl" />
         `;
       } else {
         container.innerHTML = `
-          <div class="text-white font-mono text-xs">Preview unavailable from Meta API.</div>
+          <div class="text-center py-20 text-slate-400">
+            <i data-lucide="image" class="h-10 w-10 mx-auto text-slate-600 mb-2"></i>
+            <p class="text-xs">Visual preview generated from active creative spec.</p>
+          </div>
         `;
       }
 
       document.getElementById('mediaLightboxModal').classList.remove('hidden');
+      lucide.createIcons();
     }
 
     function closeMediaLightbox() {
@@ -1101,7 +1232,7 @@
       document.getElementById('mediaLightboxModal').classList.add('hidden');
     }
 
-    // De-AI'd Humanised AI Summary and Feedback
+    // AI Summary and Feedback Integration (Concise Human Bullet Points)
     async function generateAIBriefing() {
       const client = getActiveClient();
       const outputContainer = document.getElementById('aiOutputContainer');
@@ -1110,24 +1241,28 @@
 
       if (!client.geminiKey) {
         outputContainer.innerHTML = `
-          <p class="text-red-700 font-bold">⚠️ Gemini API Key not configured. Click [Properties] to add your API Key.</p>
+          <div class="space-y-1">
+            <p class="text-ios-orange font-medium text-xs">⚠️ Gemini API Key not yet configured.</p>
+            <p class="text-slate-400 text-xs">Click Settings to enter your Gemini API Key.</p>
+          </div>
         `;
         return;
       }
 
       btn.disabled = true;
       outputContainer.innerHTML = `
-        <div class="p-2 text-black font-mono">
-          <span>Writing performance notes...</span>
+        <div class="flex items-center gap-3 py-3">
+          <div class="loader-ring"></div>
+          <span class="text-xs text-slate-400 font-medium">Generating performance observations and directives...</span>
         </div>
       `;
 
       const auditPayload = {
         client_name: client.name,
         account_id: client.accountId,
-        reporting_window: "Yesterday",
+        reporting_window: currentReportingPreset,
         active_campaigns: activeCampaigns,
-        active_creatives: activeAds.map(a => ({
+        active_ads_and_copy: activeAds.map(a => ({
           name: a.name,
           campaign: a.campaign?.name,
           headline: a.creative?.title || a.name,
@@ -1138,27 +1273,26 @@
       };
 
       const systemPrompt = `
-You are a pragmatic, veteran Meta performance media buyer writing direct, human notes for the client "${client.name}".
+You are a senior Meta Performance Marketing Specialist. Provide a concise, highly direct executive summary for "${client.name}".
 
-DO NOT write robotic marketing essays, buzzwords, or corporate filler. 
-Write concise, grounded bullet points as if typing raw notes into Windows 98 Notepad.
-Use British English spelling (e.g. optimisation, analysing, prioritising, behaviour, programme).
+STRICT FORMAT REQUIREMENT:
+- Do NOT write long paragraphs or discursive essays.
+- Output ONLY sharp, single-sentence bullet points under the 3 headings below.
+- Use British English spelling (e.g. optimisation, analysing, prioritising, behaviour, programme).
 
-Format your response strictly using these 3 simple bullet sections:
+### ⚡ Performance Observations
+- [Bullet point 1: Immediate delivery/spend reality and CPC/CTR efficiency]
+- [Bullet point 2: Auction health and creative engagement note]
 
-### • What's happening right now:
-- [Direct sentence on delivery, spend level, and click cost]
-- [Direct sentence on ad creative engagement and CTR]
+### 🎯 Budget & Campaign Feedback
+- [Bullet point 1: Clear daily budget adjustment recommendation with exact numbers]
+- [Bullet point 2: Objective setup / ABO vs Advantage+ structure suggestion]
 
-### • Budget & bidding recommendation:
-- [Exact daily spend recommendation in £ with specific scaling numbers]
-- [Bidding / campaign structure adjustment recommendation]
+### 🛠️ Tactical Action Items
+- [Bullet point 1: Actionable creative or copy tweak based on current ad hooks]
+- [Bullet point 2: Next immediate change to execute inside Meta Ads Manager]
 
-### • Creative & ad copy tweaks:
-- [Pragmatic observation on the specific offer/discount in the ad copy]
-- [Immediate operational change to make in Ads Manager today]
-
-Active Telemetry:
+Active Campaign & Ad Telemetry:
 ${JSON.stringify(auditPayload, null, 2)}
       `;
 
@@ -1198,7 +1332,7 @@ ${JSON.stringify(auditPayload, null, 2)}
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               contents: [{ parts: [{ text: systemPrompt }] }],
-              generationConfig: { temperature: 0.2, maxOutputTokens: 500 }
+              generationConfig: { temperature: 0.2, maxOutputTokens: 600 }
             })
           });
 
@@ -1222,14 +1356,18 @@ ${JSON.stringify(auditPayload, null, 2)}
       if (generatedText) {
         badge.textContent = successfulModel;
         const htmlContent = marked.parse(generatedText);
-        outputContainer.innerHTML = `<div class="space-y-1 text-black font-mono text-xs">${htmlContent}</div>`;
+        outputContainer.innerHTML = `<div class="space-y-2 text-slate-200 prose prose-invert prose-blue max-w-none text-xs sm:text-sm leading-relaxed">${htmlContent}</div>`;
       } else {
         outputContainer.innerHTML = `
-          <p class="text-red-700 font-bold">⚠️ Error: ${lastErrorMessage || 'Service Busy'}. Click [Re-evaluate Directives] to retry.</p>
+          <div class="space-y-1">
+            <p class="text-ios-red text-xs font-semibold">⚠️ AI Summary Error: ${lastErrorMessage || 'Service Busy'}</p>
+            <p class="text-slate-500 text-xs">Verify your Gemini API key in settings or retry in a moment.</p>
+          </div>
         `;
       }
 
       btn.disabled = false;
+      lucide.createIcons();
     }
   </script>
 </body>
