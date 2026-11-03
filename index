@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en-GB" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Performance Hub — Meta Ads & AI Executive Suite</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Marked.js CDN (Markdown Parser) -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+  <!-- Tailwind Custom Configuration -->
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            anthracite: {
+              950: '#0a0c0e',
+              900: '#111418',
+              850: '#161a20',
+              800: '#1e242c',
+              700: '#2b333e',
+              600: '#3e4856',
+            },
+            accent: {
+              DEFAULT: '#ff6200',
+              hover: '#e55800',
+              glow: 'rgba(255, 98, 0, 0.18)',
+            },
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    /* Custom Anthracite Scrollbars */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #111418;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #2b333e;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #ff6200;
+    }
+    .accent-glow {
+      box-shadow: 0 0 25px -3px rgba(255, 98, 0, 0.2);
+    }
+    .loader-ring {
+      border: 2px solid rgba(255, 98, 0, 0.2);
+      border-top: 2px solid #ff6200;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+
+<body class="bg-anthracite-950 text-slate-100 min-h-screen font-sans antialiased selection:bg-accent selection:text-white">
+
+  <!-- Header Navigation -->
+  <header class="border-b border-anthracite-800 bg-anthracite-900/95 sticky top-0 z-40 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      
+      <!-- Brand Logo & White-Label Title -->
+      <div class="flex items-center gap-3">
+        <div class="h-9 w-9 rounded-lg bg-accent flex items-center justify-center text-white shadow-lg shadow-orange-950/40">
+          <i data-lucide="zap" class="h-5 w-5 stroke-[2.5]"></i>
+        </div>
+        <div>
+          <span class="text-[10px] font-bold tracking-wider text-accent uppercase">White-Label Suite</span>
+          <h1 class="text-sm sm:text-base font-bold tracking-tight text-white flex items-center gap-2">
+            Performance Hub
+            <span class="hidden sm:inline-block text-[11px] font-medium px-2 py-0.5 rounded bg-anthracite-800 text-slate-400 border border-anthracite-700">
+              Meta Marketing + Gemini AI
+            </span>
+          </h1>
+        </div>
+      </div>
+
+      <!-- Action Controls -->
+      <div class="flex items-center gap-3">
+        <!-- Client Dropdown Switcher -->
+        <div class="relative flex items-center">
+          <i data-lucide="building-2" class="absolute left-3 h-4 w-4 text-slate-400 pointer-events-none"></i>
+          <select
+            id="clientSelector"
+            onchange="switchClient(this.value)"
+            class="bg-anthracite-850 border border-anthracite-700 text-slate-200 text-xs sm:text-sm rounded-lg pl-9 pr-8 py-2 focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent font-medium cursor-pointer transition appearance-none"
+          >
+            <!-- Injected via JavaScript -->
+          </select>
+          <i data-lucide="chevron-down" class="absolute right-2.5 h-3.5 w-3.5 text-slate-400 pointer-events-none"></i>
+        </div>
+
+        <!-- Refresh / Sync Button -->
+        <button
+          onclick="fetchAllData()"
+          id="refreshBtn"
+          class="flex items-center gap-2 bg-accent hover:bg-accent-hover text-white text-xs sm:text-sm font-semibold px-4 py-2 rounded-lg transition duration-150 shadow-md shadow-orange-950/20 active:scale-95"
+        >
+          <i data-lucide="refresh-cw" id="refreshIcon" class="h-4 w-4"></i>
+          <span id="refreshText" class="hidden sm:inline">Sync Data</span>
+        </button>
+
+        <!-- Settings Button -->
+        <button
+          onclick="openSettingsModal()"
+          title="Manage Client Credentials"
+          class="p-2 rounded-lg bg-anthracite-850 border border-anthracite-700 hover:bg-anthracite-800 text-slate-300 hover:text-white transition"
+        >
+          <i data-lucide="settings" class="h-4 w-4"></i>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Main Dashboard Container -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+
+    <!-- Active Client Status Banner -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-anthracite-900 border border-anthracite-800 p-4 rounded-xl">
+      <div class="flex items-center gap-3">
+        <div class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></div>
+        <div>
+          <h2 class="text-base font-bold text-white" id="clientDisplayName">Calm Drift Sanctuary</h2>
+          <p class="text-xs text-slate-400 font-mono" id="adAccountDisplay">Account ID: act_259916616</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2 text-xs text-slate-300 bg-anthracite-850 px-3 py-1.5 rounded-lg border border-anthracite-800 self-start sm:self-auto">
+        <i data-lucide="calendar" class="h-3.5 w-3.5 text-accent"></i>
+        <span>Reporting Window:</span>
+        <span class="font-semibold text-accent">Yesterday</span>
+      </div>
+    </div>
+
+    <!-- Top KPI Summary Cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      
+      <!-- Total Spend -->
+      <div class="bg-anthracite-900 border border-anthracite-800 rounded-xl p-5 hover:border-anthracite-700 transition relative overflow-hidden group">
+        <div class="flex items-center justify-between text-slate-400 text-xs font-semibold uppercase tracking-wider mb-2">
+          <span>Total Spend</span>
+          <div class="p-1.5 rounded-md bg-anthracite-850 border border-anthracite-700 text-accent group-hover:scale-110 transition duration-200">
+            <i data-lucide="pound-sterling" class="h-4 w-4"></i>
+          </div>
+        </div>
+        <div class="text-2xl font-black text-white" id="kpiSpend">£0.00</div>
+        <p class="text-[11px] text-slate-500 mt-1">Aggregated campaign investment</p>
+      </div>
+
+      <!-- Total Clicks -->
+      <div class="bg-anthracite-900 border border-anthracite-800 rounded-xl p-5 hover:border-anthracite-700 transition relative overflow-hidden group">
+        <div class="flex items-center justify-between text-slate-400 text-xs font-semibold uppercase tracking-wider mb-2">
+          <span>Total Clicks</span>
+          <div class="p-1.5 rounded-md bg-anthracite-850 border border-anthracite-700 text-accent group-hover:scale-110 transition duration-200">
+            <i data-lucide="mouse-pointer-click" class="h-4 w-4"></i>
+          </div>
+        </div>
+        <div class="text-2xl font-black text-white" id="kpiClicks">0</div>
+        <p class="text-[11px] text-slate-500 mt-1">Outbound traffic generated</p>
+      </div>
+
+      <!-- Blended CPC -->
+      <div class="bg-anthracite-900 border border-anthracite-800 rounded-xl p-5 hover:border-anthracite-700 transition relative overflow-hidden group">
+        <div class="flex items-center justify-between text-slate-400 text-xs font-semibold uppercase tracking-wider mb-2">
+          <span>Blended CPC</span>
+          <div class="p-1.5 rounded-md bg-anthracite-850 border border-anthracite-700 text-accent group-hover:scale-110 transition duration-200">
+            <i data-lucide="bar-chart-2" class="h-4 w-4"></i>
+          </div>
+        </div>
+        <div class="text-2xl font-black text-white" id="kpiCPC">£0.00</div>
+        <p class="text-[11px] text-slate-500 mt-1">Average cost per outbound click</p>
+      </div>
+
+      <!-- Average CTR -->
+      <div class="bg-anthracite-900 border border-anthracite-800 rounded-xl p-5 hover:border-anthracite-700 transition relative overflow-hidden group">
+        <div class="flex items-center justify-between text-slate-400 text-xs font-semibold uppercase tracking-wider mb-2">
+          <span>Average CTR</span>
+          <div class="p-1.5 rounded-md bg-anthracite-850 border border-anthracite-700 text-accent group-hover:scale-110 transition duration-200">
+            <i data-lucide="target" class="h-4 w-4"></i>
+          </div>
+        </div>
+        <div class="text-2xl font-black text-white" id="kpiCTR">0.00%</div>
+        <p class="text-[11px] text-slate-500 mt-1">Overall click-through rate</p>
+      </div>
+
+    </div>
+
+    <!-- Gemini AI Executive Briefing -->
+    <div class="bg-anthracite-900 border border-accent/40 rounded-xl p-6 relative overflow-hidden accent-glow">
+      <div class="absolute -right-16 -top-16 w-52 h-52 bg-accent/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4 border-b border-anthracite-800 pb-4">
+        <div class="flex items-center gap-3">
+          <div class="h-9 w-9 rounded-lg bg-accent/20 border border-accent/40 flex items-center justify-center text-accent">
+            <i data-lucide="sparkles" class="h-5 w-5"></i>
+          </div>
+          <div>
+            <h3 class="text-sm font-bold text-white flex items-center gap-2">
+              Gemini AI Executive Briefing
+              <span class="text-[10px] px-2 py-0.5 rounded bg-accent/10 text-accent font-semibold border border-accent/30">
+                gemini-2.0-flash
+              </span>
+            </h3>
+            <p class="text-xs text-slate-400">
+              Automated performance marketing review and real-time commercial directives.
+            </p>
+          </div>
+        </div>
+
+        <button
+          onclick="generateAIBriefing()"
+          id="btnGenerateAI"
+          class="flex items-center gap-2 bg-anthracite-850 hover:bg-anthracite-800 border border-anthracite-700 text-xs font-semibold px-3 py-2 rounded-lg text-slate-200 transition"
+        >
+          <i data-lucide="bot" class="h-4 w-4 text-accent"></i>
+          <span>Regenerate Briefing</span>
+        </button>
+      </div>
+
+      <!-- AI Status Notice -->
+      <div id="aiNoticeContainer" class="hidden mb-4 text-xs text-amber-400/90 bg-amber-950/20 border border-amber-900/40 p-2.5 rounded-lg"></div>
+
+      <!-- AI Content Box -->
+      <div id="aiOutputContainer" class="min-h-[90px] flex items-center text-slate-300 text-sm leading-relaxed">
+        <p class="text-slate-400 italic">Click "Sync Data" or "Regenerate Briefing" to synthesise campaign metrics with Gemini AI.</p>
+      </div>
+    </div>
+
+    <!-- Visualisation & Table Section -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+      <!-- Interactive Budget Chart -->
+      <div class="lg:col-span-1 bg-anthracite-900 border border-anthracite-800 rounded-xl p-5 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-xs font-bold text-white uppercase tracking-wider">Spend Distribution</h3>
+            <span class="text-[11px] text-slate-400">Campaign Share</span>
+          </div>
+          <div class="relative h-60 w-full flex items-center justify-center">
+            <canvas id="performanceChart"></canvas>
+          </div>
+        </div>
+        <p class="text-[11px] text-slate-500 text-center mt-3 pt-3 border-t border-anthracite-800">
+          Proportional daily investment across active campaigns
+        </p>
+      </div>
+
+      <!-- Campaign Breakdown Table -->
+      <div class="lg:col-span-2 bg-anthracite-900 border border-anthracite-800 rounded-xl p-5 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-xs font-bold text-white uppercase tracking-wider">Campaign Breakdown</h3>
+            <span class="text-[11px] text-slate-400" id="tableRowCount">0 campaigns identified</span>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs text-slate-300">
+              <thead class="bg-anthracite-850 text-slate-400 uppercase tracking-wider border-b border-anthracite-800">
+                <tr>
+                  <th class="py-3 px-3">Campaign Name</th>
+                  <th class="py-3 px-3 text-right">Spend</th>
+                  <th class="py-3 px-3 text-right">Impressions</th>
+                  <th class="py-3 px-3 text-right">Clicks</th>
+                  <th class="py-3 px-3 text-right">CTR</th>
+                  <th class="py-3 px-3 text-right">CPC</th>
+                </tr>
+              </thead>
+              <tbody id="campaignTableBody" class="divide-y divide-anthracite-800 font-mono">
+                <tr>
+                  <td colspan="6" class="text-center py-8 text-slate-500 font-sans">
+                    No active campaign data loaded. Press <strong>Sync Data</strong> to retrieve insights.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-anthracite-800 flex justify-between items-center text-[11px] text-slate-500">
+          <span>Meta Marketing API v21.0</span>
+          <span>Currency: GBP (£)</span>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Settings & Multi-Client Modal -->
+  <div id="settingsModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center hidden p-4">
+    <div class="bg-anthracite-900 border border-anthracite-700 w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+      
+      <div class="px-6 py-4 border-b border-anthracite-800 flex items-center justify-between">
+        <h3 class="text-sm sm:text-base font-bold text-white flex items-center gap-2">
+          <i data-lucide="settings" class="h-4 w-4 text-accent"></i>
+          Manage Client Credentials & Workspaces
+        </h3>
+        <button onclick="closeSettingsModal()" class="text-slate-400 hover:text-white transition">
+          <i data-lucide="x" class="h-5 w-5"></i>
+        </button>
+      </div>
+
+      <div class="p-6 overflow-y-auto space-y-6 flex-1">
+        
+        <!-- Client Profile Form -->
+        <div class="bg-anthracite-850 p-4 rounded-xl border border-anthracite-800 space-y-4">
+          <div class="flex items-center justify-between">
+            <h4 class="text-xs font-bold text-white uppercase tracking-wider">Active Workspace Settings</h4>
+            <span class="text-[10px] text-accent font-semibold px-2 py-0.5 rounded bg-accent/10 border border-accent/20">
+              Live Config
+            </span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+            <div>
+              <label class="block text-slate-400 mb-1 font-medium">Client / Brand Name</label>
+              <input type="text" id="cfgClientName" placeholder="e.g. Calm Drift Sanctuary" class="w-full bg-anthracite-900 border border-anthracite-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-accent" />
+            </div>
+            <div>
+              <label class="block text-slate-400 mb-1 font-medium">Meta Ad Account ID</label>
+              <input type="text" id="cfgAccountId" placeholder="act_259916616" class="w-full bg-anthracite-900 border border-anthracite-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-accent font-mono" />
+            </div>
+          </div>
+
+          <div class="text-xs">
+            <label class="block text-slate-400 mb-1 font-medium">Meta System User Access Token</label>
+            <input type="password" id="cfgMetaToken" placeholder="Paste your Meta System User token here..." class="w-full bg-anthracite-900 border border-anthracite-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-accent font-mono" />
+          </div>
+
+          <div class="text-xs">
+            <label class="block text-slate-400 mb-1 font-medium">Gemini API Key</label>
+            <input type="password" id="cfgGeminiKey" placeholder="Paste your Gemini API key here..." class="w-full bg-anthracite-900 border border-anthracite-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-accent font-mono" />
+          </div>
+
+          <div class="flex justify-end pt-2">
+            <button onclick="saveCurrentClientConfig()" class="flex items-center gap-1.5 bg-accent hover:bg-accent-hover text-white text-xs font-semibold px-4 py-2 rounded-lg transition">
+              <i data-lucide="save" class="h-3.5 w-3.5"></i>
+              <span>Save Client Changes</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Add Workspace Action -->
+        <div class="border-t border-anthracite-800 pt-3">
+          <button onclick="createNewClientProfile()" class="w-full border border-dashed border-anthracite-700 hover:border-accent text-slate-300 hover:text-accent text-xs font-semibold py-3 rounded-xl transition flex items-center justify-center gap-2">
+            <i data-lucide="plus" class="h-4 w-4"></i>
+            <span>Add Another Client Workspace</span>
+          </button>
+        </div>
+
+      </div>
+
+      <div class="px-6 py-3 bg-anthracite-950 border-t border-anthracite-800 flex justify-between items-center text-xs text-slate-500">
+        <span>Stored securely in local browser storage.</span>
+        <button onclick="closeSettingsModal()" class="bg-anthracite-850 hover:bg-anthracite-800 text-slate-300 px-3 py-1.5 rounded-lg transition">
+          Close
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Main JavaScript Logic -->
+  <script>
+    // Initial Credentials Configuration (Sanitised)
+    const DEFAULT_CLIENTS = [
+      {
+        id: 'calm-drift-sanctuary',
+        name: 'Calm Drift Sanctuary',
+        accountId: 'act_259916616',
+        metaToken: '',
+        geminiKey: ''
+      }
+    ];
+
+    // State Variables
+    let clients = JSON.parse(localStorage.getItem('whitelabel_meta_clients')) || DEFAULT_CLIENTS;
+    let activeClientId = localStorage.getItem('whitelabel_active_client_id') || clients[0].id;
+    let campaignData = [];
+    let chartInstance = null;
+
+    // Initialise on load
+    document.addEventListener('DOMContentLoaded', () => {
+      renderClientSelector();
+      loadActiveClient();
+      initChart();
+      lucide.createIcons();
+      fetchAllData();
+    });
+
+    function getActiveClient() {
+      return clients.find(c => c.id === activeClientId) || clients[0];
+    }
+
+    function renderClientSelector() {
+      const select = document.getElementById('clientSelector');
+      select.innerHTML = '';
+      clients.forEach(client => {
+        const option = document.createElement('option');
+        option.value = client.id;
+        option.textContent = client.name;
+        if (client.id === activeClientId) option.selected = true;
+        select.appendChild(option);
+      });
+    }
+
+    function switchClient(clientId) {
+      activeClientId = clientId;
+      localStorage.setItem('whitelabel_active_client_id', clientId);
+      loadActiveClient();
+      fetchAllData();
+    }
+
+    function loadActiveClient() {
+      const client = getActiveClient();
+      document.getElementById('clientDisplayName').textContent = client.name;
+      document.getElementById('adAccountDisplay').textContent = `Account ID: ${client.accountId}`;
+      
+      // Update Modal Form
+      document.getElementById('cfgClientName').value = client.name;
+      document.getElementById('cfgAccountId').value = client.accountId;
+      document.getElementById('cfgMetaToken').value = client.metaToken || '';
+      document.getElementById('cfgGeminiKey').value = client.geminiKey || '';
+    }
+
+    // Modal Control
+    function openSettingsModal() {
+      loadActiveClient();
+      document.getElementById('settingsModal').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function closeSettingsModal() {
+      document.getElementById('settingsModal').classList.add('hidden');
+    }
+
+    function saveCurrentClientConfig() {
+      const activeClient = getActiveClient();
+      activeClient.name = document.getElementById('cfgClientName').value.trim() || 'Untitled Client';
+      activeClient.accountId = document.getElementById('cfgAccountId').value.trim();
+      activeClient.metaToken = document.getElementById('cfgMetaToken').value.trim();
+      activeClient.geminiKey = document.getElementById('cfgGeminiKey').value.trim();
+
+      saveClientsToStorage();
+      renderClientSelector();
+      loadActiveClient();
+      closeSettingsModal();
+      fetchAllData();
+    }
+
+    function createNewClientProfile() {
+      const newId = 'client_' + Date.now();
+      const newClient = {
+        id: newId,
+        name: 'New Client Enterprise',
+        accountId: 'act_',
+        metaToken: '',
+        geminiKey: getActiveClient().geminiKey || ''
+      };
+      clients.push(newClient);
+      activeClientId = newId;
+      saveClientsToStorage();
+      renderClientSelector();
+      loadActiveClient();
+      lucide.createIcons();
+    }
+
+    function saveClientsToStorage() {
+      localStorage.setItem('whitelabel_meta_clients', JSON.stringify(clients));
+      localStorage.setItem('whitelabel_active_client_id', activeClientId);
+    }
+
+    // Chart.js Visualisation
+    function initChart() {
+      const ctx = document.getElementById('performanceChart').getContext('2d');
+      chartInstance = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: ['No Data'],
+          datasets: [{
+            data: [1],
+            backgroundColor: ['#1e242c'],
+            borderWidth: 2,
+            borderColor: '#111418'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: {
+                color: '#94a3b8',
+                font: { size: 10 },
+                boxWidth: 10,
+                padding: 12
+              }
+            }
+          },
+          cutout: '68%'
+        }
+      });
+    }
+
+    function updateChart(data) {
+      if (!chartInstance) return;
+
+      if (!data || data.length === 0) {
+        chartInstance.data.labels = ['No Active Spend'];
+        chartInstance.data.datasets[0].data = [1];
+        chartInstance.data.datasets[0].backgroundColor = ['#1e242c'];
+        chartInstance.update();
+        return;
+      }
+
+      const labels = data.map(c => c.campaign_name.length > 20 ? c.campaign_name.substring(0, 18) + '...' : c.campaign_name);
+      const spendValues = data.map(c => parseFloat(c.spend) || 0);
+
+      const colorPalette = [
+        '#ff6200',
+        '#ff8533',
+        '#ffa766',
+        '#3b82f6',
+        '#10b981',
+        '#8b5cf6',
+        '#ec4899',
+        '#f59e0b'
+      ];
+
+      chartInstance.data.labels = labels;
+      chartInstance.data.datasets[0].data = spendValues;
+      chartInstance.data.datasets[0].backgroundColor = colorPalette.slice(0, labels.length);
+      chartInstance.update();
+    }
+
+    // Meta Marketing API Fetch
+    async function fetchAllData() {
+      const client = getActiveClient();
+      const refreshBtn = document.getElementById('refreshBtn');
+      const refreshIcon = document.getElementById('refreshIcon');
+      const refreshText = document.getElementById('refreshText');
+      const noticeContainer = document.getElementById('aiNoticeContainer');
+
+      noticeContainer.classList.add('hidden');
+      noticeContainer.innerHTML = '';
+
+      refreshBtn.disabled = true;
+      refreshText.textContent = 'Syncing...';
+      refreshIcon.classList.add('animate-spin');
+
+      if (!client.metaToken) {
+        handleFallbackData('No Meta Access Token detected. Displaying demonstration campaign baseline. Click Settings (⚙️) to enter your live token.');
+        refreshBtn.disabled = false;
+        refreshText.textContent = 'Sync Data';
+        refreshIcon.classList.remove('animate-spin');
+        lucide.createIcons();
+        return;
+      }
+
+      let cleanAccountId = client.accountId.trim();
+      if (!cleanAccountId.startsWith('act_')) {
+        cleanAccountId = 'act_' + cleanAccountId;
+      }
+
+      const endpoint = `https://graph.facebook.com/v21.0/${cleanAccountId}/insights?level=campaign&date_preset=yesterday&fields=campaign_name,spend,impressions,clicks,ctr,cpc&access_token=${client.metaToken}`;
+
+      try {
+        const response = await fetch(endpoint);
+        const json = await response.json();
+
+        if (json.error) {
+          throw new Error(json.error.message || 'Meta API returned an error.');
+        }
+
+        if (json.data && json.data.length > 0) {
+          campaignData = json.data;
+          renderMetrics(campaignData);
+          updateChart(campaignData);
+          renderTable(campaignData);
+          generateAIBriefing();
+        } else {
+          handleFallbackData('No live ad spend recorded for yesterday. Loaded simulated campaign baseline for preview.');
+        }
+
+      } catch (err) {
+        handleFallbackData(`Notice: Direct Meta Graph request responded with (${err.message}). Showing active campaign baseline simulation.`);
+      } finally {
+        refreshBtn.disabled = false;
+        refreshText.textContent = 'Sync Data';
+        refreshIcon.classList.remove('animate-spin');
+        lucide.createIcons();
+      }
+    }
+
+    function handleFallbackData(noticeMessage) {
+      campaignData = [
+        {
+          campaign_name: 'UK_Conversions_AdvantagePlus_Retargeting',
+          spend: '142.50',
+          impressions: '4230',
+          clicks: '118',
+          ctr: '2.79',
+          cpc: '1.21'
+        },
+        {
+          campaign_name: 'UK_TopFunnel_BroadInterest_CalmSanctuary',
+          spend: '215.80',
+          impressions: '12450',
+          clicks: '142',
+          ctr: '1.14',
+          cpc: '1.52'
+        },
+        {
+          campaign_name: 'UK_VideoViews_SoundscapeTherapy_Discovery',
+          spend: '84.20',
+          impressions: '9820',
+          clicks: '48',
+          ctr: '0.49',
+          cpc: '1.75'
+        }
+      ];
+
+      renderMetrics(campaignData);
+      updateChart(campaignData);
+      renderTable(campaignData);
+
+      const noticeContainer = document.getElementById('aiNoticeContainer');
+      noticeContainer.classList.remove('hidden');
+      noticeContainer.textContent = noticeMessage;
+
+      generateAIBriefing();
+    }
+
+    function renderMetrics(data) {
+      let totalSpend = 0;
+      let totalClicks = 0;
+      let totalImpressions = 0;
+
+      data.forEach(item => {
+        totalSpend += parseFloat(item.spend) || 0;
+        totalClicks += parseInt(item.clicks) || 0;
+        totalImpressions += parseInt(item.impressions) || 0;
+      });
+
+      const blendedCPC = totalClicks > 0 ? (totalSpend / totalClicks) : 0;
+      const blendedCTR = totalImpressions > 0 ? ((totalClicks / totalImpressions) * 100) : 0;
+
+      document.getElementById('kpiSpend').textContent = `£${totalSpend.toFixed(2)}`;
+      document.getElementById('kpiClicks').textContent = totalClicks.toLocaleString();
+      document.getElementById('kpiCPC').textContent = `£${blendedCPC.toFixed(2)}`;
+      document.getElementById('kpiCTR').textContent = `${blendedCTR.toFixed(2)}%`;
+    }
+
+    function renderTable(data) {
+      const tbody = document.getElementById('campaignTableBody');
+      const countEl = document.getElementById('tableRowCount');
+      tbody.innerHTML = '';
+
+      if (!data || data.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="6" class="text-center py-6 text-slate-500 font-sans">
+              No campaign records found for this timeframe.
+            </td>
+          </tr>
+        `;
+        countEl.textContent = '0 campaigns identified';
+        return;
+      }
+
+      countEl.textContent = `${data.length} campaign${data.length > 1 ? 's' : ''} active`;
+
+      data.forEach(item => {
+        const spend = parseFloat(item.spend) || 0;
+        const impressions = parseInt(item.impressions) || 0;
+        const clicks = parseInt(item.clicks) || 0;
+        const ctr = parseFloat(item.ctr) || 0;
+        const cpc = parseFloat(item.cpc) || 0;
+
+        const row = document.createElement('tr');
+        row.className = 'hover:bg-anthracite-850/60 transition';
+        row.innerHTML = `
+          <td class="py-3 px-3 font-sans font-medium text-white max-w-xs truncate" title="${item.campaign_name}">
+            ${item.campaign_name}
+          </td>
+          <td class="py-3 px-3 text-right text-slate-200">£${spend.toFixed(2)}</td>
+          <td class="py-3 px-3 text-right text-slate-400">${impressions.toLocaleString()}</td>
+          <td class="py-3 px-3 text-right text-slate-200 font-semibold">${clicks.toLocaleString()}</td>
+          <td class="py-3 px-3 text-right ${ctr >= 1.5 ? 'text-emerald-400 font-semibold' : 'text-slate-400'}">${ctr.toFixed(2)}%</td>
+          <td class="py-3 px-3 text-right text-slate-300">£${cpc.toFixed(2)}</td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    // Gemini AI Executive Briefing Integration
+    async function generateAIBriefing() {
+      const client = getActiveClient();
+      const outputContainer = document.getElementById('aiOutputContainer');
+      const btn = document.getElementById('btnGenerateAI');
+
+      if (!client.geminiKey) {
+        outputContainer.innerHTML = `
+          <div class="space-y-1">
+            <p class="text-amber-400 font-medium text-xs">⚠️ Gemini API Key not yet configured.</p>
+            <p class="text-slate-400 text-xs">Click the <strong>Settings (⚙️)</strong> button in the upper right to add your Gemini API Key and unlock real-time executive briefings.</p>
+          </div>
+        `;
+        return;
+      }
+
+      btn.disabled = true;
+      outputContainer.innerHTML = `
+        <div class="flex items-center gap-3 py-2">
+          <div class="loader-ring"></div>
+          <span class="text-xs text-slate-400 font-medium">Performance Marketing Director is analysing campaign data with Gemini 2.0 Flash...</span>
+        </div>
+      `;
+
+      const prompt = `
+You are an elite, results-obsessed Performance Marketing Director reviewing Meta Ads metrics for yesterday on behalf of the client "${client.name}".
+
+Here are the extracted campaign metrics:
+${JSON.stringify(campaignData, null, 2)}
+
+Provide an executive, commercial 3-bullet-point briefing using British English spelling (e.g. optimisation, prioritising, behaviour, programme, spend). Strictly structure your response under these 3 specific bullet points:
+
+1. **Immediate Attention Required**: Highlight any underperforming campaign, alarming CPC/CTR spike, or critical inefficiency.
+2. **Strategic Budget Reallocation**: Specify exactly which campaign should receive more budget and which should be dialed back.
+3. **Tactical Optimisation Recommendation**: Provide an actionable creative, audience, or bidding tweak to deploy right away.
+
+Keep the tone sharp, commercial, concise, and direct.
+      `;
+
+      const geminiEndpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${client.geminiKey}`;
+
+      try {
+        const response = await fetch(geminiEndpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{
+              parts: [{ text: prompt }]
+            }],
+            generationConfig: {
+              temperature: 0.2,
+              maxOutputTokens: 500
+            }
+          })
+        });
+
+        const data = await response.json();
+
+        if (data.error) {
+          throw new Error(data.error.message || 'Gemini API Error');
+        }
+
+        const generatedText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+
+        if (generatedText) {
+          const htmlContent = marked.parse(generatedText);
+          outputContainer.innerHTML = `<div class="space-y-2 text-slate-200">${htmlContent}</div>`;
+        } else {
+          throw new Error('No content returned from Gemini model.');
+        }
+
+      } catch (err) {
+        outputContainer.innerHTML = `
+          <div class="space-y-1">
+            <p class="text-red-400 text-xs font-semibold">⚠️ AI Analysis Error: ${err.message}</p>
+            <p class="text-slate-500 text-xs">Verify your Gemini API key in settings or check network connection.</p>
+          </div>
+        `;
+      } finally {
+        btn.disabled = false;
+        lucide.createIcons();
+      }
+    }
+  </script>
+</body>
+</html>
