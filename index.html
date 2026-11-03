@@ -1,10 +1,9 @@
-html
 <!DOCTYPE html>
 <html lang="en-GB" class="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Performance Hub — Meta Ads & AI Strategic Intelligence Suite</title>
+  <title>Performance Hub — Meta Ads & AI Summary</title>
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -12,7 +11,7 @@ html
   <script src="https://unpkg.com/lucide@latest"></script>
   <!-- Chart.js CDN -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <!-- Marked.js CDN (Markdown Parser) -->
+  <!-- Marked.js CDN -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
   <!-- Tailwind Custom Configuration -->
@@ -39,7 +38,7 @@ html
           },
           fontFamily: {
             sans: ['Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
-            mono: ['JetBrains Mono', 'Fira Code', 'Courier New', 'monospace'],
+            mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
           },
         },
       },
@@ -63,7 +62,7 @@ html
       background: #ff6200;
     }
     .accent-glow {
-      box-shadow: 0 0 30px -5px rgba(255, 98, 0, 0.22);
+      box-shadow: 0 0 25px -4px rgba(255, 98, 0, 0.22);
     }
     .loader-ring {
       border: 2px solid rgba(255, 98, 0, 0.2);
@@ -86,17 +85,17 @@ html
   <header class="border-b border-anthracite-800 bg-anthracite-900/95 sticky top-0 z-40 backdrop-blur-md">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
       
-      <!-- Brand Logo & White-Label Title -->
+      <!-- Brand Logo -->
       <div class="flex items-center gap-3">
         <div class="h-9 w-9 rounded-lg bg-accent flex items-center justify-center text-white shadow-lg shadow-orange-950/40">
           <i data-lucide="zap" class="h-5 w-5 stroke-[2.5]"></i>
         </div>
         <div>
-          <span class="text-[10px] font-bold tracking-wider text-accent uppercase">Enterprise Marketing Suite</span>
+          <span class="text-[10px] font-bold tracking-wider text-accent uppercase">Executive Intelligence</span>
           <h1 class="text-sm sm:text-base font-bold tracking-tight text-white flex items-center gap-2">
             Performance Hub
             <span class="hidden sm:inline-block text-[11px] font-medium px-2 py-0.5 rounded bg-anthracite-800 text-slate-400 border border-anthracite-700">
-              Meta Marketing + Gemini Strategic AI
+              Meta Marketing + Gemini
             </span>
           </h1>
         </div>
@@ -104,7 +103,6 @@ html
 
       <!-- Action Controls -->
       <div class="flex items-center gap-3">
-        <!-- Client Dropdown Switcher -->
         <div class="relative flex items-center">
           <i data-lucide="building-2" class="absolute left-3 h-4 w-4 text-slate-400 pointer-events-none"></i>
           <select
@@ -112,12 +110,11 @@ html
             onchange="switchClient(this.value)"
             class="bg-anthracite-850 border border-anthracite-700 text-slate-200 text-xs sm:text-sm rounded-lg pl-9 pr-8 py-2 focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent font-medium cursor-pointer transition appearance-none"
           >
-            <!-- Injected dynamically via JS -->
+            <!-- Injected via JavaScript -->
           </select>
           <i data-lucide="chevron-down" class="absolute right-2.5 h-3.5 w-3.5 text-slate-400 pointer-events-none"></i>
         </div>
 
-        <!-- Refresh / Sync Button -->
         <button
           onclick="fetchAllData()"
           id="refreshBtn"
@@ -127,7 +124,6 @@ html
           <span id="refreshText" class="hidden sm:inline">Sync Data</span>
         </button>
 
-        <!-- Settings Button -->
         <button
           onclick="openSettingsModal()"
           title="Manage Client Credentials"
@@ -140,7 +136,7 @@ html
     </div>
   </header>
 
-  <!-- Main Dashboard Container -->
+  <!-- Main Container -->
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
 
     <!-- Active Client Status Banner -->
@@ -159,98 +155,164 @@ html
       </div>
     </div>
 
-    <!-- Top KPI Summary Cards -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <!-- Complete Top Telemetry / Expanded KPI Grid -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
       
       <!-- Total Spend -->
-      <div class="bg-anthracite-900 border border-anthracite-800 rounded-xl p-5 hover:border-anthracite-700 transition relative overflow-hidden group">
-        <div class="flex items-center justify-between text-slate-400 text-xs font-semibold uppercase tracking-wider mb-2">
-          <span>Active Spend</span>
-          <div class="p-1.5 rounded-md bg-anthracite-850 border border-anthracite-700 text-accent group-hover:scale-110 transition duration-200">
-            <i data-lucide="pound-sterling" class="h-4 w-4"></i>
-          </div>
+      <div class="bg-anthracite-900 border border-anthracite-800 rounded-xl p-4 hover:border-anthracite-700 transition">
+        <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1 flex items-center justify-between">
+          <span>Spend</span>
+          <i data-lucide="pound-sterling" class="h-3.5 w-3.5 text-accent"></i>
         </div>
-        <div class="text-2xl font-black text-white" id="kpiSpend">£0.00</div>
-        <p class="text-[11px] text-slate-500 mt-1">Investment across active campaigns</p>
+        <div class="text-lg font-black text-white" id="kpiSpend">£0.00</div>
+        <p class="text-[10px] text-slate-500 mt-0.5">Active investment</p>
       </div>
 
       <!-- Total Clicks -->
-      <div class="bg-anthracite-900 border border-anthracite-800 rounded-xl p-5 hover:border-anthracite-700 transition relative overflow-hidden group">
-        <div class="flex items-center justify-between text-slate-400 text-xs font-semibold uppercase tracking-wider mb-2">
-          <span>Total Clicks</span>
-          <div class="p-1.5 rounded-md bg-anthracite-850 border border-anthracite-700 text-accent group-hover:scale-110 transition duration-200">
-            <i data-lucide="mouse-pointer-click" class="h-4 w-4"></i>
-          </div>
+      <div class="bg-anthracite-900 border border-anthracite-800 rounded-xl p-4 hover:border-anthracite-700 transition">
+        <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1 flex items-center justify-between">
+          <span>Clicks</span>
+          <i data-lucide="mouse-pointer-click" class="h-3.5 w-3.5 text-accent"></i>
         </div>
-        <div class="text-2xl font-black text-white" id="kpiClicks">0</div>
-        <p class="text-[11px] text-slate-500 mt-1">Outbound traffic delivered</p>
+        <div class="text-lg font-black text-white" id="kpiClicks">0</div>
+        <p class="text-[10px] text-slate-500 mt-0.5">Link traffic</p>
       </div>
 
       <!-- Blended CPC -->
-      <div class="bg-anthracite-900 border border-anthracite-800 rounded-xl p-5 hover:border-anthracite-700 transition relative overflow-hidden group">
-        <div class="flex items-center justify-between text-slate-400 text-xs font-semibold uppercase tracking-wider mb-2">
-          <span>Blended CPC</span>
-          <div class="p-1.5 rounded-md bg-anthracite-850 border border-anthracite-700 text-accent group-hover:scale-110 transition duration-200">
-            <i data-lucide="bar-chart-2" class="h-4 w-4"></i>
-          </div>
+      <div class="bg-anthracite-900 border border-anthracite-800 rounded-xl p-4 hover:border-anthracite-700 transition">
+        <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1 flex items-center justify-between">
+          <span>Avg CPC</span>
+          <i data-lucide="trending-up" class="h-3.5 w-3.5 text-accent"></i>
         </div>
-        <div class="text-2xl font-black text-white" id="kpiCPC">£0.00</div>
-        <p class="text-[11px] text-slate-500 mt-1">Cost per outbound click</p>
+        <div class="text-lg font-black text-white" id="kpiCPC">£0.00</div>
+        <p class="text-[10px] text-slate-500 mt-0.5">Cost per click</p>
       </div>
 
       <!-- Average CTR -->
-      <div class="bg-anthracite-900 border border-anthracite-800 rounded-xl p-5 hover:border-anthracite-700 transition relative overflow-hidden group">
-        <div class="flex items-center justify-between text-slate-400 text-xs font-semibold uppercase tracking-wider mb-2">
-          <span>Average CTR</span>
-          <div class="p-1.5 rounded-md bg-anthracite-850 border border-anthracite-700 text-accent group-hover:scale-110 transition duration-200">
-            <i data-lucide="target" class="h-4 w-4"></i>
-          </div>
+      <div class="bg-anthracite-900 border border-anthracite-800 rounded-xl p-4 hover:border-anthracite-700 transition">
+        <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1 flex items-center justify-between">
+          <span>Link CTR</span>
+          <i data-lucide="target" class="h-3.5 w-3.5 text-accent"></i>
         </div>
-        <div class="text-2xl font-black text-white" id="kpiCTR">0.00%</div>
-        <p class="text-[11px] text-slate-500 mt-1">Click-through rate efficacy</p>
+        <div class="text-lg font-black text-white" id="kpiCTR">0.00%</div>
+        <p class="text-[10px] text-slate-500 mt-0.5">Click-through rate</p>
+      </div>
+
+      <!-- Total Impressions -->
+      <div class="bg-anthracite-900 border border-anthracite-800 rounded-xl p-4 hover:border-anthracite-700 transition">
+        <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1 flex items-center justify-between">
+          <span>Impressions</span>
+          <i data-lucide="eye" class="h-3.5 w-3.5 text-slate-400"></i>
+        </div>
+        <div class="text-lg font-black text-slate-200" id="kpiImpressions">0</div>
+        <p class="text-[10px] text-slate-500 mt-0.5">Total ad views</p>
+      </div>
+
+      <!-- Blended CPM -->
+      <div class="bg-anthracite-900 border border-anthracite-800 rounded-xl p-4 hover:border-anthracite-700 transition">
+        <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1 flex items-center justify-between">
+          <span>CPM</span>
+          <i data-lucide="layers" class="h-3.5 w-3.5 text-slate-400"></i>
+        </div>
+        <div class="text-lg font-black text-slate-200" id="kpiCPM">£0.00</div>
+        <p class="text-[10px] text-slate-500 mt-0.5">Cost per 1k views</p>
+      </div>
+
+      <!-- Estimated Reach -->
+      <div class="bg-anthracite-900 border border-anthracite-800 rounded-xl p-4 hover:border-anthracite-700 transition">
+        <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1 flex items-center justify-between">
+          <span>Reach</span>
+          <i data-lucide="users" class="h-3.5 w-3.5 text-slate-400"></i>
+        </div>
+        <div class="text-lg font-black text-slate-200" id="kpiReach">0</div>
+        <p class="text-[10px] text-slate-500 mt-0.5">Unique people</p>
+      </div>
+
+      <!-- Cost Per Result -->
+      <div class="bg-anthracite-900 border border-anthracite-800 rounded-xl p-4 hover:border-anthracite-700 transition">
+        <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1 flex items-center justify-between">
+          <span>Cost/Result</span>
+          <i data-lucide="award" class="h-3.5 w-3.5 text-emerald-400"></i>
+        </div>
+        <div class="text-lg font-black text-emerald-400" id="kpiCostResult">£0.00</div>
+        <p class="text-[10px] text-slate-500 mt-0.5">Action efficacy</p>
       </div>
 
     </div>
 
-    <!-- Gemini Strategic AI Audit & Executive Directive -->
+    <!-- AI Summary and Feedback Panel -->
     <div class="bg-anthracite-900 border border-accent/40 rounded-xl p-6 relative overflow-hidden accent-glow">
-      <div class="absolute -right-16 -top-16 w-60 h-60 bg-accent/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -right-16 -top-16 w-56 h-56 bg-accent/10 rounded-full blur-3xl pointer-events-none"></div>
 
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-5 border-b border-anthracite-800 pb-4">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4 border-b border-anthracite-800 pb-3.5">
         <div class="flex items-center gap-3">
-          <div class="h-10 w-10 rounded-lg bg-accent/20 border border-accent/40 flex items-center justify-center text-accent">
-            <i data-lucide="sparkles" class="h-5 w-5"></i>
+          <div class="h-8 w-8 rounded-lg bg-accent/20 border border-accent/40 flex items-center justify-center text-accent">
+            <i data-lucide="sparkles" class="h-4 w-4"></i>
           </div>
           <div>
-            <h3 class="text-base font-bold text-white flex items-center gap-2">
-              CMO-Level Performance Audit & Strategy
+            <h3 class="text-sm font-bold text-white flex items-center gap-2">
+              AI Summary and Feedback
               <span id="aiModelBadge" class="text-[10px] px-2 py-0.5 rounded bg-accent/10 text-accent font-semibold border border-accent/30 font-mono">
                 auto-resolving...
               </span>
             </h3>
-            <p class="text-xs text-slate-400">
-              Deep algorithmic critique, spend efficiency diagnostics, and creative scaling playbooks for active campaigns.
-            </p>
+            <p class="text-xs text-slate-400">Direct, bulleted performance observations and tactical action items.</p>
           </div>
         </div>
 
         <button
           onclick="generateAIBriefing()"
           id="btnGenerateAI"
-          class="flex items-center gap-2 bg-anthracite-850 hover:bg-anthracite-800 border border-anthracite-700 text-xs font-semibold px-3 py-2 rounded-lg text-slate-200 transition"
+          class="flex items-center gap-1.5 bg-anthracite-850 hover:bg-anthracite-800 border border-anthracite-700 text-xs font-semibold px-3 py-1.5 rounded-lg text-slate-200 transition"
         >
-          <i data-lucide="bot" class="h-4 w-4 text-accent"></i>
-          <span>Re-analyse Strategy</span>
+          <i data-lucide="bot" class="h-3.5 w-3.5 text-accent"></i>
+          <span>Regenerate Feedback</span>
         </button>
       </div>
 
-      <!-- AI Status Notice -->
-      <div id="aiNoticeContainer" class="hidden mb-4 text-xs text-amber-400/90 bg-amber-950/20 border border-amber-900/40 p-2.5 rounded-lg"></div>
+      <div id="aiNoticeContainer" class="hidden mb-3 text-xs text-amber-400/90 bg-amber-950/20 border border-amber-900/40 p-2.5 rounded-lg"></div>
 
-      <!-- AI Content Box -->
-      <div id="aiOutputContainer" class="min-h-[120px] flex items-center text-slate-300 text-sm leading-relaxed">
-        <p class="text-slate-400 italic">Click "Sync Data" or "Re-analyse Strategy" to synthesise active campaign and creative insights with Gemini AI.</p>
+      <!-- AI Content Box (Rendered Cleanly as Crisp Bullet Points) -->
+      <div id="aiOutputContainer" class="min-h-[80px] flex items-center text-slate-200 text-xs sm:text-sm leading-relaxed">
+        <p class="text-slate-400 italic">Click "Sync Data" to generate crisp bullet-point feedback for active campaigns and creatives.</p>
       </div>
+    </div>
+
+    <!-- Analytics & Charts Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+      <!-- Chart 1: Spend Distribution -->
+      <div class="bg-anthracite-900 border border-anthracite-800 rounded-xl p-5 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-xs font-bold text-white uppercase tracking-wider">Active Spend Distribution</h3>
+            <span class="text-[11px] text-slate-400 font-mono">Yesterday's Share</span>
+          </div>
+          <div class="relative h-64 w-full flex items-center justify-center">
+            <canvas id="spendChart"></canvas>
+          </div>
+        </div>
+        <p class="text-[11px] text-slate-500 text-center mt-3 pt-3 border-t border-anthracite-800">
+          Proportional daily ad investment across active campaigns
+        </p>
+      </div>
+
+      <!-- Chart 2: Efficiency Matrix (CPC vs CPM vs CTR) -->
+      <div class="bg-anthracite-900 border border-anthracite-800 rounded-xl p-5 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-xs font-bold text-white uppercase tracking-wider">Campaign Efficiency Benchmarks</h3>
+            <span class="text-[11px] text-slate-400 font-mono">CPC (£) vs CTR (%)</span>
+          </div>
+          <div class="relative h-64 w-full flex items-center justify-center">
+            <canvas id="efficiencyChart"></canvas>
+          </div>
+        </div>
+        <p class="text-[11px] text-slate-500 text-center mt-3 pt-3 border-t border-anthracite-800">
+          Real-time unit economics and click efficiency comparison
+        </p>
+      </div>
+
     </div>
 
     <!-- Active Ad Creatives Feed / Gallery -->
@@ -259,9 +321,9 @@ html
         <div>
           <h3 class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
             <i data-lucide="layers" class="h-4 w-4 text-accent"></i>
-            Active Ad Creatives & Visual Previews
+            Active Ad Creatives Feed
           </h3>
-          <p class="text-xs text-slate-400">Strictly displaying live ads running under currently active campaigns. Click any creative to inspect full resolution or play video.</p>
+          <p class="text-xs text-slate-400">High-resolution previews for ads delivering under active campaigns.</p>
         </div>
         <div class="flex items-center gap-2">
           <span class="text-xs text-emerald-400 bg-emerald-950/50 border border-emerald-800/60 px-2.5 py-1 rounded-md font-semibold flex items-center gap-1.5">
@@ -276,98 +338,78 @@ html
 
       <!-- Grid of Ad Creatives -->
       <div id="adCreativeGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 pt-2">
-        <!-- Rendered dynamically -->
         <div class="col-span-full py-12 text-center text-slate-500 text-xs font-sans">
           No active campaign ads loaded. Press <strong>Sync Data</strong> to pull active assets.
         </div>
       </div>
     </div>
 
-    <!-- Visualisation & Table Section -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
-      <!-- Interactive Budget Chart -->
-      <div class="lg:col-span-1 bg-anthracite-900 border border-anthracite-800 rounded-xl p-5 flex flex-col justify-between">
-        <div>
-          <div class="flex items-center justify-between mb-4">
-            <h3 class="text-xs font-bold text-white uppercase tracking-wider">Active Spend Distribution</h3>
-            <span class="text-[11px] text-slate-400">Campaign Share</span>
-          </div>
-          <div class="relative h-60 w-full flex items-center justify-center">
-            <canvas id="performanceChart"></canvas>
-          </div>
-        </div>
-        <p class="text-[11px] text-slate-500 text-center mt-3 pt-3 border-t border-anthracite-800">
-          Proportional daily investment across active campaigns
-        </p>
-      </div>
-
-      <!-- Campaign Breakdown Table -->
-      <div class="lg:col-span-2 bg-anthracite-900 border border-anthracite-800 rounded-xl p-5 flex flex-col justify-between">
-        <div>
-          <div class="flex items-center justify-between mb-4">
-            <h3 class="text-xs font-bold text-white uppercase tracking-wider">Active Campaigns Breakdown</h3>
-            <span class="text-[11px] text-slate-400" id="tableRowCount">0 active campaigns identified</span>
-          </div>
-
-          <div class="overflow-x-auto">
-            <table class="w-full text-left text-xs text-slate-300">
-              <thead class="bg-anthracite-850 text-slate-400 uppercase tracking-wider border-b border-anthracite-800">
-                <tr>
-                  <th class="py-3 px-3">Active Campaign</th>
-                  <th class="py-3 px-3 text-right">Spend</th>
-                  <th class="py-3 px-3 text-right">Impressions</th>
-                  <th class="py-3 px-3 text-right">Clicks</th>
-                  <th class="py-3 px-3 text-right">CTR</th>
-                  <th class="py-3 px-3 text-right">CPC</th>
-                </tr>
-              </thead>
-              <tbody id="campaignTableBody" class="divide-y divide-anthracite-800 font-mono">
-                <tr>
-                  <td colspan="6" class="text-center py-8 text-slate-500 font-sans">
-                    No active campaign data loaded. Press <strong>Sync Data</strong> to retrieve insights.
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+    <!-- Active Campaigns Detailed Table -->
+    <div class="bg-anthracite-900 border border-anthracite-800 rounded-xl p-5 flex flex-col justify-between">
+      <div>
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-xs font-bold text-white uppercase tracking-wider">Active Campaigns Telemetry</h3>
+          <span class="text-[11px] text-slate-400 font-mono" id="tableRowCount">0 active campaigns identified</span>
         </div>
 
-        <div class="mt-4 pt-3 border-t border-anthracite-800 flex justify-between items-center text-[11px] text-slate-500">
-          <span>Meta Marketing API v21.0</span>
-          <span>Currency: GBP (£)</span>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs text-slate-300">
+            <thead class="bg-anthracite-850 text-slate-400 uppercase tracking-wider border-b border-anthracite-800">
+              <tr>
+                <th class="py-3 px-3">Active Campaign</th>
+                <th class="py-3 px-3 text-right">Spend</th>
+                <th class="py-3 px-3 text-right">Impressions</th>
+                <th class="py-3 px-3 text-right">Reach</th>
+                <th class="py-3 px-3 text-right">Clicks</th>
+                <th class="py-3 px-3 text-right">CTR</th>
+                <th class="py-3 px-3 text-right">CPC</th>
+                <th class="py-3 px-3 text-right">CPM</th>
+              </tr>
+            </thead>
+            <tbody id="campaignTableBody" class="divide-y divide-anthracite-800 font-mono">
+              <tr>
+                <td colspan="8" class="text-center py-8 text-slate-500 font-sans">
+                  No active campaign data loaded. Press <strong>Sync Data</strong> to retrieve insights.
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
 
+      <div class="mt-4 pt-3 border-t border-anthracite-800 flex justify-between items-center text-[11px] text-slate-500 font-mono">
+        <span>Meta Marketing API v21.0</span>
+        <span>Currency: GBP (£)</span>
+      </div>
     </div>
 
   </main>
 
-  <!-- Full-Screen Media Lightbox Modal (For Full Images & Videos) -->
+  <!-- High-Res Media Lightbox Modal -->
   <div id="mediaLightboxModal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center hidden p-4">
-    <div class="relative max-w-4xl w-full bg-anthracite-900 border border-anthracite-750 rounded-2xl overflow-hidden shadow-2xl flex flex-col max-h-[92vh]">
+    <div class="relative max-w-2xl w-full bg-anthracite-900 border border-anthracite-750 rounded-2xl overflow-hidden shadow-2xl flex flex-col max-h-[92vh]">
       
       <!-- Modal Header -->
-      <div class="px-5 py-3.5 border-b border-anthracite-800 flex items-center justify-between bg-anthracite-950">
+      <div class="px-4 py-3 border-b border-anthracite-800 flex items-center justify-between bg-anthracite-950">
         <div class="flex items-center gap-2">
           <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-accent text-white uppercase font-mono" id="lightboxTypeBadge">IMAGE</span>
-          <h4 id="lightboxTitle" class="text-sm font-bold text-white truncate max-w-lg">Ad Preview</h4>
+          <h4 id="lightboxTitle" class="text-xs sm:text-sm font-bold text-white truncate max-w-md">Ad Preview</h4>
         </div>
-        <button onclick="closeMediaLightbox()" class="text-slate-400 hover:text-white p-1.5 rounded-lg bg-anthracite-850 transition">
-          <i data-lucide="x" class="h-5 w-5"></i>
+        <button onclick="closeMediaLightbox()" class="text-slate-400 hover:text-white p-1 rounded-lg bg-anthracite-850 transition">
+          <i data-lucide="x" class="h-4 w-4"></i>
         </button>
       </div>
 
-      <!-- Modal Visual Container -->
-      <div id="lightboxVisualContainer" class="flex-1 overflow-auto flex items-center justify-center p-4 bg-black/80 min-h-[360px] max-h-[60vh]">
-        <!-- Image or Video rendered dynamically here -->
+      <!-- High-Res Media Box -->
+      <div id="lightboxVisualContainer" class="overflow-hidden flex items-center justify-center p-3 bg-anthracite-950 min-h-[280px] max-h-[50vh]">
+        <!-- Full asset injected dynamically -->
       </div>
 
-      <!-- Modal Footer (Copy & CTA) -->
-      <div class="p-5 border-t border-anthracite-800 bg-anthracite-950 space-y-3">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-          <p id="lightboxCampaignTag" class="text-xs font-mono text-accent">Campaign: Active</p>
-          <div id="lightboxCtaButton" class="px-3 py-1 rounded bg-accent/90 text-white font-mono text-xs font-bold uppercase tracking-wider self-start sm:self-auto">
+      <!-- Modal Footer Copy & Actions -->
+      <div class="p-4 border-t border-anthracite-800 bg-anthracite-900 space-y-2.5">
+        <div class="flex items-center justify-between gap-2">
+          <span id="lightboxCampaignTag" class="text-[11px] font-mono text-accent truncate">Campaign: Active</span>
+          <div id="lightboxCtaButton" class="px-3 py-1 rounded bg-accent text-white font-mono text-[10px] font-bold uppercase tracking-wider shrink-0">
             LEARN MORE
           </div>
         </div>
@@ -377,7 +419,7 @@ html
     </div>
   </div>
 
-  <!-- Settings & Multi-Client Modal -->
+  <!-- Settings & Workspace Modal -->
   <div id="settingsModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center hidden p-4">
     <div class="bg-anthracite-900 border border-anthracite-700 w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
       
@@ -393,7 +435,7 @@ html
 
       <div class="p-6 overflow-y-auto space-y-6 flex-1">
         
-        <!-- Client Profile Form -->
+        <!-- Active Client Profile Form -->
         <div class="bg-anthracite-850 p-4 rounded-xl border border-anthracite-800 space-y-4">
           <div class="flex items-center justify-between">
             <h4 class="text-xs font-bold text-white uppercase tracking-wider">Active Workspace Settings</h4>
@@ -431,7 +473,6 @@ html
           </div>
         </div>
 
-        <!-- Add Workspace Action -->
         <div class="border-t border-anthracite-800 pt-3">
           <button onclick="createNewClientProfile()" class="w-full border border-dashed border-anthracite-700 hover:border-accent text-slate-300 hover:text-accent text-xs font-semibold py-3 rounded-xl transition flex items-center justify-center gap-2">
             <i data-lucide="plus" class="h-4 w-4"></i>
@@ -441,7 +482,7 @@ html
 
       </div>
 
-      <div class="px-6 py-3 bg-anthracite-950 border-t border-anthracite-800 flex justify-between items-center text-xs text-slate-500">
+      <div class="px-6 py-3 bg-anthracite-950 border-t border-anthracite-800 flex justify-between items-center text-xs text-slate-500 font-mono">
         <span>Stored securely in local browser storage.</span>
         <button onclick="closeSettingsModal()" class="bg-anthracite-850 hover:bg-anthracite-800 text-slate-300 px-3 py-1.5 rounded-lg transition">
           Close
@@ -453,7 +494,6 @@ html
 
   <!-- Main JavaScript Logic -->
   <script>
-    // Initial Credentials Configuration (Sanitised)
     const DEFAULT_CLIENTS = [
       {
         id: 'calm-drift-sanctuary',
@@ -464,18 +504,17 @@ html
       }
     ];
 
-    // State Variables
     let clients = JSON.parse(localStorage.getItem('whitelabel_meta_clients')) || DEFAULT_CLIENTS;
     let activeClientId = localStorage.getItem('whitelabel_active_client_id') || clients[0].id;
     let activeCampaigns = [];
     let activeAds = [];
-    let chartInstance = null;
+    let spendChartInstance = null;
+    let efficiencyChartInstance = null;
 
-    // Initialise on load
     document.addEventListener('DOMContentLoaded', () => {
       renderClientSelector();
       loadActiveClient();
-      initChart();
+      initCharts();
       lucide.createIcons();
       fetchAllData();
     });
@@ -508,14 +547,12 @@ html
       document.getElementById('clientDisplayName').textContent = client.name;
       document.getElementById('adAccountDisplay').textContent = `Account ID: ${client.accountId}`;
       
-      // Update Modal Form
       document.getElementById('cfgClientName').value = client.name;
       document.getElementById('cfgAccountId').value = client.accountId;
       document.getElementById('cfgMetaToken').value = client.metaToken || '';
       document.getElementById('cfgGeminiKey').value = client.geminiKey || '';
     }
 
-    // Modal Control
     function openSettingsModal() {
       loadActiveClient();
       document.getElementById('settingsModal').classList.remove('hidden');
@@ -562,10 +599,11 @@ html
       localStorage.setItem('whitelabel_active_client_id', activeClientId);
     }
 
-    // Chart.js Visualisation
-    function initChart() {
-      const ctx = document.getElementById('performanceChart').getContext('2d');
-      chartInstance = new Chart(ctx, {
+    // Chart.js Initialisations
+    function initCharts() {
+      // 1. Spend Chart
+      const spendCtx = document.getElementById('spendChart').getContext('2d');
+      spendChartInstance = new Chart(spendCtx, {
         type: 'doughnut',
         data: {
           labels: ['No Active Campaigns'],
@@ -582,51 +620,75 @@ html
           plugins: {
             legend: {
               position: 'bottom',
-              labels: {
-                color: '#94a3b8',
-                font: { size: 10 },
-                boxWidth: 10,
-                padding: 12
-              }
+              labels: { color: '#94a3b8', font: { size: 10 }, boxWidth: 10, padding: 12 }
             }
           },
           cutout: '68%'
         }
       });
+
+      // 2. Efficiency Chart (Bar)
+      const effCtx = document.getElementById('efficiencyChart').getContext('2d');
+      efficiencyChartInstance = new Chart(effCtx, {
+        type: 'bar',
+        data: {
+          labels: ['No Data'],
+          datasets: [
+            { label: 'CPC (£)', data: [0], backgroundColor: '#ff6200', borderRadius: 4 },
+            { label: 'CTR (%)', data: [0], backgroundColor: '#10b981', borderRadius: 4 }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            x: { ticks: { color: '#64748b', font: { size: 10 } }, grid: { display: false } },
+            y: { ticks: { color: '#64748b', font: { size: 10 } }, grid: { color: '#1e242c' } }
+          },
+          plugins: {
+            legend: { labels: { color: '#94a3b8', font: { size: 10 }, boxWidth: 10 } }
+          }
+        }
+      });
     }
 
-    function updateChart(data) {
-      if (!chartInstance) return;
+    function updateCharts(data) {
+      if (!spendChartInstance || !efficiencyChartInstance) return;
 
       if (!data || data.length === 0) {
-        chartInstance.data.labels = ['No Active Spend'];
-        chartInstance.data.datasets[0].data = [1];
-        chartInstance.data.datasets[0].backgroundColor = ['#1e242c'];
-        chartInstance.update();
+        spendChartInstance.data.labels = ['No Active Spend'];
+        spendChartInstance.data.datasets[0].data = [1];
+        spendChartInstance.data.datasets[0].backgroundColor = ['#1e242c'];
+        spendChartInstance.update();
+
+        efficiencyChartInstance.data.labels = ['No Active Data'];
+        efficiencyChartInstance.data.datasets[0].data = [0];
+        efficiencyChartInstance.data.datasets[1].data = [0];
+        efficiencyChartInstance.update();
         return;
       }
 
-      const labels = data.map(c => c.campaign_name.length > 20 ? c.campaign_name.substring(0, 18) + '...' : c.campaign_name);
+      const labels = data.map(c => c.campaign_name.length > 18 ? c.campaign_name.substring(0, 16) + '...' : c.campaign_name);
       const spendValues = data.map(c => parseFloat(c.spend) || 0);
+      const cpcValues = data.map(c => parseFloat(c.cpc) || 0);
+      const ctrValues = data.map(c => parseFloat(c.ctr) || 0);
 
-      const colorPalette = [
-        '#ff6200',
-        '#ff8533',
-        '#ffa766',
-        '#3b82f6',
-        '#10b981',
-        '#8b5cf6',
-        '#ec4899',
-        '#f59e0b'
-      ];
+      const colorPalette = ['#ff6200', '#ff8533', '#ffa766', '#3b82f6', '#10b981', '#8b5cf6'];
 
-      chartInstance.data.labels = labels;
-      chartInstance.data.datasets[0].data = spendValues;
-      chartInstance.data.datasets[0].backgroundColor = colorPalette.slice(0, labels.length);
-      chartInstance.update();
+      // Update Spend Doughnut
+      spendChartInstance.data.labels = labels;
+      spendChartInstance.data.datasets[0].data = spendValues;
+      spendChartInstance.data.datasets[0].backgroundColor = colorPalette.slice(0, labels.length);
+      spendChartInstance.update();
+
+      // Update Efficiency Bar Chart
+      efficiencyChartInstance.data.labels = labels;
+      efficiencyChartInstance.data.datasets[0].data = cpcValues;
+      efficiencyChartInstance.data.datasets[1].data = ctrValues;
+      efficiencyChartInstance.update();
     }
 
-    // Meta Marketing API (Insights + Ads Strictly Filtered to ACTIVE Campaigns)
+    // Meta Marketing API Integration
     async function fetchAllData() {
       const client = getActiveClient();
       const refreshBtn = document.getElementById('refreshBtn');
@@ -642,7 +704,7 @@ html
       refreshIcon.classList.add('animate-spin');
 
       if (!client.metaToken) {
-        handleFallbackData('No Meta Access Token detected. Displaying active baseline simulation. Click Settings (⚙️) to enter your live token.');
+        handleFallbackData('No Meta Access Token detected. Displaying demonstration campaign baseline. Click Settings (⚙️) to enter your live token.');
         refreshBtn.disabled = false;
         refreshText.textContent = 'Sync Data';
         refreshIcon.classList.remove('animate-spin');
@@ -655,11 +717,8 @@ html
         cleanAccountId = 'act_' + cleanAccountId;
       }
 
-      // 1. Fetch campaigns with effective_status filter
-      const campaignsEndpoint = `https://graph.facebook.com/v21.0/${cleanAccountId}/campaigns?fields=id,name,status,effective_status,insights.date_preset(yesterday){spend,impressions,clicks,ctr,cpc}&effective_status=['ACTIVE']&access_token=${client.metaToken}`;
-      
-      // 2. Fetch ads with creative details including high-res media, video sources, and parent campaign status
-      const adsEndpoint = `https://graph.facebook.com/v21.0/${cleanAccountId}/ads?fields=id,name,status,effective_status,campaign{id,name,status,effective_status},creative{id,name,title,body,image_url,thumbnail_url,video_id,call_to_action_type,object_story_spec,asset_feed_spec},insights.date_preset(yesterday){spend,impressions,clicks,ctr,cpc}&effective_status=['ACTIVE']&limit=35&access_token=${client.metaToken}`;
+      const campaignsEndpoint = `https://graph.facebook.com/v21.0/${cleanAccountId}/campaigns?fields=id,name,status,effective_status,insights.date_preset(yesterday){spend,impressions,reach,clicks,ctr,cpc,cpm,actions,cost_per_action_type}&effective_status=['ACTIVE']&access_token=${client.metaToken}`;
+      const adsEndpoint = `https://graph.facebook.com/v21.0/${cleanAccountId}/ads?fields=id,name,status,effective_status,campaign{id,name,status,effective_status},creative{id,name,title,body,image_url,thumbnail_url,image_crops,video_id,call_to_action_type,object_story_spec{link_data,video_data}},insights.date_preset(yesterday){spend,impressions,reach,clicks,ctr,cpc,cpm,actions}&effective_status=['ACTIVE']&limit=35&access_token=${client.metaToken}`;
 
       try {
         const [campRes, adsRes] = await Promise.all([
@@ -671,7 +730,6 @@ html
           throw new Error(campRes.error.message || 'Meta Campaigns API returned an error.');
         }
 
-        // Extract Active Campaign Insights
         if (campRes.data && campRes.data.length > 0) {
           activeCampaigns = campRes.data.map(c => {
             const ins = c.insights?.data?.[0] || {};
@@ -682,16 +740,18 @@ html
               effective_status: c.effective_status,
               spend: ins.spend || '0.00',
               impressions: ins.impressions || '0',
+              reach: ins.reach || '0',
               clicks: ins.clicks || '0',
               ctr: ins.ctr || '0.00',
-              cpc: ins.cpc || '0.00'
+              cpc: ins.cpc || '0.00',
+              cpm: ins.cpm || '0.00',
+              cost_per_result: ins.cost_per_action_type?.[0]?.value || '0.00'
             };
           });
         } else {
           activeCampaigns = [];
         }
 
-        // Extract Ads and enforce STRICT ACTIVE CAMPAIGN validation
         if (adsRes.data && adsRes.data.length > 0) {
           activeAds = adsRes.data.filter(ad => {
             const isAdActive = (ad.effective_status === 'ACTIVE' || ad.status === 'ACTIVE');
@@ -704,16 +764,16 @@ html
 
         if (activeCampaigns.length > 0 || activeAds.length > 0) {
           renderMetrics(activeCampaigns);
-          updateChart(activeCampaigns);
+          updateCharts(activeCampaigns);
           renderTable(activeCampaigns);
           renderCreativeGallery(activeAds);
           generateAIBriefing();
         } else {
-          handleFallbackData('No active campaigns currently delivering yesterday on this account. Loaded active simulation for visual verification.');
+          handleFallbackData('No active campaign spend recorded for yesterday. Showing baseline preview.');
         }
 
       } catch (err) {
-        handleFallbackData(`Notice: Direct Meta Graph request responded with (${err.message}). Showing active campaign baseline simulation.`);
+        handleFallbackData(`Notice: Direct Meta Graph request returned (${err.message}). Showing active campaign simulation.`);
       } finally {
         refreshBtn.disabled = false;
         refreshText.textContent = 'Sync Data';
@@ -726,80 +786,50 @@ html
       activeCampaigns = [
         {
           campaign_id: 'camp_001',
-          campaign_name: 'UK_Conversions_BlackNovember_SoundscapeTherapy',
+          campaign_name: 'Post: "Our Black November event has officially begun...."',
           status: 'ACTIVE',
           effective_status: 'ACTIVE',
           spend: '3.37',
           impressions: '645',
-          clicks: '14',
-          ctr: '2.17',
-          cpc: '0.24'
-        },
-        {
-          campaign_id: 'camp_002',
-          campaign_name: 'UK_AdvantagePlus_Retargeting_HighIntent',
-          status: 'ACTIVE',
-          effective_status: 'ACTIVE',
-          spend: '48.50',
-          impressions: '2150',
-          clicks: '62',
-          ctr: '2.88',
-          cpc: '0.78'
+          reach: '582',
+          clicks: '12',
+          ctr: '1.86',
+          cpc: '0.28',
+          cpm: '5.22',
+          cost_per_result: '0.28'
         }
       ];
 
       activeAds = [
         {
           id: 'ad_101',
-          name: 'Black November — Exclusive VIP Soundscape Access',
+          name: 'Post: "Our Black November event has officially begun...."',
           status: 'ACTIVE',
           effective_status: 'ACTIVE',
-          campaign: { id: 'camp_001', name: 'UK_Conversions_BlackNovember_SoundscapeTherapy', status: 'ACTIVE', effective_status: 'ACTIVE' },
+          campaign: { id: 'camp_001', name: 'Post: "Our Black November event has officially begun...."', status: 'ACTIVE', effective_status: 'ACTIVE' },
           creative: {
-            title: 'Experience Complete Drift & Serenity This November',
-            body: 'Black November Exclusive: Unlock 40% off our premier soundscape and sanctuary therapies. Step out of the everyday rush and into restorative calm.',
-            image_url: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1600&q=85',
-            call_to_action_type: 'BOOK_TRAVEL',
+            title: 'Our Black November event has officially begun',
+            body: 'Our Black November event has officially begun. Enjoy 20% off any treatment booked for December when secured before 16 November at midnight. Give yourself something truly relaxing to look forward to this winter. Message us to reserve your appointment.',
+            image_url: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1200&q=85',
+            call_to_action_type: 'LEARN_MORE',
             is_video: false
           },
           insights: {
             data: [{
               spend: '3.37',
               impressions: '645',
-              clicks: '14',
-              ctr: '2.17',
-              cpc: '0.24'
-            }]
-          }
-        },
-        {
-          id: 'ad_102',
-          name: 'UGC Reel — "How this ritual reset my sleep cycle"',
-          status: 'ACTIVE',
-          effective_status: 'ACTIVE',
-          campaign: { id: 'camp_002', name: 'UK_AdvantagePlus_Retargeting_HighIntent', status: 'ACTIVE', effective_status: 'ACTIVE' },
-          creative: {
-            title: 'Transform Your Evening Sanctuary Routine',
-            body: 'Over 10,000 UK professionals have reclaimed deep, unbroken sleep with our clinically formulated acoustic drift sessions. Watch the video walkthrough.',
-            image_url: 'https://images.unsplash.com/photo-1515377905703-c4788e51af15?auto=format&fit=crop&w=1600&q=85',
-            video_url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
-            call_to_action_type: 'LEARN_MORE',
-            is_video: true
-          },
-          insights: {
-            data: [{
-              spend: '48.50',
-              impressions: '2150',
-              clicks: '62',
-              ctr: '2.88',
-              cpc: '0.78'
+              reach: '582',
+              clicks: '12',
+              ctr: '1.86',
+              cpc: '0.28',
+              cpm: '5.22'
             }]
           }
         }
       ];
 
       renderMetrics(activeCampaigns);
-      updateChart(activeCampaigns);
+      updateCharts(activeCampaigns);
       renderTable(activeCampaigns);
       renderCreativeGallery(activeAds);
 
@@ -814,20 +844,30 @@ html
       let totalSpend = 0;
       let totalClicks = 0;
       let totalImpressions = 0;
+      let totalReach = 0;
+      let totalCostResult = 0;
 
       data.forEach(item => {
         totalSpend += parseFloat(item.spend) || 0;
         totalClicks += parseInt(item.clicks) || 0;
         totalImpressions += parseInt(item.impressions) || 0;
+        totalReach += parseInt(item.reach) || 0;
+        totalCostResult += parseFloat(item.cost_per_result) || 0;
       });
 
       const blendedCPC = totalClicks > 0 ? (totalSpend / totalClicks) : 0;
       const blendedCTR = totalImpressions > 0 ? ((totalClicks / totalImpressions) * 100) : 0;
+      const blendedCPM = totalImpressions > 0 ? ((totalSpend / totalImpressions) * 1000) : 0;
+      const avgCostResult = data.length > 0 ? (totalCostResult / data.length) : blendedCPC;
 
       document.getElementById('kpiSpend').textContent = `£${totalSpend.toFixed(2)}`;
       document.getElementById('kpiClicks').textContent = totalClicks.toLocaleString();
       document.getElementById('kpiCPC').textContent = `£${blendedCPC.toFixed(2)}`;
       document.getElementById('kpiCTR').textContent = `${blendedCTR.toFixed(2)}%`;
+      document.getElementById('kpiImpressions').textContent = totalImpressions.toLocaleString();
+      document.getElementById('kpiCPM').textContent = `£${blendedCPM.toFixed(2)}`;
+      document.getElementById('kpiReach').textContent = totalReach > 0 ? totalReach.toLocaleString() : (totalImpressions > 0 ? Math.round(totalImpressions * 0.9).toLocaleString() : '0');
+      document.getElementById('kpiCostResult').textContent = `£${avgCostResult.toFixed(2)}`;
     }
 
     function renderTable(data) {
@@ -838,7 +878,7 @@ html
       if (!data || data.length === 0) {
         tbody.innerHTML = `
           <tr>
-            <td colspan="6" class="text-center py-6 text-slate-500 font-sans">
+            <td colspan="8" class="text-center py-6 text-slate-500 font-sans">
               No active campaign records found for yesterday.
             </td>
           </tr>
@@ -852,30 +892,48 @@ html
       data.forEach(item => {
         const spend = parseFloat(item.spend) || 0;
         const impressions = parseInt(item.impressions) || 0;
+        const reach = parseInt(item.reach) || Math.round(impressions * 0.9);
         const clicks = parseInt(item.clicks) || 0;
         const ctr = parseFloat(item.ctr) || 0;
         const cpc = parseFloat(item.cpc) || 0;
+        const cpm = parseFloat(item.cpm) || (impressions > 0 ? (spend / impressions) * 1000 : 0);
 
         const row = document.createElement('tr');
         row.className = 'hover:bg-anthracite-850/60 transition';
         row.innerHTML = `
           <td class="py-3 px-3 font-sans font-medium text-white max-w-xs truncate" title="${item.campaign_name}">
             <div class="flex items-center gap-2">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-              <span>${item.campaign_name}</span>
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0"></span>
+              <span class="truncate">${item.campaign_name}</span>
             </div>
           </td>
           <td class="py-3 px-3 text-right text-slate-200">£${spend.toFixed(2)}</td>
           <td class="py-3 px-3 text-right text-slate-400">${impressions.toLocaleString()}</td>
+          <td class="py-3 px-3 text-right text-slate-400">${reach.toLocaleString()}</td>
           <td class="py-3 px-3 text-right text-slate-200 font-semibold">${clicks.toLocaleString()}</td>
           <td class="py-3 px-3 text-right ${ctr >= 1.5 ? 'text-emerald-400 font-semibold' : 'text-slate-400'}">${ctr.toFixed(2)}%</td>
           <td class="py-3 px-3 text-right text-slate-300">£${cpc.toFixed(2)}</td>
+          <td class="py-3 px-3 text-right text-slate-400">£${cpm.toFixed(2)}</td>
         `;
         tbody.appendChild(row);
       });
     }
 
-    // Render the Ad Creatives Feed & Enable Full Lightbox Previews
+    // Resolves high-resolution asset URLs from Meta creative specs
+    function extractBestImageUrl(creative) {
+      if (!creative) return null;
+      if (creative.image_url) return creative.image_url;
+      const linkData = creative.object_story_spec?.link_data;
+      if (linkData?.picture) {
+        // Meta thumbnails often contain downscaling tokens; we clean parameters where possible
+        return linkData.picture;
+      }
+      if (creative.thumbnail_url) return creative.thumbnail_url;
+      if (creative.object_story_spec?.video_data?.image_url) return creative.object_story_spec.video_data.image_url;
+      return null;
+    }
+
+    // Render Creative Feed Gallery
     function renderCreativeGallery(ads) {
       const grid = document.getElementById('adCreativeGrid');
       const countDisplay = document.getElementById('adCountDisplay');
@@ -884,7 +942,7 @@ html
       if (!ads || ads.length === 0) {
         grid.innerHTML = `
           <div class="col-span-full py-12 text-center text-slate-500 text-xs font-sans">
-            No active ads detected under current active campaigns.
+            No active ads detected under active campaigns.
           </div>
         `;
         countDisplay.textContent = '0 active ads';
@@ -896,20 +954,13 @@ html
       ads.forEach((ad, index) => {
         const creative = ad.creative || {};
         const spec = creative.object_story_spec?.link_data || {};
-        const videoSpec = creative.object_story_spec?.video_data || {};
-        
-        // Extract Media Asset
-        const isVideo = Boolean(creative.video_id || creative.is_video || videoSpec.video_id || creative.video_url);
-        const imageUrl = creative.image_url || creative.thumbnail_url || spec.picture || spec.image_hash || videoSpec.image_url || null;
-        const videoUrl = creative.video_url || null;
-        
-        // Extract Copy
-        const title = creative.title || spec.name || videoSpec.title || ad.name || 'Untitled Creative';
-        const bodyText = creative.body || spec.message || videoSpec.message || 'No primary copy specified.';
-        const cta = creative.call_to_action_type || spec.call_to_action?.type || videoSpec.call_to_action?.type || 'LEARN_MORE';
-        const formattedCta = cta.replace(/_/g, ' ');
+        const isVideo = Boolean(creative.video_id || creative.is_video || creative.object_story_spec?.video_data);
+        const imageUrl = extractBestImageUrl(creative);
 
-        // Ad-level Insights
+        const title = creative.title || spec.name || ad.name || 'Untitled Creative';
+        const bodyText = creative.body || spec.message || 'No primary copy specified.';
+        const cta = (creative.call_to_action_type || spec.call_to_action?.type || 'LEARN_MORE').replace(/_/g, ' ');
+
         const insight = ad.insights?.data?.[0] || {};
         const adSpend = parseFloat(insight.spend) || 0;
         const adClicks = parseInt(insight.clicks) || 0;
@@ -921,37 +972,34 @@ html
 
         card.innerHTML = `
           <div>
-            <!-- Media Visual Preview Box -->
-            <div class="relative h-48 w-full bg-anthracite-900 overflow-hidden border-b border-anthracite-800 cursor-pointer" onclick="openMediaLightbox(${index})">
+            <!-- Visual Box (Crisp Aspect Ratio Preview) -->
+            <div class="relative h-52 w-full bg-anthracite-950 overflow-hidden border-b border-anthracite-800 cursor-pointer flex items-center justify-center" onclick="openMediaLightbox(${index})">
               ${imageUrl ? `
-                <img src="${imageUrl}" alt="${title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
+                <img src="${imageUrl}" alt="${title}" class="max-h-full max-w-full object-contain group-hover:scale-105 transition duration-300" />
               ` : `
-                <div class="w-full h-full flex flex-col items-center justify-center p-4 bg-gradient-to-br from-anthracite-900 to-anthracite-800 text-center">
+                <div class="w-full h-full flex flex-col items-center justify-center p-4 text-center">
                   <i data-lucide="image" class="h-8 w-8 text-slate-600 mb-2"></i>
-                  <span class="text-[11px] text-slate-500 font-medium">Meta Dynamic Creative Asset</span>
+                  <span class="text-[11px] text-slate-500 font-medium">Meta Creative Asset</span>
                 </div>
               `}
               
-              <!-- Video / Image Badge -->
-              <div class="absolute top-3 left-3 flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-bold backdrop-blur-md bg-black/70 text-white border border-white/20">
+              <div class="absolute top-2.5 left-2.5 flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-bold backdrop-blur-md bg-black/80 text-white border border-white/20">
                 <i data-lucide="${isVideo ? 'play-circle' : 'image'}" class="h-3.5 w-3.5 ${isVideo ? 'text-accent' : 'text-slate-300'}"></i>
                 <span>${isVideo ? 'VIDEO AD' : 'STATIC IMAGE'}</span>
               </div>
 
-              <!-- Click to Expand Overlay -->
-              <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition duration-200 flex items-center justify-center gap-2 text-white font-semibold text-xs backdrop-blur-sm">
+              <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition duration-200 flex items-center justify-center gap-1.5 text-white font-semibold text-xs backdrop-blur-sm">
                 <i data-lucide="maximize-2" class="h-4 w-4 text-accent"></i>
-                <span>${isVideo ? 'Play Video & Inspect' : 'View Full Image'}</span>
+                <span>View Full Asset</span>
               </div>
 
-              <!-- CTA Badge -->
-              <div class="absolute bottom-3 right-3 px-2 py-0.5 rounded bg-accent/90 text-white font-mono text-[10px] font-bold uppercase tracking-wider shadow">
-                ${formattedCta}
+              <div class="absolute bottom-2.5 right-2.5 px-2 py-0.5 rounded bg-accent/90 text-white font-mono text-[10px] font-bold uppercase tracking-wider shadow">
+                ${cta}
               </div>
             </div>
 
-            <!-- Ad Copy Section -->
-            <div class="p-4 space-y-2">
+            <!-- Copy -->
+            <div class="p-4 space-y-1.5">
               <span class="text-[10px] text-accent font-mono block truncate" title="${ad.campaign?.name || 'Active Campaign'}">
                 🎯 ${ad.campaign?.name || 'Active Campaign'}
               </span>
@@ -960,8 +1008,8 @@ html
             </div>
           </div>
 
-          <!-- Bottom Metric Bar -->
-          <div class="p-3 bg-anthracite-900/90 border-t border-anthracite-800 grid grid-cols-4 gap-1 text-center font-mono">
+          <!-- Bottom Metric Strip -->
+          <div class="p-3 bg-anthracite-900 border-t border-anthracite-800 grid grid-cols-4 gap-1 text-center font-mono">
             <div>
               <span class="text-[9px] text-slate-500 block uppercase">Spend</span>
               <span class="text-xs font-bold text-white">£${adSpend.toFixed(2)}</span>
@@ -987,21 +1035,19 @@ html
       lucide.createIcons();
     }
 
-    // Media Lightbox Trigger & Modal Handler
+    // Modal Lightbox
     function openMediaLightbox(index) {
       const ad = activeAds[index];
       if (!ad) return;
 
       const creative = ad.creative || {};
       const spec = creative.object_story_spec?.link_data || {};
-      const videoSpec = creative.object_story_spec?.video_data || {};
-      
-      const isVideo = Boolean(creative.video_id || creative.is_video || videoSpec.video_id || creative.video_url);
-      const imageUrl = creative.image_url || creative.thumbnail_url || spec.picture || spec.image_hash || videoSpec.image_url;
+      const isVideo = Boolean(creative.video_id || creative.is_video || creative.object_story_spec?.video_data);
+      const imageUrl = extractBestImageUrl(creative);
       const videoUrl = creative.video_url || null;
 
-      const title = creative.title || spec.name || videoSpec.title || ad.name;
-      const bodyText = creative.body || spec.message || videoSpec.message || 'No primary copy text.';
+      const title = creative.title || spec.name || ad.name;
+      const bodyText = creative.body || spec.message || 'No copy specified.';
       const cta = (creative.call_to_action_type || spec.call_to_action?.type || 'LEARN_MORE').replace(/_/g, ' ');
 
       document.getElementById('lightboxTitle').textContent = title;
@@ -1015,20 +1061,20 @@ html
 
       if (isVideo && videoUrl) {
         container.innerHTML = `
-          <video controls autoplay class="max-h-[55vh] max-w-full rounded-lg shadow-2xl border border-anthracite-750">
+          <video controls autoplay class="max-h-[46vh] max-w-full rounded-lg shadow-2xl">
             <source src="${videoUrl}" type="video/mp4">
             Your browser does not support HTML5 video preview.
           </video>
         `;
       } else if (imageUrl) {
         container.innerHTML = `
-          <img src="${imageUrl}" alt="${title}" class="max-h-[55vh] max-w-full object-contain rounded-lg shadow-2xl border border-anthracite-750" />
+          <img src="${imageUrl}" alt="${title}" class="max-h-[46vh] max-w-full object-contain rounded-lg shadow-xl" />
         `;
       } else {
         container.innerHTML = `
-          <div class="text-center py-16 text-slate-400">
-            <i data-lucide="eye-off" class="h-10 w-10 mx-auto text-slate-600 mb-2"></i>
-            <p class="text-xs">Direct visual render restricted by Meta API privacy parameters.</p>
+          <div class="text-center py-12 text-slate-400">
+            <i data-lucide="image" class="h-8 w-8 mx-auto text-slate-600 mb-2"></i>
+            <p class="text-xs">Visual preview generated from active creative spec.</p>
           </div>
         `;
       }
@@ -1039,11 +1085,11 @@ html
 
     function closeMediaLightbox() {
       const container = document.getElementById('lightboxVisualContainer');
-      container.innerHTML = ''; // Stop video playback on close
+      container.innerHTML = '';
       document.getElementById('mediaLightboxModal').classList.add('hidden');
     }
 
-    // Gemini AI Deep Performance Audit for ACTIVE CAMPAIGNS ONLY
+    // AI Summary and Feedback Integration (Bullet Points Only)
     async function generateAIBriefing() {
       const client = getActiveClient();
       const outputContainer = document.getElementById('aiOutputContainer');
@@ -1054,7 +1100,7 @@ html
         outputContainer.innerHTML = `
           <div class="space-y-1">
             <p class="text-amber-400 font-medium text-xs">⚠️ Gemini API Key not yet configured.</p>
-            <p class="text-slate-400 text-xs">Click the <strong>Settings (⚙️)</strong> button in the upper right to add your Gemini API Key and unlock real-time strategic intelligence.</p>
+            <p class="text-slate-400 text-xs">Click Settings (⚙️) to enter your Gemini API Key.</p>
           </div>
         `;
         return;
@@ -1062,57 +1108,51 @@ html
 
       btn.disabled = true;
       outputContainer.innerHTML = `
-        <div class="flex items-center gap-3 py-4">
+        <div class="flex items-center gap-3 py-3">
           <div class="loader-ring"></div>
-          <span class="text-xs text-slate-400 font-medium">Conducting CMO performance audit for active campaigns and creatives...</span>
+          <span class="text-xs text-slate-400 font-medium">Generating bullet-point summary and feedback...</span>
         </div>
       `;
 
-      // Build structured payload restricted strictly to active elements
       const auditPayload = {
         client_name: client.name,
         account_id: client.accountId,
         reporting_window: "Yesterday",
-        active_campaigns_only: activeCampaigns,
-        active_creatives_only: activeAds.map(a => ({
-          ad_name: a.name,
-          campaign_name: a.campaign?.name,
+        active_campaigns: activeCampaigns,
+        active_ads_and_copy: activeAds.map(a => ({
+          name: a.name,
+          campaign: a.campaign?.name,
           headline: a.creative?.title || a.name,
-          copy_snippet: a.creative?.body ? a.creative.body.substring(0, 160) + '...' : 'N/A',
-          cta_type: a.creative?.call_to_action_type || 'N/A',
-          performance: a.insights?.data?.[0] || { spend: '0.00', clicks: '0', ctr: '0.00%', cpc: '0.00' }
+          copy: a.creative?.body || 'N/A',
+          cta: a.creative?.call_to_action_type || 'N/A',
+          metrics: a.insights?.data?.[0] || {}
         }))
       };
 
       const systemPrompt = `
-You are an elite Fractional CMO and World-Class Meta Performance Marketing Director conducting a performance audit for the brand "${client.name}".
+You are a senior Meta Performance Marketing Specialist. Provide a concise, highly direct executive summary for "${client.name}".
 
-IMPORTANT: The following dataset contains ONLY ACTIVE campaigns and LIVE ads:
+STRICT FORMAT REQUIREMENT:
+- Do NOT write long paragraphs or discursive essays.
+- Output ONLY sharp, single-sentence bullet points under the 3 headings below.
+- Use British English spelling (e.g. optimisation, analysing, prioritising, behaviour, programme).
+
+### ⚡ Performance Observations
+- [Bullet point 1: Immediate delivery/spend reality and CPC/CTR efficiency]
+- [Bullet point 2: Auction health and creative engagement note]
+
+### 🎯 Budget & Campaign Feedback
+- [Bullet point 1: Clear daily budget adjustment recommendation with exact numbers]
+- [Bullet point 2: Objective setup / ABO vs Advantage+ structure suggestion]
+
+### 🛠️ Tactical Action Items
+- [Bullet point 1: Actionable creative or copy tweak based on current ad hooks]
+- [Bullet point 2: Next immediate change to execute inside Meta Ads Manager]
+
+Active Campaign & Ad Telemetry:
 ${JSON.stringify(auditPayload, null, 2)}
-
-Provide a deeply analytical, commercial, and actionable executive review using British English spelling (e.g. optimisation, behaviour, prioritising, programme, analyse, spend).
-
-Structure your output into these 4 distinct, rigorous sections using formatted Markdown:
-
-### 1. 🔍 Algorithmic Health & Funnel Diagnostics (Active Campaigns)
-* Perform an in-depth diagnosis of current spend velocity, auction liquidity, and delivery starvation (e.g. why spend like £3.37 fails to exit learning phase and starves the pixel).
-* Evaluate CPM/CPC/CTR efficiency across the active creatives, identifying whether the bottleneck is creative hook rate, audience saturation, or delivery friction.
-
-### 2. 💷 Commercial Budget & Scaling Playbook
-* Provide exact numerical daily budget recommendations (e.g. scale from £X to £Y/day).
-* Detail whether to deploy Advantage+ Campaign Budget (CBO) vs Ad Set Budget (ABO), and state specifically which active campaigns must be funded vs restructured.
-
-### 3. 🎨 Creative & Copy Engineering Directives
-* Analyse the specific hooks, visual angles, and Call-to-Actions (CTAs) present in the active creative feed.
-* Give actionable copywriting tweaks, angle pivots (e.g. sensory benefits vs urgency-based Black Friday discounts), and specific format suggestions (UGC Video vs Dark Posting vs Static Showcase).
-
-### 4. ⚡ 48-Hour Tactical Action Plan
-* Provide a concise, step-by-step checklist of what the media buyer must execute inside Meta Ads Manager within the next 48 hours to unlock profitable scale.
-
-Maintain an authoritative, data-backed marketing tone. Zero generic fluff. Every point must reference specific numbers or angles from the active dataset.
       `;
 
-      // Auto-discover available models
       let candidateModels = [];
       try {
         const listRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${client.geminiKey}`);
@@ -1120,7 +1160,7 @@ Maintain an authoritative, data-backed marketing tone. Zero generic fluff. Every
         
         if (listData.models && Array.isArray(listData.models)) {
           candidateModels = listData.models
-            .filter(m => m.supportedGenerationMethods && m.supportedGenerationMethods.includes('generateContent'))
+            .filter(m => m.supportedGenerationMethods?.includes('generateContent'))
             .map(m => m.name.replace(/^models\//, ''))
             .sort((a, b) => {
               const aIsFlash = a.includes('flash');
@@ -1131,7 +1171,7 @@ Maintain an authoritative, data-backed marketing tone. Zero generic fluff. Every
             });
         }
       } catch (e) {
-        console.warn('Could not auto-list models, using fallback roster:', e);
+        console.warn('Fallback roster active:', e);
       }
 
       if (candidateModels.length === 0) {
@@ -1150,21 +1190,14 @@ Maintain an authoritative, data-backed marketing tone. Zero generic fluff. Every
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-              contents: [{
-                parts: [{ text: systemPrompt }]
-              }],
-              generationConfig: {
-                temperature: 0.25,
-                maxOutputTokens: 1200
-              }
+              contents: [{ parts: [{ text: systemPrompt }] }],
+              generationConfig: { temperature: 0.2, maxOutputTokens: 600 }
             })
           });
 
           const data = await response.json();
-
           if (data.error) {
             lastErrorMessage = data.error.message;
-            console.warn(`Model ${model} returned error: ${data.error.message}. Trying next candidate...`);
             continue;
           }
 
@@ -1176,19 +1209,18 @@ Maintain an authoritative, data-backed marketing tone. Zero generic fluff. Every
           }
         } catch (e) {
           lastErrorMessage = e.message;
-          console.warn(`Fetch error for ${model}: ${e.message}. Trying next candidate...`);
         }
       }
 
       if (generatedText) {
         badge.textContent = successfulModel;
         const htmlContent = marked.parse(generatedText);
-        outputContainer.innerHTML = `<div class="space-y-4 text-slate-200 prose prose-invert prose-orange max-w-none text-xs sm:text-sm leading-relaxed">${htmlContent}</div>`;
+        outputContainer.innerHTML = `<div class="space-y-2 text-slate-200 prose prose-invert prose-orange max-w-none text-xs sm:text-sm">${htmlContent}</div>`;
       } else {
         outputContainer.innerHTML = `
           <div class="space-y-1">
-            <p class="text-red-400 text-xs font-semibold">⚠️ AI Strategic Analysis Error: ${lastErrorMessage || 'Service Busy'}</p>
-            <p class="text-slate-500 text-xs">Verify your Gemini API key in settings or retry in a few moments.</p>
+            <p class="text-red-400 text-xs font-semibold">⚠️ AI Summary Error: ${lastErrorMessage || 'Service Busy'}</p>
+            <p class="text-slate-500 text-xs">Verify your Gemini API key in settings or retry in a moment.</p>
           </div>
         `;
       }
