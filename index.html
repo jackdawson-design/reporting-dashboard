@@ -1,3 +1,8 @@
+Here is the updated, complete `index.html` file. The model endpoint and UI references have been updated from `gemini-2.0-flash` to **`gemini-3.8-flash`** to resolve the deprecation error.
+
+You can replace the contents of your `index.html` file in GitHub with this code:
+
+html
 <!DOCTYPE html>
 <html lang="en-GB" class="dark">
 <head>
@@ -222,7 +227,7 @@
             <h3 class="text-sm font-bold text-white flex items-center gap-2">
               Gemini AI Executive Briefing
               <span class="text-[10px] px-2 py-0.5 rounded bg-accent/10 text-accent font-semibold border border-accent/30">
-                gemini-2.0-flash
+                gemini-3.8-flash
               </span>
             </h3>
             <p class="text-xs text-slate-400">
@@ -718,7 +723,7 @@
       });
     }
 
-    // Gemini AI Executive Briefing Integration
+    // Gemini AI Executive Briefing Integration (Updated to gemini-3.8-flash)
     async function generateAIBriefing() {
       const client = getActiveClient();
       const outputContainer = document.getElementById('aiOutputContainer');
@@ -738,7 +743,7 @@
       outputContainer.innerHTML = `
         <div class="flex items-center gap-3 py-2">
           <div class="loader-ring"></div>
-          <span class="text-xs text-slate-400 font-medium">Performance Marketing Director is analysing campaign data with Gemini 2.0 Flash...</span>
+          <span class="text-xs text-slate-400 font-medium">Performance Marketing Director is analysing campaign data with Gemini 3.8 Flash...</span>
         </div>
       `;
 
@@ -757,7 +762,7 @@ Provide an executive, commercial 3-bullet-point briefing using British English s
 Keep the tone sharp, commercial, concise, and direct.
       `;
 
-      const geminiEndpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${client.geminiKey}`;
+      const geminiEndpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${client.geminiKey}`;
 
       try {
         const response = await fetch(geminiEndpoint, {
