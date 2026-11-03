@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Performance Hub — Meta Ads & AI Executive Suite</title>
+  <title>Performance Hub — Meta Ads & AI Strategic Intelligence Suite</title>
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -22,12 +22,13 @@
         extend: {
           colors: {
             anthracite: {
-              950: '#0a0c0e',
-              900: '#111418',
-              850: '#161a20',
-              800: '#1e242c',
-              700: '#2b333e',
-              600: '#3e4856',
+              950: '#090b0e',
+              900: '#0f1317',
+              850: '#15191f',
+              800: '#1c222b',
+              750: '#232b36',
+              700: '#2d3744',
+              600: '#404d5e',
             },
             accent: {
               DEFAULT: '#ff6200',
@@ -37,6 +38,7 @@
           },
           fontFamily: {
             sans: ['Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
+            mono: ['JetBrains Mono', 'Fira Code', 'Courier New', 'monospace'],
           },
         },
       },
@@ -50,17 +52,17 @@
       height: 6px;
     }
     ::-webkit-scrollbar-track {
-      background: #111418;
+      background: #0f1317;
     }
     ::-webkit-scrollbar-thumb {
-      background: #2b333e;
+      background: #2d3744;
       border-radius: 4px;
     }
     ::-webkit-scrollbar-thumb:hover {
       background: #ff6200;
     }
     .accent-glow {
-      box-shadow: 0 0 25px -3px rgba(255, 98, 0, 0.2);
+      box-shadow: 0 0 30px -5px rgba(255, 98, 0, 0.22);
     }
     .loader-ring {
       border: 2px solid rgba(255, 98, 0, 0.2);
@@ -89,11 +91,11 @@
           <i data-lucide="zap" class="h-5 w-5 stroke-[2.5]"></i>
         </div>
         <div>
-          <span class="text-[10px] font-bold tracking-wider text-accent uppercase">White-Label Suite</span>
+          <span class="text-[10px] font-bold tracking-wider text-accent uppercase">Enterprise Marketing Suite</span>
           <h1 class="text-sm sm:text-base font-bold tracking-tight text-white flex items-center gap-2">
             Performance Hub
             <span class="hidden sm:inline-block text-[11px] font-medium px-2 py-0.5 rounded bg-anthracite-800 text-slate-400 border border-anthracite-700">
-              Meta Marketing + Gemini AI
+              Meta Marketing + Gemini Strategic AI
             </span>
           </h1>
         </div>
@@ -138,7 +140,7 @@
   </header>
 
   <!-- Main Dashboard Container -->
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
 
     <!-- Active Client Status Banner -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-anthracite-900 border border-anthracite-800 p-4 rounded-xl">
@@ -168,7 +170,7 @@
           </div>
         </div>
         <div class="text-2xl font-black text-white" id="kpiSpend">£0.00</div>
-        <p class="text-[11px] text-slate-500 mt-1">Aggregated campaign investment</p>
+        <p class="text-[11px] text-slate-500 mt-1">Aggregated investment yesterday</p>
       </div>
 
       <!-- Total Clicks -->
@@ -180,7 +182,7 @@
           </div>
         </div>
         <div class="text-2xl font-black text-white" id="kpiClicks">0</div>
-        <p class="text-[11px] text-slate-500 mt-1">Outbound traffic generated</p>
+        <p class="text-[11px] text-slate-500 mt-1">Outbound traffic delivered</p>
       </div>
 
       <!-- Blended CPC -->
@@ -192,7 +194,7 @@
           </div>
         </div>
         <div class="text-2xl font-black text-white" id="kpiCPC">£0.00</div>
-        <p class="text-[11px] text-slate-500 mt-1">Average cost per outbound click</p>
+        <p class="text-[11px] text-slate-500 mt-1">Cost per outbound click</p>
       </div>
 
       <!-- Average CTR -->
@@ -204,29 +206,29 @@
           </div>
         </div>
         <div class="text-2xl font-black text-white" id="kpiCTR">0.00%</div>
-        <p class="text-[11px] text-slate-500 mt-1">Overall click-through rate</p>
+        <p class="text-[11px] text-slate-500 mt-1">Click-through rate efficacy</p>
       </div>
 
     </div>
 
-    <!-- Gemini AI Executive Briefing -->
+    <!-- Gemini Strategic AI Audit & Executive Directive -->
     <div class="bg-anthracite-900 border border-accent/40 rounded-xl p-6 relative overflow-hidden accent-glow">
-      <div class="absolute -right-16 -top-16 w-52 h-52 bg-accent/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -right-16 -top-16 w-60 h-60 bg-accent/10 rounded-full blur-3xl pointer-events-none"></div>
 
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4 border-b border-anthracite-800 pb-4">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-5 border-b border-anthracite-800 pb-4">
         <div class="flex items-center gap-3">
-          <div class="h-9 w-9 rounded-lg bg-accent/20 border border-accent/40 flex items-center justify-center text-accent">
+          <div class="h-10 w-10 rounded-lg bg-accent/20 border border-accent/40 flex items-center justify-center text-accent">
             <i data-lucide="sparkles" class="h-5 w-5"></i>
           </div>
           <div>
-            <h3 class="text-sm font-bold text-white flex items-center gap-2">
-              Gemini AI Executive Briefing
+            <h3 class="text-base font-bold text-white flex items-center gap-2">
+              CMO-Level Performance Audit & Strategy
               <span id="aiModelBadge" class="text-[10px] px-2 py-0.5 rounded bg-accent/10 text-accent font-semibold border border-accent/30 font-mono">
                 auto-resolving...
               </span>
             </h3>
             <p class="text-xs text-slate-400">
-              Automated performance marketing review and real-time commercial directives.
+              Deep algorithmic critique, spend efficiency diagnostics, and creative scaling playbooks.
             </p>
           </div>
         </div>
@@ -237,7 +239,7 @@
           class="flex items-center gap-2 bg-anthracite-850 hover:bg-anthracite-800 border border-anthracite-700 text-xs font-semibold px-3 py-2 rounded-lg text-slate-200 transition"
         >
           <i data-lucide="bot" class="h-4 w-4 text-accent"></i>
-          <span>Regenerate Briefing</span>
+          <span>Re-analyse Strategy</span>
         </button>
       </div>
 
@@ -245,8 +247,32 @@
       <div id="aiNoticeContainer" class="hidden mb-4 text-xs text-amber-400/90 bg-amber-950/20 border border-amber-900/40 p-2.5 rounded-lg"></div>
 
       <!-- AI Content Box -->
-      <div id="aiOutputContainer" class="min-h-[90px] flex items-center text-slate-300 text-sm leading-relaxed">
-        <p class="text-slate-400 italic">Click "Sync Data" or "Regenerate Briefing" to synthesise campaign metrics with Gemini AI.</p>
+      <div id="aiOutputContainer" class="min-h-[120px] flex items-center text-slate-300 text-sm leading-relaxed">
+        <p class="text-slate-400 italic">Click "Sync Data" or "Re-analyse Strategy" to synthesise live campaign and creative insights with Gemini AI.</p>
+      </div>
+    </div>
+
+    <!-- Active Ad Creatives Feed / Gallery -->
+    <div class="bg-anthracite-900 border border-anthracite-800 rounded-xl p-6 space-y-4">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-anthracite-800 pb-4">
+        <div>
+          <h3 class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+            <i data-lucide="layers" class="h-4 w-4 text-accent"></i>
+            Live Ad Creatives & Feed Preview
+          </h3>
+          <p class="text-xs text-slate-400">Real-time inspection of active visual assets, copy hooks, CTAs, and ad-level metrics.</p>
+        </div>
+        <span class="text-xs text-slate-400 bg-anthracite-850 px-3 py-1 rounded-lg border border-anthracite-750 font-mono" id="adCountDisplay">
+          0 ads detected
+        </span>
+      </div>
+
+      <!-- Grid of Ad Creatives -->
+      <div id="adCreativeGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 pt-2">
+        <!-- Rendered dynamically -->
+        <div class="col-span-full py-12 text-center text-slate-500 text-xs font-sans">
+          No ad creative data loaded. Press <strong>Sync Data</strong> to pull active assets.
+        </div>
       </div>
     </div>
 
@@ -401,6 +427,7 @@
     let clients = JSON.parse(localStorage.getItem('whitelabel_meta_clients')) || DEFAULT_CLIENTS;
     let activeClientId = localStorage.getItem('whitelabel_active_client_id') || clients[0].id;
     let campaignData = [];
+    let adsData = [];
     let chartInstance = null;
 
     // Initialise on load
@@ -505,7 +532,7 @@
             data: [1],
             backgroundColor: ['#1e242c'],
             borderWidth: 2,
-            borderColor: '#111418'
+            borderColor: '#0f1317'
           }]
         },
         options: {
@@ -558,7 +585,7 @@
       chartInstance.update();
     }
 
-    // Meta Marketing API Fetch
+    // Meta Marketing API (Insights + Live Ads & Creatives Fetch)
     async function fetchAllData() {
       const client = getActiveClient();
       const refreshBtn = document.getElementById('refreshBtn');
@@ -574,7 +601,7 @@
       refreshIcon.classList.add('animate-spin');
 
       if (!client.metaToken) {
-        handleFallbackData('No Meta Access Token detected. Displaying demonstration campaign baseline. Click Settings (⚙️) to enter your live token.');
+        handleFallbackData('No Meta Access Token detected. Displaying demonstration campaign & creative baseline. Click Settings (⚙️) to enter your live token.');
         refreshBtn.disabled = false;
         refreshText.textContent = 'Sync Data';
         refreshIcon.classList.remove('animate-spin');
@@ -587,24 +614,42 @@
         cleanAccountId = 'act_' + cleanAccountId;
       }
 
-      const endpoint = `https://graph.facebook.com/v21.0/${cleanAccountId}/insights?level=campaign&date_preset=yesterday&fields=campaign_name,spend,impressions,clicks,ctr,cpc&access_token=${client.metaToken}`;
+      // Parallel Fetch: 1) Campaign Insights, 2) Ads & Creative Assets
+      const insightsEndpoint = `https://graph.facebook.com/v21.0/${cleanAccountId}/insights?level=campaign&date_preset=yesterday&fields=campaign_name,spend,impressions,clicks,ctr,cpc,objective&access_token=${client.metaToken}`;
+      const adsEndpoint = `https://graph.facebook.com/v21.0/${cleanAccountId}/ads?fields=id,name,status,effective_status,creative{id,name,title,body,image_url,thumbnail_url,call_to_action_type,object_story_spec},insights.date_preset(yesterday){spend,impressions,clicks,ctr,cpc}&limit=25&access_token=${client.metaToken}`;
 
       try {
-        const response = await fetch(endpoint);
-        const json = await response.json();
+        const [insightsRes, adsRes] = await Promise.all([
+          fetch(insightsEndpoint).then(r => r.json()),
+          fetch(adsEndpoint).then(r => r.json())
+        ]);
 
-        if (json.error) {
-          throw new Error(json.error.message || 'Meta API returned an error.');
+        if (insightsRes.error) {
+          throw new Error(insightsRes.error.message || 'Meta Insights API returned an error.');
         }
 
-        if (json.data && json.data.length > 0) {
-          campaignData = json.data;
+        // Process Campaigns
+        if (insightsRes.data && insightsRes.data.length > 0) {
+          campaignData = insightsRes.data;
+        } else {
+          campaignData = [];
+        }
+
+        // Process Ads & Creatives
+        if (adsRes.data && adsRes.data.length > 0) {
+          adsData = adsRes.data;
+        } else {
+          adsData = [];
+        }
+
+        if (campaignData.length > 0 || adsData.length > 0) {
           renderMetrics(campaignData);
           updateChart(campaignData);
           renderTable(campaignData);
+          renderCreativeGallery(adsData);
           generateAIBriefing();
         } else {
-          handleFallbackData('No live ad spend recorded for yesterday. Loaded simulated campaign baseline for preview.');
+          handleFallbackData('No active campaign data found for yesterday on this account. Loaded baseline simulation for visual preview.');
         }
 
       } catch (err) {
@@ -620,34 +665,101 @@
     function handleFallbackData(noticeMessage) {
       campaignData = [
         {
-          campaign_name: 'UK_Conversions_AdvantagePlus_Retargeting',
-          spend: '142.50',
-          impressions: '4230',
-          clicks: '118',
-          ctr: '2.79',
-          cpc: '1.21'
+          campaign_name: 'UK_Conversions_BlackNovember_SoundscapeTherapy',
+          spend: '3.37',
+          impressions: '645',
+          clicks: '14',
+          ctr: '2.17',
+          cpc: '0.24'
         },
         {
-          campaign_name: 'UK_TopFunnel_BroadInterest_CalmSanctuary',
-          spend: '215.80',
-          impressions: '12450',
-          clicks: '142',
-          ctr: '1.14',
-          cpc: '1.52'
+          campaign_name: 'UK_AdvantagePlus_Retargeting_HighIntent',
+          spend: '48.50',
+          impressions: '2150',
+          clicks: '62',
+          ctr: '2.88',
+          cpc: '0.78'
         },
         {
-          campaign_name: 'UK_VideoViews_SoundscapeTherapy_Discovery',
-          spend: '84.20',
-          impressions: '9820',
-          clicks: '48',
-          ctr: '0.49',
-          cpc: '1.75'
+          campaign_name: 'UK_Broad_Discovery_WellnessSanctuary_Video',
+          spend: '82.40',
+          impressions: '11300',
+          clicks: '104',
+          ctr: '0.92',
+          cpc: '0.79'
+        }
+      ];
+
+      adsData = [
+        {
+          id: 'ad_101',
+          name: 'Black November — Exclusive VIP Soundscape Access',
+          status: 'ACTIVE',
+          effective_status: 'ACTIVE',
+          creative: {
+            title: 'Experience Complete Drift & Serenity This November',
+            body: 'Black November Exclusive: Unlock 40% off our premier soundscape and sanctuary therapies. Step out of the everyday rush and into restorative calm.',
+            image_url: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=800&q=80',
+            call_to_action_type: 'BOOK_TRAVEL'
+          },
+          insights: {
+            data: [{
+              spend: '3.37',
+              impressions: '645',
+              clicks: '14',
+              ctr: '2.17',
+              cpc: '0.24'
+            }]
+          }
+        },
+        {
+          id: 'ad_102',
+          name: 'UGC Video — "How this ritual reset my sleep cycle"',
+          status: 'ACTIVE',
+          effective_status: 'ACTIVE',
+          creative: {
+            title: 'Transform Your Evening Sanctuary',
+            body: 'Over 10,000 UK professionals have reclaimed deep, unbroken sleep with our clinically formulated acoustic drift sessions. Listen to the preview now.',
+            image_url: 'https://images.unsplash.com/photo-1515377905703-c4788e51af15?auto=format&fit=crop&w=800&q=80',
+            call_to_action_type: 'LEARN_MORE'
+          },
+          insights: {
+            data: [{
+              spend: '48.50',
+              impressions: '2150',
+              clicks: '62',
+              ctr: '2.88',
+              cpc: '0.78'
+            }]
+          }
+        },
+        {
+          id: 'ad_103',
+          name: 'Static Showcase — Sanctuary Architecture & Drift Suite',
+          status: 'PAUSED',
+          effective_status: 'PAUSED',
+          creative: {
+            title: 'Private Suites Designed for Deep Stillness',
+            body: 'Reserve your tailored restorative escape. Handcrafted sensory environments designed to melt stress away.',
+            image_url: 'https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80',
+            call_to_action_type: 'SHOP_NOW'
+          },
+          insights: {
+            data: [{
+              spend: '82.40',
+              impressions: '11300',
+              clicks: '104',
+              ctr: '0.92',
+              cpc: '0.79'
+            }]
+          }
         }
       ];
 
       renderMetrics(campaignData);
       updateChart(campaignData);
       renderTable(campaignData);
+      renderCreativeGallery(adsData);
 
       const noticeContainer = document.getElementById('aiNoticeContainer');
       noticeContainer.classList.remove('hidden');
@@ -718,7 +830,108 @@
       });
     }
 
-    // Gemini AI Dynamic Model Discovery & Execution
+    // Render the Ad Creatives & Feed Gallery
+    function renderCreativeGallery(ads) {
+      const grid = document.getElementById('adCreativeGrid');
+      const countDisplay = document.getElementById('adCountDisplay');
+      grid.innerHTML = '';
+
+      if (!ads || ads.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full py-12 text-center text-slate-500 text-xs font-sans">
+            No live ad creatives retrieved. Verify account access token permissions.
+          </div>
+        `;
+        countDisplay.textContent = '0 ads detected';
+        return;
+      }
+
+      countDisplay.textContent = `${ads.length} ad creative${ads.length > 1 ? 's' : ''} loaded`;
+
+      ads.forEach(ad => {
+        const creative = ad.creative || {};
+        const spec = creative.object_story_spec?.link_data || {};
+        
+        // Extract Visual Asset
+        const imageUrl = creative.image_url || creative.thumbnail_url || spec.picture || spec.image_hash || null;
+        
+        // Extract Copy
+        const title = creative.title || spec.name || ad.name || 'Untitled Creative';
+        const bodyText = creative.body || spec.message || 'No primary text supplied in ad spec.';
+        const cta = creative.call_to_action_type || spec.call_to_action?.type || 'LEARN_MORE';
+        const formattedCta = cta.replace(/_/g, ' ');
+
+        // Extract Ad-level Insights
+        const insight = ad.insights?.data?.[0] || {};
+        const adSpend = parseFloat(insight.spend) || 0;
+        const adClicks = parseInt(insight.clicks) || 0;
+        const adCtr = parseFloat(insight.ctr) || 0;
+        const adCpc = parseFloat(insight.cpc) || 0;
+        const isLive = (ad.effective_status === 'ACTIVE' || ad.status === 'ACTIVE');
+
+        const card = document.createElement('div');
+        card.className = 'bg-anthracite-850 border border-anthracite-750 hover:border-anthracite-600 rounded-xl overflow-hidden flex flex-col justify-between transition duration-200 group';
+
+        card.innerHTML = `
+          <div>
+            <!-- Media Visual Header -->
+            <div class="relative h-44 w-full bg-anthracite-900 overflow-hidden border-b border-anthracite-800">
+              ${imageUrl ? `
+                <img src="${imageUrl}" alt="${title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
+              ` : `
+                <div class="w-full h-full flex flex-col items-center justify-center p-4 bg-gradient-to-br from-anthracite-900 to-anthracite-800 text-center">
+                  <i data-lucide="image" class="h-8 w-8 text-slate-600 mb-2"></i>
+                  <span class="text-[11px] text-slate-500 font-medium">Meta Organic / Dynamic Asset</span>
+                </div>
+              `}
+              
+              <!-- Status Badge -->
+              <div class="absolute top-3 left-3 flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[10px] font-bold backdrop-blur-md ${isLive ? 'bg-emerald-950/80 text-emerald-400 border border-emerald-700/50' : 'bg-anthracite-900/90 text-slate-400 border border-anthracite-700'}">
+                <span class="w-1.5 h-1.5 rounded-full ${isLive ? 'bg-emerald-400 animate-pulse' : 'bg-slate-500'}"></span>
+                ${ad.effective_status || ad.status}
+              </div>
+
+              <!-- CTA Badge -->
+              <div class="absolute bottom-3 right-3 px-2 py-0.5 rounded bg-accent/90 text-white font-mono text-[10px] font-bold uppercase tracking-wider shadow">
+                ${formattedCta}
+              </div>
+            </div>
+
+            <!-- Ad Copy Section -->
+            <div class="p-4 space-y-2">
+              <h4 class="text-xs font-bold text-white line-clamp-1" title="${title}">${title}</h4>
+              <p class="text-xs text-slate-400 line-clamp-3 leading-relaxed font-sans">${bodyText}</p>
+            </div>
+          </div>
+
+          <!-- Bottom Metric Bar -->
+          <div class="p-3 bg-anthracite-900/90 border-t border-anthracite-800 grid grid-cols-4 gap-1 text-center font-mono">
+            <div>
+              <span class="text-[9px] text-slate-500 block uppercase">Spend</span>
+              <span class="text-xs font-bold text-white">£${adSpend.toFixed(2)}</span>
+            </div>
+            <div>
+              <span class="text-[9px] text-slate-500 block uppercase">Clicks</span>
+              <span class="text-xs font-bold text-slate-200">${adClicks}</span>
+            </div>
+            <div>
+              <span class="text-[9px] text-slate-500 block uppercase">CTR</span>
+              <span class="text-xs font-bold ${adCtr >= 1.5 ? 'text-emerald-400' : 'text-slate-300'}">${adCtr.toFixed(2)}%</span>
+            </div>
+            <div>
+              <span class="text-[9px] text-slate-500 block uppercase">CPC</span>
+              <span class="text-xs font-bold text-slate-200">£${adCpc.toFixed(2)}</span>
+            </div>
+          </div>
+        `;
+
+        grid.appendChild(card);
+      });
+
+      lucide.createIcons();
+    }
+
+    // Gemini AI Deep Performance Audit & Strategic CMO Directive
     async function generateAIBriefing() {
       const client = getActiveClient();
       const outputContainer = document.getElementById('aiOutputContainer');
@@ -729,7 +942,7 @@
         outputContainer.innerHTML = `
           <div class="space-y-1">
             <p class="text-amber-400 font-medium text-xs">⚠️ Gemini API Key not yet configured.</p>
-            <p class="text-slate-400 text-xs">Click the <strong>Settings (⚙️)</strong> button in the upper right to add your Gemini API Key and unlock real-time executive briefings.</p>
+            <p class="text-slate-400 text-xs">Click the <strong>Settings (⚙️)</strong> button in the upper right to add your Gemini API Key and unlock real-time strategic intelligence.</p>
           </div>
         `;
         return;
@@ -737,28 +950,57 @@
 
       btn.disabled = true;
       outputContainer.innerHTML = `
-        <div class="flex items-center gap-3 py-2">
+        <div class="flex items-center gap-3 py-4">
           <div class="loader-ring"></div>
-          <span class="text-xs text-slate-400 font-medium">Resolving active Gemini model and generating briefing...</span>
+          <span class="text-xs text-slate-400 font-medium">CMO-level AI is conducting full auction diagnostics, delivery review, and creative fatigue analysis...</span>
         </div>
       `;
 
-      const prompt = `
-You are an elite, results-obsessed Performance Marketing Director reviewing Meta Ads metrics for yesterday on behalf of the client "${client.name}".
+      // Build structured payload for the AI
+      const auditPayload = {
+        client_name: client.name,
+        account_id: client.accountId,
+        reporting_window: "Yesterday",
+        campaign_summary: campaignData,
+        creative_feed_breakdown: adsData.map(a => ({
+          ad_name: a.name,
+          status: a.effective_status || a.status,
+          headline: a.creative?.title || a.name,
+          copy_snippet: a.creative?.body ? a.creative.body.substring(0, 160) + '...' : 'N/A',
+          cta_type: a.creative?.call_to_action_type || 'N/A',
+          performance: a.insights?.data?.[0] || { spend: '0.00', clicks: '0', ctr: '0.00%', cpc: '0.00' }
+        }))
+      };
 
-Here are the extracted campaign metrics:
-${JSON.stringify(campaignData, null, 2)}
+      const systemPrompt = `
+You are an elite Fractional CMO and World-Class Meta Performance Marketing Director conducting a ruthless, commercially sophisticated performance audit for the brand "${client.name}".
 
-Provide an executive, commercial 3-bullet-point briefing using British English spelling (e.g. optimisation, prioritising, behaviour, programme, spend). Strictly structure your response under these 3 specific bullet points:
+Here is the exact live ad account telemetry, campaign data, and ad creative intelligence:
+${JSON.stringify(auditPayload, null, 2)}
 
-1. **Immediate Attention Required**: Highlight any underperforming campaign, alarming CPC/CTR spike, or critical inefficiency.
-2. **Strategic Budget Reallocation**: Specify exactly which campaign should receive more budget and which should be dialed back.
-3. **Tactical Optimisation Recommendation**: Provide an actionable creative, audience, or bidding tweak to deploy right away.
+Provide a deeply analytical, commercial, and actionable executive review using British English spelling (e.g. optimisation, behaviour, prioritising, programme, analyse, spend).
 
-Keep the tone sharp, commercial, concise, and direct.
+Structure your output into these 4 distinct, highly rigorous sections using formatted Markdown:
+
+### 1. 🔍 Algorithmic Health & Funnel Diagnostics
+* Perform an in-depth diagnosis of current spend velocity, auction liquidity, and delivery starvation (e.g. why spend like £3.37 or small budgets fail to exit learning phase and starve the pixel).
+* Evaluate CPM/CPC/CTR efficiency across the active creatives, identifying whether the bottleneck is creative hook rate, audience saturation, or delivery friction.
+
+### 2. 💷 Commercial Budget & Scaling Playbook
+* Provide exact, numerical daily budget recommendations (e.g. scale from £X to £Y/day).
+* Detail whether to deploy Campaign Budget Optimisation (Advantage+ Campaign Budget) vs Ad Set Budget Optimisation, and state specifically which campaigns/ad sets must be funded vs pruned.
+
+### 3. 🎨 Creative & Copy Engineering Directives
+* Analyse the specific hooks, visual angles, and Call-to-Actions (CTAs) present in the creative feed.
+* Give actionable copywriting tweaks, angle pivots (e.g. sensory benefits vs urgency-based Black Friday discounts), and specific format suggestions (UGC vs Dark Posting vs Static Feature Carousel).
+
+### 4. ⚡ 48-Hour Tactical Action Plan
+* Provide a concise, step-by-step checklist of what the media buyer must execute inside Meta Ads Manager within the next 48 hours to unlock profitable scale.
+
+Maintain an authoritative, data-backed, institutional-grade marketing tone. Zero generic fluff. Every point must reference specific numbers or angles from the dataset.
       `;
 
-      // 1. Discover available models directly from Google for this specific API key
+      // Discover available models directly from Google
       let candidateModels = [];
       try {
         const listRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${client.geminiKey}`);
@@ -769,7 +1011,6 @@ Keep the tone sharp, commercial, concise, and direct.
             .filter(m => m.supportedGenerationMethods && m.supportedGenerationMethods.includes('generateContent'))
             .map(m => m.name.replace(/^models\//, ''))
             .sort((a, b) => {
-              // Prioritise flash models first, then latest names
               const aIsFlash = a.includes('flash');
               const bIsFlash = b.includes('flash');
               if (aIsFlash && !bIsFlash) return -1;
@@ -778,10 +1019,9 @@ Keep the tone sharp, commercial, concise, and direct.
             });
         }
       } catch (e) {
-        console.warn('Could not auto-list models, falling back to static roster:', e);
+        console.warn('Could not auto-list models, using fallback roster:', e);
       }
 
-      // Default fallback roster if ListModels is unavailable
       if (candidateModels.length === 0) {
         candidateModels = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash-latest', 'gemini-pro'];
       }
@@ -790,7 +1030,6 @@ Keep the tone sharp, commercial, concise, and direct.
       let successfulModel = null;
       let lastErrorMessage = '';
 
-      // 2. Iterate through available models until one succeeds
       for (const model of candidateModels) {
         try {
           const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${client.geminiKey}`;
@@ -800,11 +1039,11 @@ Keep the tone sharp, commercial, concise, and direct.
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               contents: [{
-                parts: [{ text: prompt }]
+                parts: [{ text: systemPrompt }]
               }],
               generationConfig: {
-                temperature: 0.2,
-                maxOutputTokens: 600
+                temperature: 0.25,
+                maxOutputTokens: 1200
               }
             })
           });
@@ -832,11 +1071,11 @@ Keep the tone sharp, commercial, concise, and direct.
       if (generatedText) {
         badge.textContent = successfulModel;
         const htmlContent = marked.parse(generatedText);
-        outputContainer.innerHTML = `<div class="space-y-2 text-slate-200">${htmlContent}</div>`;
+        outputContainer.innerHTML = `<div class="space-y-4 text-slate-200 prose prose-invert prose-orange max-w-none text-xs sm:text-sm leading-relaxed">${htmlContent}</div>`;
       } else {
         outputContainer.innerHTML = `
           <div class="space-y-1">
-            <p class="text-red-400 text-xs font-semibold">⚠️ AI Analysis Error: ${lastErrorMessage || 'Service Busy'}</p>
+            <p class="text-red-400 text-xs font-semibold">⚠️ AI Strategic Analysis Error: ${lastErrorMessage || 'Service Busy'}</p>
             <p class="text-slate-500 text-xs">Verify your Gemini API key in settings or retry in a few moments.</p>
           </div>
         `;
